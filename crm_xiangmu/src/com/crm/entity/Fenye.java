@@ -10,6 +10,7 @@ public class Fenye<T> {
 	private T t;
 	private Integer total;
 	private List<T> rows;
+	
 	public Integer getPage() {
 		return (page-1)*limit;
 	}

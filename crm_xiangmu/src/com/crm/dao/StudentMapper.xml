@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.StudentMapper">
+	<select id="selesctStudent" parameterType="fenye"
+		resultType="student">
+		select
+		xs_id,xs_chuangjiantime,xs_name,xs_dianhua,xs_xingbie,xs_nianling,xs_xueli,xs_zhuangtai,xs_laiyuanqudao,
+		xs_laiyuanwangzhi,xs_guanzhu,xs_liyuanguanjianzi,xs_namezixun,xs_suozaiquyu,xs_weixin,xs_qq,xs_laiyuanbumen,
+		xs_isbaobei,xs_kecheng,xs_isyouxiao,xs_dafen,xs_ishuifang,xs_shuocihuifangtime,xs_isshangmen,xs_shangmentime,
+		xs_wuxiaoyuanyin,xs_isjiaofei,xs_jiaofeitime,xs_jine,xs_istuifei,xs_isjinban,xs_jinbantime,xs_jinbanbeizhu,
+		xs_tuifeiyuanyin,xs_dingjinjine,xs_dingjintime,xs_zixunshi,xs_lururen,xs_zixunshibeizhu
+		from student
+		<where>
+			<if test="t.xs_name !=null and t.xs_name !='' ">
+				and xs_name like"%"#{t.xs_name}"%"
+			</if>
+			<if test="t.xs_dianhua !=null and t.xs_dianhua !='' ">
+				and xs_dianhua=#{t.xs_dianhua}
+			</if>
+			<if test="t.xs_xingbie !=null and t.xs_xingbie !='' ">
+				and xs_xingbie=#{xs_xingbie}
+			</if>
+			<if test="t.xs_xueli !=null and t.xs_xueli !='' ">
+				and xs_xueli=#{t.xs_xueli}
+			</if>
+			<if test="t.xs_isyouxiao !=null and t.xs_isyouxiao !='' ">
+				and xs_isyouxiao=#{t.xs_isyouxiao}
+			</if>
+			<if test="t.xs_isjiaofei !=null and t.xs_isjiaofei !='' ">
+				and xs_isjiaofei=#{t.xs_isjiaofei}
+			</if>
+			<if test="t.xs_ishuifang !=null and t.xs_ishuifang !='' ">
+				and xs_ishuifang=#{t.xs_ishuifang}
+			</if>
+			<if test="t.xs_isshangmen !=null and t.xs_isshangmen !='' ">
+				and xs_isshangmen=#{t.xs_isshangmen}
+			</if>
+			<if test="t.minxs_nianling !=null and t.minxs_nianling !='' ">
+				and xs_nianling &gt;=#{t.minxs_nianling}
+			</if>
+			<if test="t.maxxs_nianling !=null and t.maxxs_nianling !='' ">
+				and xs_nianling &gt;=#{t.maxxs_nianling}
+			</if>
+		</where>
+		limit #{page},#{pageSize}
+	</select>
+	<select id="selescCount" parameterType="fenye" resultType="int">
+
+	</select>
+	<update id="updateStudent" parameterType="student">
+
+	</update>
+	<insert id="insertStudent" parameterType="student">
+
+	</insert>
+	<delete id="deleteStudent" parameterType="int">
+
+	</delete>
+</mapper>

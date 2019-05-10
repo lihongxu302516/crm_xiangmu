@@ -42,6 +42,23 @@ private Integer xs_lururen;
 private String xs_zixunshibeizhu;
 private String xs_exe1;
 private String xs_exe2;
+
+private Integer minxs_nianling;
+private Integer maxxs_nianling;
+
+
+public Integer getMinxs_nianling() {
+	return minxs_nianling;
+}
+public void setMinxs_nianling(Integer minxs_nianling) {
+	this.minxs_nianling = minxs_nianling;
+}
+public Integer getMaxxs_nianling() {
+	return maxxs_nianling;
+}
+public void setMaxxs_nianling(Integer maxxs_nianling) {
+	this.maxxs_nianling = maxxs_nianling;
+}
 public Integer getXs_id() {
 	return xs_id;
 }
@@ -304,7 +321,9 @@ public String toString() {
 			+ ", xs_jinbantime=" + xs_jinbantime + ", xs_jinbanbeizhu=" + xs_jinbanbeizhu + ", xs_tuifeiyuanyin="
 			+ xs_tuifeiyuanyin + ", xs_dingjinjine=" + xs_dingjinjine + ", xs_dingjintime=" + xs_dingjintime
 			+ ", xs_zixunshi=" + xs_zixunshi + ", xs_lururen=" + xs_lururen + ", xs_zixunshibeizhu=" + xs_zixunshibeizhu
-			+ ", xs_exe1=" + xs_exe1 + ", xs_exe2=" + xs_exe2 + "]";
+			+ ", xs_exe1=" + xs_exe1 + ", xs_exe2=" + xs_exe2 + ", minxs_nianling=" + minxs_nianling
+			+ ", maxxs_nianling=" + maxxs_nianling + "]";
 }
+
 
 }
