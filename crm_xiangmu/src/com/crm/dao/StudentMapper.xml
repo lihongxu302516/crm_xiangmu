@@ -45,13 +45,180 @@
 		limit #{page},#{pageSize}
 	</select>
 	<select id="selescCount" parameterType="fenye" resultType="int">
-
+		select count(xs_id) from student
+		<where>
+			<if test="t.xs_name !=null and t.xs_name !='' ">
+				and xs_name like"%"#{t.xs_name}"%"
+			</if>
+			<if test="t.xs_dianhua !=null and t.xs_dianhua !='' ">
+				and xs_dianhua=#{t.xs_dianhua}
+			</if>
+			<if test="t.xs_xingbie !=null and t.xs_xingbie !='' ">
+				and xs_xingbie=#{xs_xingbie}
+			</if>
+			<if test="t.xs_xueli !=null and t.xs_xueli !='' ">
+				and xs_xueli=#{t.xs_xueli}
+			</if>
+			<if test="t.xs_isyouxiao !=null and t.xs_isyouxiao !='' ">
+				and xs_isyouxiao=#{t.xs_isyouxiao}
+			</if>
+			<if test="t.xs_isjiaofei !=null and t.xs_isjiaofei !='' ">
+				and xs_isjiaofei=#{t.xs_isjiaofei}
+			</if>
+			<if test="t.xs_ishuifang !=null and t.xs_ishuifang !='' ">
+				and xs_ishuifang=#{t.xs_ishuifang}
+			</if>
+			<if test="t.xs_isshangmen !=null and t.xs_isshangmen !='' ">
+				and xs_isshangmen=#{t.xs_isshangmen}
+			</if>
+			<if test="t.minxs_nianling !=null and t.minxs_nianling !='' ">
+				and xs_nianling &gt;=#{t.minxs_nianling}
+			</if>
+			<if test="t.maxxs_nianling !=null and t.maxxs_nianling !='' ">
+				and xs_nianling &gt;=#{t.maxxs_nianling}
+			</if>
+		</where>
 	</select>
 	<update id="updateStudent" parameterType="student">
-
+		update student
+		<set>
+			<if test="xs_id !=null and xs_id !='' ">
+				xs_id=#{xs_id},
+			</if>
+			<if test="xs_chuangjiantime !=null and xs_chuangjiantime !='' ">
+				xs_chuangjiantime=#{xs_chuangjiantime},
+			</if>
+			<if test="xs_name !=null and xs_name !='' ">
+				xs_name=#{xs_name},
+			</if>
+			<if test="xs_dianhua !=null and xs_dianhua !='' ">
+				xs_dianhua=#{xs_dianhua},
+			</if>
+			<if test="xs_xingbie !=null and xs_xingbie !='' ">
+				xs_xingbie=#{xs_xingbie},
+			</if>
+			<if test="xs_nianling !=null and xs_nianling !='' ">
+				xs_nianling=#{xs_nianling},
+			</if>
+			<if test="xs_xueli !=null and xs_xueli !='' ">
+				xs_xueli=#{xs_xueli},
+			</if>
+			<if test="xs_zhuangtai !=null and xs_zhuangtai !='' ">
+				xs_zhuangtai=#{xs_zhuangtai},
+			</if>
+			<if test="xs_laiyuanqudao !=null and xs_laiyuanqudao !='' ">
+				xs_laiyuanqudao=#{xs_laiyuanqudao},
+			</if>
+			<if test="xs_laiyuanwangzhi !=null and xs_laiyuanwangzhi !='' ">
+				xs_laiyuanwangzhi=#{xs_laiyuanwangzhi},
+			</if>
+			<if test="xs_guanzhu !=null and xs_guanzhu !='' ">
+				xs_guanzhu=#{xs_guanzhu},
+			</if>
+			<if
+				test="xs_liyuanguanjianzi !=null and xs_liyuanguanjianzi !='' ">
+				xs_liyuanguanjianzi=#{xs_liyuanguanjianzi},
+			</if>
+			<if test="xs_namezixun !=null and xs_namezixun !='' ">
+				xs_namezixun=#{xs_namezixun},
+			</if>
+			<if test="xs_suozaiquyu !=null and xs_suozaiquyu !='' ">
+				xs_suozaiquyu=#{xs_suozaiquyu},
+			</if>
+			<if test="xs_weixin !=null and xs_weixin !='' ">
+				xs_weixin=#{xs_weixin},
+			</if>
+			<if test="xs_qq !=null and xs_qq !='' ">
+				xs_qq=#{xs_qq},
+			</if>
+			<if test="xs_laiyuanbumen !=null and xs_laiyuanbumen !='' ">
+				xs_laiyuanbumen=#{xs_laiyuanbumen},
+			</if>
+			<if test="xs_isbaobei !=null and xs_isbaobei !='' ">
+				xs_isbaobei=#{xs_isbaobei},
+			</if>
+			<if test="xs_kecheng !=null and xs_kecheng !='' ">
+				xs_kecheng=#{xs_kecheng},
+			</if>
+			<if test="xs_isyouxiao !=null and xs_isyouxiao !='' ">
+				xs_isyouxiao=#{xs_isyouxiao},
+			</if>
+			<if test="xs_dafen !=null and xs_dafen !='' ">
+				xs_dafen=#{xs_dafen},
+			</if>
+			<if test="xs_ishuifang !=null and xs_ishuifang !='' ">
+				xs_ishuifang=#{xs_ishuifang},
+			</if>
+			<if
+				test="xs_shuocihuifangtime !=null and xs_shuocihuifangtime !='' ">
+				xs_shuocihuifangtime=#{xs_shuocihuifangtime},
+			</if>
+			<if test="xs_isshangmen !=null and xs_isshangmen !='' ">
+				xs_isshangmen=#{xs_isshangmen},
+			</if>
+			<if test="xs_shangmentime !=null and xs_shangmentime !='' ">
+				xs_shangmentime=#{xs_shangmentime},
+			</if>
+			<if test="xs_wuxiaoyuanyin !=null and xs_wuxiaoyuanyin !='' ">
+				xs_wuxiaoyuanyin=#{xs_wuxiaoyuanyin},
+			</if>
+			<if test="xs_isjiaofei !=null and xs_isjiaofei !='' ">
+				xs_isjiaofei=#{xs_isjiaofei},
+			</if>
+			<if test="xs_jiaofeitime !=null and xs_jiaofeitime !='' ">
+				xs_jiaofeitime=#{xs_jiaofeitime},
+			</if>
+			<if test="xs_jine !=null and xs_jine !='' ">
+				xs_jine=#{xs_jine},
+			</if>
+			<if test="xs_istuifei !=null and xs_istuifei !='' ">
+				xs_istuifei=#{xs_istuifei},
+			</if>
+			<if test="xs_isjinban !=null and xs_isjinban !='' ">
+				xs_isjinban=#{xs_isjinban},
+			</if>
+			<if test="xs_jinbantime !=null and xs_jinbantime !='' ">
+				xs_jinbantime=#{xs_jinbantime},
+			</if>
+			<if test="xs_jinbanbeizhu !=null and xs_jinbanbeizhu !='' ">
+				xs_jinbanbeizhu=#{xs_jinbanbeizhu},
+			</if>
+			<if test="xs_tuifeiyuanyin !=null and xs_tuifeiyuanyin !='' ">
+				xs_tuifeiyuanyin=#{xs_tuifeiyuanyin},
+			</if>
+			<if test="xs_dingjinjine !=null and xs_dingjinjine !='' ">
+				xs_dingjinjine=#{xs_dingjinjine},
+			</if>
+			<if test="xs_dingjintime !=null and xs_dingjintime !='' ">
+				xs_dingjintime=#{xs_dingjintime},
+			</if>
+			<if test="xs_zixunshi !=null and xs_zixunshi !='' ">
+				xs_zixunshi=#{xs_zixunshi},
+			</if>
+			<if test="xs_lururen !=null and xs_lururen !='' ">
+				xs_lururen=#{xs_lururen},
+			</if>
+			<if test="xs_zixunshibeizhu !=null and xs_zixunshibeizhu !='' ">
+				xs_zixunshibeizhu=#{xs_zixunshibeizhu},
+			</if>
+		</set>
+		<where>
+			xs_id=#{xs_id}
+		</where>
 	</update>
 	<insert id="insertStudent" parameterType="student">
-
+		insert into
+		student(xs_chuangjiantime,xs_name,xs_dianhua,xs_xingbie,xs_nianling,xs_xueli,xs_zhuangtai,xs_laiyuanqudao,
+		xs_laiyuanwangzhi,xs_guanzhu,xs_liyuanguanjianzi,xs_namezixun,xs_suozaiquyu,xs_weixin,xs_qq,xs_laiyuanbumen,
+		xs_isbaobei,xs_kecheng,xs_isyouxiao,xs_dafen,xs_ishuifang,xs_shuocihuifangtime,xs_isshangmen,xs_shangmentime,
+		xs_wuxiaoyuanyin,xs_isjiaofei,xs_jiaofeitime,xs_jine,xs_istuifei,xs_isjinban,xs_jinbantime,xs_jinbanbeizhu,
+		xs_tuifeiyuanyin,xs_dingjinjine,xs_dingjintime,xs_zixunshi,xs_lururen,xs_zixunshibeizhu)
+		values(#{xs_chuangjiantime},#{xs_name},#{xs_dianhua},#{xs_xingbie},#{xs_nianling},#{xs_xueli},#{xs_zhuangtai},
+		#{xs_laiyuanqudao},#{xs_laiyuanwangzhi},#{xs_guanzhu},#{xs_liyuanguanjianzi},#{xs_namezixun},#{xs_suozaiquyu},
+		#{xs_weixin},#{xs_qq},#{xs_laiyuanbumen},#{xs_isbaobei},#{xs_kecheng},#{xs_isyouxiao},#{xs_dafen},#{xs_ishuifang},
+		#{xs_shuocihuifangtime},#{xs_isshangmen},#{xs_shangmentime},#{xs_wuxiaoyuanyin},#{xs_isjiaofei},#{xs_jiaofeitime},
+		#{xs_jine},#{xs_istuifei},#{xs_isjinban},#{xs_jinbantime},#{xs_jinbanbeizhu},#{xs_tuifeiyuanyin},#{xs_dingjinjine},
+		#{xs_dingjintime},#{xs_zixunshi},#{xs_lururen},#{xs_zixunshibeizhu})
 	</insert>
 	<delete id="deleteStudent" parameterType="int">
 
