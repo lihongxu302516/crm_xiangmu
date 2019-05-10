@@ -50,4 +50,22 @@ public class MokuaiServiceimp implements MokuaiService {
 		return mk;
 	}
 
+	@Override
+	public Integer insertMokuai(Mokuai mokuai) {
+		// TODO Auto-generated method stub
+		return mokuaiMapper.insertMokuai(mokuai);
+	}
+
+	@Override
+	public Integer updateMokuai(Mokuai mokuai) {
+		// TODO Auto-generated method stub
+		return mokuaiMapper.updateMokuai(mokuai);
+	}
+
+	@Override
+	public Integer deleteMokuai(Integer mk_id) {
+		// TODO Auto-generated method stub
+		return mokuaiMapper.deleteMokuai(mk_id);
+	}
+
 }
