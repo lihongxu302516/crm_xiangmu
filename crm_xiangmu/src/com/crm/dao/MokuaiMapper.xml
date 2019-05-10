@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.MokuaiMapper">
+	<select id="selectMokuaiAll" resultType="mokuai">
+		SELECT
+		mk_id,mk_name,mk_fuid,mk_checked,mk_lujing,mk_exe1,mk_exe2 FROM
+		mokuai
+	</select>
+
+	<insert id="insertMokuai" parameterType="mokuai">
+		INSERT INTO
+		mokuai(mk_name,mk_fuid,mk_checked,mk_lujing,mk_exe1,mk_exe2)
+		VALUES(#{mk_name},#{mk_fuid},#{mk_checked},#{mk_lujing},#{mk_exe1},#{mk_exe2})
+	</insert>
+
+	<update id="updateMokuai" parameterType="mokuai">
+		UPDATE mokuai SET
+		mk_name=#{mk_name},mk_fuid=#{mk_fuid},mk_checked=#{mk_checked},mk_lujing=#{mk_lujing},mk_exe1=#{mk_exe1},mk_exe2=#{mk_exe2}
+		WHERE mk_id=#{mk_id}
+	</update>
+	
+	<delete id="deleteMokuai" parameterType="int">
+	DELETE FROM mokuai WHERE mk_id=#{mk_id}
+	</delete>
+
+</mapper>

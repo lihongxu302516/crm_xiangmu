@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.LoginMapper">
+	<!-- <sql id="user_ziduanming"> u.us_id,u.us_name,u.us_password,u.us_shojihao,u.us_youxiang,u.us_issuoding,u.us_suodingtime, 
+		u.us_passcuowucishu,u.us_chuangjiantime,u.us_zuihoutime,u.us_quanzhong,u.us_pingfen, 
+		u.us_pingfenrenshu,u.us_isdaka,u.us_biezhu,u.us_exe1,u.us_exe2, j.js_id,j.js_name,j.js_exe1,j.js_exe2,m.mk_id,m.mk_name,m.mk_fuid,m.mk_checked,m.mk_lujing, 
+		m.mk_exe1,m.mk_exe2 </sql> <resultMap type="user" id="user_fanhui"> <id property="" 
+		column="" /> <result property="us_id" column="u.us_id" /> <result property="us_name" 
+		column="u.us_name" /> <result property="us_password" column="u.us_password" 
+		/> <result property="us_shojihao" column="u.us_shojihao" /> <result property="us_youxiang" 
+		column="u.us_youxiang" /> <result property="us_issuoding" column="u.us_issuoding" 
+		/> <result property="us_suodingtime" column="u.us_suodingtime" /> <result 
+		property="us_passcuowucishu" column="u.us_passcuowucishu" /> <result property="us_chuangjiantime" 
+		column="u.us_chuangjiantime" /> <result property="us_zuihoutime" column="u.us_zuihoutime" 
+		/> <result property="us_quanzhong" column="u.us_quanzhong" /> <result property="us_pingfen" 
+		column="u.us_pingfen" /> <result property="us_pingfenrenshu" column="u.us_pingfenrenshu" 
+		/> <result property="u.us_isdaka" column="u.us_isdaka" /> <result property="u.us_biezhu" 
+		column="u.us_biezhu" /> <result property="us_exe1" column="u.us_exe1" /> 
+		<result property="us_exe2" column="u.us_exe2" /> <result property="juese.js_id" 
+		column="j.js_id" /> <result property="juese.js_name" column="j.js_name" /> 
+		<result property="juese.js_exe1" column="j.js_exe1" /> <result property="juese.js_exe2" 
+		column="j.js_exe2" /> <result property="juese.mokuai.mk_id" column="m.mk_id" 
+		/> <result property="juese.mokuai.mk_name" column="m.mk_name" /> <result 
+		property="juese.mokuai.mk_fuid" column="m.mk_fuid" /> <result property="juese.mokuai.mk_checked" 
+		column="m.mk_checked" /> <result property="juese.mokuai.mk_lujing" column="m.mk_lujing" 
+		/> <result property="juese.mokuai.mk_exe1" column="m.mk_exe1" /> <result 
+		property="juese.mokuai.mk_exe2" column="m.mk_exe2" /> </resultMap> <select 
+		id="selectUser_Login_password" parameterType="user" resultMap="user_fanhui"> 
+		SELECT <include refid="user_ziduanming"></include> FROM `user` u INNER JOIN 
+		user_juese uj INNER JOIN juese j INNER JOIN juese_mokuai jm INNER JOIN mokuai 
+		m ON u.us_id=uj.uj_userid AND uj.uj_jueseid=j.js_id AND j.js_id=jm.jm_jueseid 
+		AND jm.jm_mokuaiid=m.mk_id WHERE u.us_name=#{us_name} AND u.us_password=#{us_password} 
+		</select> -->
+	<sql id="user_ziduanming">
+		us_id,us_name,us_password,us_shojihao,us_youxiang,us_issuoding,us_suodingtime,us_passcuowucishu,us_chuangjiantime,us_zuihoutime,us_quanzhong,us_pingfen,
+		us_pingfenrenshu,us_isdaka,us_dakatime,us_biezhu,us_exe1,us_exe2
+	</sql>
+	<select id="selectUser_Login_username" parameterType="string"
+		resultType="int">
+		SELECT COUNT(us_id) FROM `user` WHERE us_name=#{username}
+	</select>
+	<select id="selectUser_Login_password" parameterType="user"
+		resultType="user">
+		SELECT
+		<include refid="user_ziduanming"></include>
+		FROM `user` WHERE
+		us_name=#{us_name} AND us_password=#{us_password}
+	</select>
+	<select id="selectJuese" parameterType="int" resultType="juese">
+		SELECT
+		js_id,js_name,js_exe1,js_exe2 FROM juese INNER JOIN user_juese ON
+		js_id=uj_jueseid WHERE uj_userid=#{us_id}
+	</select>
+	<select id="selectMokuai" parameterType="int"
+		resultType="mokuai">
+		SELECT
+		mk_id,mk_name,mk_fuid,mk_checked,mk_lujing,mk_exe1,mk_exe2 FROM
+		mokuai
+		INNER JOIN juese_mokuai ON mk_id=jm_mokuaiid WHERE
+		jm_jueseid=#{js_id}
+	</select>
+	<update id="updatemimacuowucishujiayi" parameterType="string">
+	UPDATE `user` SET us_passcuowucishu=us_passcuowucishu+1 WHERE us_name=#{us_name}
+	</update>
+	<update id="updatesuodinguser_us_name" parameterType="user">
+	UPDATE `user` SET us_issuoding=1,us_suodingtime=#{us_suodingtime} WHERE us_name=#{us_name}
+	</update>
+	<select id="selectmimacuowucishu" parameterType="string" resultType="int">
+	SELECT us_passcuowucishu FROM `user` WHERE us_name=#{us_name}
+	</select>
+	<update id="updatezuihoudenglutime" parameterType="user">
+	UPDATE `user` SET us_zuihoutime=#{us_zuihoutime} WHERE us_name=#{us_name}
+	</update>
+</mapper>
+

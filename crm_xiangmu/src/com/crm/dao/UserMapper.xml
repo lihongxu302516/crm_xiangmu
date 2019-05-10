@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.UserMapper">
+	<sql id="userziduanming">
+		us_id,us_name,us_password,us_shojihao,us_youxiang,us_issuoding,us_suodingtime,us_passcuowucishu,us_chuangjiantime,us_zuihoutime,us_quanzhong,us_pingfen,
+		us_pingfenrenshu,us_isdaka,us_dakatime,us_biezhu,us_exe1,us_exe2
+	</sql>
+
+	<select id="selectUserAll" parameterType="fenye"
+		resultType="user">
+		SELECT
+		<include refid="userziduanming"></include>
+		FROM `user`
+		<where>
+			<if test="t.us_id != null and t.us_id != ''">AND us_id=#{t.us_id}</if>
+			<if test="t.us_name != null and t.us_name != ''">AND us_name LIKE "%"#{t.us_name}"%"</if>
+			<if test="t.us_issuoding != null and t.us_issuoding != ''">AND us_issuoding=#{t.us_issuoding}</if>
+			<if
+				test="t.us_chuangjiantimeMIN != null and t.us_chuangjiantimeMIN != ''">AND us_chuangjiantime &gt; #{t.us_chuangjiantimeMIN}</if>
+			<if
+				test="t.us_chuangjiantimeMAX != null and t.us_chuangjiantimeMAX != ''">AND us_chuangjiantime &lt; #{t.us_chuangjiantimeMAX}</if>
+			<if test="t.us_zuihoutimeMIN != null and t.us_zuihoutimeMIN != ''">AND us_zuihoutime &gt; #{t.us_zuihoutimeMIN}</if>
+			<if test="t.us_zuihoutimeMAX != null and t.us_zuihoutimeMAX != ''">AND us_zuihoutime &lt; #{t.us_zuihoutimeMAX}</if>
+			<if test="t.us_quanzhongMIN != null and t.us_quanzhongMIN != ''">AND us_quanzhong &gt; #{t.us_quanzhongMIN}</if>
+			<if test="t.us_quanzhongMAX != null and t.us_quanzhongMAX != ''">AND us_quanzhong &lt; #{t.us_quanzhongMAX}</if>
+			<if test="t.us_isdaka != null and t.us_isdaka != ''">AND us_isdaka=#{t.us_isdaka}</if>
+			<if test="t.us_dakatimeMIN != null and t.us_dakatimeMIN != ''">AND us_dakatime &gt; #{t.us_dakatimeMIN}</if>
+			<if test="t.us_dakatimeMAX != null and t.us_dakatimeMAX != ''">AND us_dakatime &gt; #{t.us_dakatimeMAX}</if>
+		</where>
+		<if test="t.paixuziduan != null and t.paixuziduan !=''">
+			ORDER BY #{t.paixuziduan}
+			<choose>
+				<when
+					test="t.paixuguize!=null and t.paixuguize!='' and t.paixuguize=='desc'">
+					desc
+				</when>
+				<otherwise>
+					asc
+				</otherwise>
+			</choose>
+		</if>
+		LIMIT #{page},#{limit}
+	</select>
+
+	<select id="selectUserCount" parameterType="fenye"
+		resultType="int">
+		SELECT count(us_id)
+		FROM `user`
+		<where>
+			<if test="t.us_id != null and t.us_id != ''">AND us_id=#{t.us_id}</if>
+			<if test="t.us_name != null and t.us_name != ''">AND us_name LIKE "%"#{t.us_name}"%"</if>
+			<if test="t.us_issuoding != null and t.us_issuoding != ''">AND us_issuoding=#{t.us_issuoding}</if>
+			<if
+				test="t.us_chuangjiantimeMIN != null and t.us_chuangjiantimeMIN != ''">AND us_chuangjiantime &gt; #{t.us_chuangjiantimeMIN}</if>
+			<if
+				test="t.us_chuangjiantimeMAX != null and t.us_chuangjiantimeMAX != ''">AND us_chuangjiantime &lt; #{t.us_chuangjiantimeMAX}</if>
+			<if test="t.us_zuihoutimeMIN != null and t.us_zuihoutimeMIN != ''">AND us_zuihoutime &gt; #{t.us_zuihoutimeMIN}</if>
+			<if test="t.us_zuihoutimeMAX != null and t.us_zuihoutimeMAX != ''">AND us_zuihoutime &lt; #{t.us_zuihoutimeMAX}</if>
+			<if test="t.us_quanzhongMIN != null and t.us_quanzhongMIN != ''">AND us_quanzhong &gt; #{t.us_quanzhongMIN}</if>
+			<if test="t.us_quanzhongMAX != null and t.us_quanzhongMAX != ''">AND us_quanzhong &lt; #{t.us_quanzhongMAX}</if>
+			<if test="t.us_isdaka != null and t.us_isdaka != ''">AND us_isdaka=#{t.us_isdaka}</if>
+			<if test="t.us_dakatimeMIN != null and t.us_dakatimeMIN != ''">AND us_dakatime &gt; #{t.us_dakatimeMIN}</if>
+			<if test="t.us_dakatimeMAX != null and t.us_dakatimeMAX != ''">AND us_dakatime &gt; #{t.us_dakatimeMAX}</if>
+		</where>
+	</select>
+
+	<update id="updatesuodingyonghu" parameterType="user">
+		UPDATE `user` SET
+		us_issuoding=#{us_issuoding},us_suodingtime=#{us_suodingtime} WHERE
+		us_id=#{us_id}
+	</update>
+
+	<update id="updatechongzhimima" parameterType="int">
+		UPDATE `user` SET us_password='93aeab278e125b175cf45b7ab09af446' WHERE
+		us_id=#{us_id}
+	</update>
+
+	<insert id="insertUser" parameterType="user">
+		INSERT INTO
+		`user`(us_name,us_password,us_shojihao,us_youxiang,us_issuoding,us_passcuowucishu,us_chuangjiantime,us_quanzhong,us_pingfen,us_pingfenrenshu,us_biezhu)
+		VALUES(#{us_name},'93aeab278e125b175cf45b7ab09af446',#{us_shojihao},#{us_youxiang},#{us_issuoding},#{us_passcuowucishu},#{us_chuangjiantime},#{us_quanzhong},#{us_pingfen},#{us_pingfenrenshu},#{us_biezhu});
+	</insert>
+	
+	<update id="updateUser" parameterType="user">
+	UPDATE `user` 
+	<set>
+	<if test="us_name != null and us_name != ''">us_name=#{us_name},</if>
+	<if test="us_shojihao != null and us_shojihao != ''">us_shojihao=#{us_shojihao},</if>
+	<if test="us_youxiang != null and us_youxiang != ''">us_youxiang=#{us_youxiang},</if>
+	<if test="us_quanzhong != null and us_quanzhong != ''">us_quanzhong=#{us_quanzhong},</if>
+	<if test="us_biezhu != null and us_biezhu != ''">us_biezhu=#{us_biezhu},</if>
+	</set>
+	WHERE us_id=#{us_id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="int">
+	DELETE FROM `user` WHERE us_id=#{us_id}
+	</delete>
+	
+	<delete id="deleteUser_Juese" parameterType="int">
+	DELETE FROM user_juese WHERE uj_userid=#{us_id}
+	</delete>
+
+</mapper>

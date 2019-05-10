@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crm.dao.JueseMapper">
+	<select id="selectJueseAll" parameterType="fenye"
+		resultType="juese">
+		SELECT js_id,js_name,js_exe1,js_exe2 FROM juese
+		LIMIT #{page},#{limit}
+	</select>
+
+	<select id="selectJueseCount" parameterType="fenye"
+		resultType="int">
+		SELECT COUNT(js_id) FROM juese
+	</select>
+	
+	<insert id="insertJuese" parameterType="juese">
+	INSERT INTO juese(js_name) VALUES(#{js_name})
+	</insert>
+	
+	<update id="updateJuese" parameterType="juese">
+	UPDATE juese SET js_name=#{js_name} WHERE js_id=#{js_id}
+	</update>
+	
+	<delete id="deleteJuese" parameterType="int">
+	DELETE FROM juese WHERE js_id=#{js_id}
+	</delete>
+
+</mapper>
