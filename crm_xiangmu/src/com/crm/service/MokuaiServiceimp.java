@@ -53,6 +53,9 @@ public class MokuaiServiceimp implements MokuaiService {
 	@Override
 	public Integer insertMokuai(Mokuai mokuai) {
 		// TODO Auto-generated method stub
+		if(mokuai.getMk_fuid()==null) {
+			mokuai.setMk_fuid(0);
+		}
 		return mokuaiMapper.insertMokuai(mokuai);
 	}
 
@@ -66,6 +69,12 @@ public class MokuaiServiceimp implements MokuaiService {
 	public Integer deleteMokuai(Integer mk_id) {
 		// TODO Auto-generated method stub
 		return mokuaiMapper.deleteMokuai(mk_id);
+	}
+
+	@Override
+	public Mokuai selectMokuai_mk_id(Integer mk_id) {
+		// TODO Auto-generated method stub
+		return mokuaiMapper.selectMokuai_mk_id(mk_id);
 	}
 
 }

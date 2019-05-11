@@ -37,4 +37,9 @@ public class MokuaiController {
 	public Integer mokuai_shanchu(Integer mk_id){
 		return mokuaiServiceimp.deleteMokuai(mk_id);
 	}
+	@RequestMapping(value = "mokuai_xianshi_xiugai",method = RequestMethod.POST)
+	@ResponseBody
+	public Mokuai mokuai_xianshi_xiugai(Integer mk_id){
+		return mokuaiServiceimp.selectMokuai_mk_id(mk_id);
+	}
 }

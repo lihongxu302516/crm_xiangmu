@@ -29,13 +29,16 @@ div {
 		style="width: 300px; height: 400px; text-align: right; padding-right: 30px;"
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="xiuform">
-			<br /> 权重： <input class="easyui-validatebox" required="true"
-				validType="intPlus" type="text" name="weight" id="weight" /><br />
-			<br /> URI： <input class="easyui-validatebox" required="true"
-				type="text" name="url" id="url" /><br />
-			<br /> 模块名称： <input class="easyui-validatebox" required="true"
-				type="text" name="name" id="name" /><br />
-			<br /> <a id="btn1" href="javascript:void(0)"
+			<br /> 模块名称：<input class="easyui-validatebox" required="true"
+				type="text" name="mk_name" id="xgmk_name" /><br />
+			<br /> URI：<input class="easyui-validatebox" required="true"
+				type="text" name="mk_lujing" id="xgmk_lujing" /><br />
+			<br /> 是否默认选中： <select class="easyui-combobox" id="xgmk_checked" name="mk_checked"
+				style="width: 200px;">
+				<option value="1">否</option>
+				<option value="2">是</option>
+				
+			</select> <a id="btn1" href="javascript:void(0)"
 				class="easyui-linkbutton" onclick="mkxiugai()"
 				data-options="iconCls:'icon-ok'">修改</a>
 		</form>
@@ -49,7 +52,7 @@ div {
 				type="text" name="addmk_name" id="addmk_name" /><br />
 			<br /> URI：<input class="easyui-validatebox" required="true"
 				type="text" name="addmk_lujing" id="addmk_lujing" /><br />
-			<br /> 是否默认选中： <select id="cc" class="easyui-combobox" id="addmk_checked" name="addmk_checked"
+			<br /> 是否默认选中： <select class="easyui-combobox" id="addmk_checked" name="addmk_checked"
 				style="width: 200px;">
 				<option value="1">否</option>
 				<option value="2">是</option>
@@ -110,15 +113,14 @@ div {
 
 	function shuxiugai() {
 		var nodes = $('#tt').tree('getSelected');
-		$.post(easyuiData.server + "/api/GetModuleById", {
-			id : nodes.id,
-			token : easyuiData.mytoken
+		$.post("mokuai_xianshi_xiugai", {
+			mk_id : nodes.id
 		}, function(res) {
-			var sss = eval("(" + res.message + ")")
-			if (res.success) {
+			//var sss = eval("(" + res.message + ")")
+			if (res!=null) {
 				mokuai = null;
-				mokuai = sss;
-				$('#xiuform').form('load', sss);
+				mokuai = res;
+				$('#xiuform').form('load', mokuai);
 				$('#xiutab').window('open');
 			}
 		}, "json");
@@ -126,18 +128,14 @@ div {
 
 	function mkxiugai() {
 		if ($("#xiuform").form('validate')) {
-			var weight = $("#weight").val();
-			var mkurl = $("#url").val();
-			var name = $("#name").val();
-			$.post(easyuiData.server + "/api/UpdateModule", {
-				mId : mokuai.id,
-				name : name,
-				parentId : mokuai.parentId,
-				path : mkurl,
-				weight : weight,
-				token : easyuiData.mytoken
+			$.post("mokuai_xiugai", {
+				mk_id : mokuai.mk_id,
+				mk_name : $("#xgmk_name").val(),
+				mk_fuid : mokuai.mk_fuid,
+				mk_lujing : $("#xgmk_lujing").val(),
+				mk_checked : $("#xgmk_checked").combobox("getValue")
 			}, function(res) {
-				if (res.success) {
+				if (res==1) {
 					$('#xiutab').window('close');
 					$("#tt").tree("reload");
 					$.messager.show({
@@ -201,17 +199,13 @@ div {
 	function mktianjia() {
 		if ($("#mkaddform").form('validate')) {
 			var nodes = $('#tt').tree('getSelected');
-			var addweight = $("#addweight").val();
-			var addurl = $("#addurl").val();
-			var addname = $("#addname").val();
-			$.post(easyuiData.server + "/api/CreateModule", {
-				name : addname,
-				parentId : nodes.id,
-				path : addurl,
-				weight : addweight,
-				token : easyuiData.mytoken
+			$.post("mokuai_tianjia", {
+				mk_name : $("#addmk_name").val(),
+				mk_fuid : nodes.id,
+				mk_lujing : $("#addmk_lujing").val(),
+				mk_checked : $("#addmk_checked").combobox("getValue")
 			}, function(res) {
-				if (res.success) {
+				if (res==1) {
 					$('#mkadddiv').window('close');
 					$("#tt").tree("reload");
 					$.messager.show({
@@ -256,11 +250,10 @@ div {
 	function shushanchu() {
 		$.messager.confirm('确认', '您确认想要删除记录吗？', function(r) {
 			if (r) {
-				$.post(easyuiData.server + "/api/DeleteModule", {
-					mId : $('#tt').tree('getSelected').id,
-					token : easyuiData.mytoken
+				$.post("mokuai_shanchu", {
+					mk_id : $('#tt').tree('getSelected').id
 				}, function(res) {
-					if (res.success) {
+					if (res==1) {
 						$("#tt").tree("reload");
 						$.messager.show({
 							title : '我的消息',

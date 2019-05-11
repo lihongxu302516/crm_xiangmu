@@ -29,6 +29,12 @@ public interface MokuaiService {
 	 * @return
 	 */
 	Integer deleteMokuai(Integer mk_id);
+	/**
+	 * 根据模块id查看模块信息
+	 * @return
+	 */
+	Mokuai selectMokuai_mk_id(Integer mk_id);
+	
 	
 	
 	
