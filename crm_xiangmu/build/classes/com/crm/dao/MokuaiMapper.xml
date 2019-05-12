@@ -40,5 +40,20 @@
 	SELECT mk_id,mk_name,mk_fuid,mk_checked,mk_lujing,mk_exe1,mk_exe2 FROM
 		mokuai FROM juese_mokuai WHERE jm_jueseid=#{jm_jueseid}
 	</select>
+	
+	<delete id="deleteJuese_mokuai_js_id" parameterType="int">
+	DELETE FROM juese_mokuai WHERE jm_jueseid=#{jm_jueseid}
+	</delete>
+	
+	<insert id="insertJuese_mokuai_js_id" parameterType="list">
+	INSERT INTO juese_mokuai(jm_jueseid,jm_mokuaiid,jm_exe1,jm_exe2) VALUES
+	<foreach collection="list" item="item" open="(" separator="),(" close=")">
+	#{item.jm_jueseid},#{item.jm_mokuaiid},#{item.jm_exe1},#{item.jm_exe2}
+	</foreach>
+	</insert>
+	
+	<select id="selectMokuai_isyouzi" parameterType="int" resultType="int">
+	SELECT COUNT(mk_id) FROM mokuai WHERE mk_fuid=#{mk_fuid}
+	</select>
 
 </mapper>

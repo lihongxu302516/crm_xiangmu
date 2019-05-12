@@ -13,6 +13,7 @@ import com.crm.entity.Juese;
 import com.crm.entity.Juese_mokuai;
 import com.crm.entity.Mokuai;
 import com.crm.entity.MokuaiTree;
+
 @Service
 public class JueseServiceimp implements JueseService {
 	@Autowired
@@ -65,37 +66,45 @@ public class JueseServiceimp implements JueseService {
 	@Override
 	public List<MokuaiTree> selectJuese_mktree(Integer js_id) {
 		// TODO Auto-generated method stub
-		List<MokuaiTree> mokuaiTreelist=new ArrayList<MokuaiTree>();
+		List<MokuaiTree> mokuaiTreelist = new ArrayList<MokuaiTree>();
 		List<Mokuai> mokuailist = mokuaiMapper.selectMokuaiAll();
 		for (int i = 0; i < mokuailist.size(); i++) {
 			if (mokuailist.get(i).getMk_fuid() == 0) {
-				addtree(mokuaiTreelist, mokuailist, i,js_id);
+				addtree(mokuaiTreelist, mokuailist, i, js_id);
 			}
 		}
 		return mokuaiTreelist;
 	}
 
-	private void addtree(List<MokuaiTree> mokuaiTreelist, List<Mokuai> mokuailist, int i,Integer js_id) {
+	private void addtree(List<MokuaiTree> mokuaiTreelist, List<Mokuai> mokuailist, int i, Integer js_id) {
 		MokuaiTree mk = new MokuaiTree();
 		mk.setId(mokuailist.get(i).getMk_id());
 		mk.setText(mokuailist.get(i).getMk_name());
-		
+
 		juese_mokuai.setJm_jueseid(js_id);
 		juese_mokuai.setJm_mokuaiid(mokuailist.get(i).getMk_id());
 		Integer selectMokuai_js_id = mokuaiMapper.selectMokuai_js_id(juese_mokuai);
-		
-		mk.setChecked(selectMokuai_js_id == 1);
-		MokuaiTree fortree = fortree(mokuailist, i,mk,js_id);
-		if(fortree!=null) {
+		if (mokuailist.get(i).getMk_fuid() == 0) {
+			Integer selectMokuai_isyouzi = mokuaiMapper.selectMokuai_isyouzi(mokuailist.get(i).getMk_id());
+			if (selectMokuai_isyouzi > 0) {
+				mk.setChecked(false);
+			} else {
+				mk.setChecked(selectMokuai_js_id == 1);
+			}
+		} else {
+			mk.setChecked(selectMokuai_js_id == 1);
+		}
+		MokuaiTree fortree = fortree(mokuailist, i, mk, js_id);
+		if (fortree != null) {
 			mokuaiTreelist.add(fortree);
 		}
 	}
 
-	private MokuaiTree fortree(List<Mokuai> mokuailist, int i,MokuaiTree mk,Integer js_id) {
+	private MokuaiTree fortree(List<Mokuai> mokuailist, int i, MokuaiTree mk, Integer js_id) {
 		List<MokuaiTree> treelist = new ArrayList<MokuaiTree>();
 		for (int j = 0; j < mokuailist.size(); j++) {
 			if (mokuailist.get(j).getMk_fuid() == mokuailist.get(i).getMk_id()) {
-				addtree(treelist, mokuailist, j,js_id);
+				addtree(treelist, mokuailist, j, js_id);
 			}
 		}
 		mk.setChildren(treelist);
@@ -105,26 +114,25 @@ public class JueseServiceimp implements JueseService {
 	@Override
 	public Integer xiugaiJuese_mokuai(String mkids, Integer js_id) {
 		// TODO Auto-generated method stub
-		String[] split = mkids.split(",");
-		List<Mokuai> mkall = mokuaiMapper.selectMokuai_js_idAll(js_id);
-		List<Integer> you_li=new ArrayList<Integer>();
-		List<Integer> wu_li=new ArrayList<Integer>();
-		for(int i=0;i<mkall.size();i++) {
-			for(int j=0;j<split.length;i++) {
-				if(mkall.get(i).getMk_id()==Integer.parseInt(split[j])) {
-					you_li.add(Integer.parseInt(split[j]));
-				}else {
-					wu_li.add(Integer.parseInt(split[j]));
-				}
+		if(mkids!=null && mkids!="") {
+			String[] split = mkids.split(",");
+			System.out.println(split.length);
+			List<Juese_mokuai> list = new ArrayList<Juese_mokuai>();
+			for (int i = 0; i < split.length; i++) {
+				Juese_mokuai jm = new Juese_mokuai();
+				jm.setJm_mokuaiid(Integer.parseInt(split[i]));
+				jm.setJm_jueseid(js_id);
+				list.add(jm);
 			}
+
+			Integer deleteJuese_mokuai_js_id = mokuaiMapper.deleteJuese_mokuai_js_id(js_id);
+			if (deleteJuese_mokuai_js_id >= 0) {
+				mokuaiMapper.insertJuese_mokuai_js_id(list);
+			}
+		}else {
+			mokuaiMapper.deleteJuese_mokuai_js_id(js_id);
 		}
-		System.out.println(you_li);
-		System.out.println(wu_li);
 		
-		
-		
-		return null;
+	return 1;
 	}
-
-
 }

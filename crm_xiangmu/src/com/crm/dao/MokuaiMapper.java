@@ -46,5 +46,23 @@ public interface MokuaiMapper {
 	 * @return
 	 */
 	List<Mokuai> selectMokuai_js_idAll(Integer js_id);
+	/**
+	 * 删除角色的所有模块
+	 * @param js_id
+	 * @return
+	 */
+	Integer deleteJuese_mokuai_js_id(Integer js_id);
+	/**
+	 * 给角色添加多个模块
+	 * @param jm
+	 * @return
+	 */
+	Integer insertJuese_mokuai_js_id(List<Juese_mokuai> list_jm);
+	/**
+	 * 查看该模块是否有子模块
+	 * @param mk_fuid
+	 * @return
+	 */
+	Integer selectMokuai_isyouzi(Integer mk_fuid);
 
 }
