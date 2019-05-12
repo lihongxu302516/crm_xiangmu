@@ -221,6 +221,6 @@
 		#{xs_dingjintime},#{xs_zixunshi},#{xs_lururen},#{xs_zixunshibeizhu})
 	</insert>
 	<delete id="deleteStudent" parameterType="int">
-
+		delete from where xs_id=#{xs_id}
 	</delete>
 </mapper>

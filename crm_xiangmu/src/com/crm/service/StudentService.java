@@ -1,17 +1,15 @@
-package com.crm.dao;
-
-import java.util.List;
+package com.crm.service;
 
 import com.crm.entity.Fenye;
 import com.crm.entity.Student;
 
-public interface StudentMapper {
+public interface StudentService {
 	/**
 	 * 查询学生
 	 * @param fenye
 	 * @return
 	 */
-	List selesctStudent(Fenye<Student> fenye);
+	Fenye<Student> selesctStudent(Fenye<Student> fenye);
 	/**
 	 * 查询总条数
 	 * @param fenye
