@@ -21,11 +21,7 @@ public class HomeController {
 
 	@RequestMapping(value = "home")
 	public String home(HttpServletRequest request) {
-		if (request.getSession().getAttribute("user") != null) {
 			return "home";
-		} else {
-			return "login";
-		}
 	}
 
 	@RequestMapping(value = "hometree", method = RequestMethod.POST)

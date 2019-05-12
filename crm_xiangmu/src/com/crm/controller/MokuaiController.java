@@ -2,6 +2,8 @@ package com.crm.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,10 @@ public class MokuaiController {
 	@Autowired
 	MokuaiService mokuaiServiceimp;
 	
+	@RequestMapping(value = "mokuai_guanli")
+	public String mokuai_guanli(HttpServletRequest request) {
+			return "mokuai_guanli";
+	}
 	@RequestMapping(value = "mokuai_xianshi",method = RequestMethod.POST)
 	@ResponseBody
 	public List<MokuaiTree> mokuai_xianshi(){

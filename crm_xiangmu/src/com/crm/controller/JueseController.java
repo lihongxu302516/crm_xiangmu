@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crm.entity.Fenye;
 import com.crm.entity.Juese;
-import com.crm.entity.Juese_mokuai;
 import com.crm.entity.MokuaiTree;
 import com.crm.service.JueseService;
 
@@ -25,11 +24,7 @@ public class JueseController {
 	
 	@RequestMapping(value = "juese_guanli")
 	public String juese_guanli(HttpServletRequest request) {
-		if (request.getSession().getAttribute("user") != null) {
-			return "juese_guanli";
-		} else {
-			return "login";
-		}
+		return "juese_guanli";
 	}
 	@RequestMapping(value = "juese_xianshi",method = RequestMethod.POST)
 	@ResponseBody

@@ -15,27 +15,32 @@
         http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <!-- 获得jdbc.properties -->
-	<context:property-placeholder location="Classpath:jdbc.properties" />
+	<!-- 获得jdbc.properties -->
+	<context:property-placeholder
+		location="Classpath:jdbc.properties" />
 	<!-- 配置dataSource -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${jdbc.driver}"></property>
 		<property name="url" value="${jdbc.url}"></property>
 		<property name="username" value="${jdbc.username}"></property>
 		<property name="password" value="${jdbc.password}"></property>
 	</bean>
 	<!-- 配置sqlSessionFactory -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="Classpath:mybatis.xml"></property>
 	</bean>
 	<!-- 连接mapper -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<property name="sqlSessionFactoryBeanName"
+			value="sqlSessionFactory"></property>
 		<property name="basePackage" value="com.crm.dao"></property>
 	</bean>
 	<!-- 配置事务管理器 -->
-	<bean id="dstm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="dstm"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 配置声明式事务 -->
@@ -49,8 +54,13 @@
 		</tx:attributes>
 	</tx:advice>
 	<!-- 配置声明式事务管理 -->
-	<aop:config>
-		<aop:pointcut expression="execution(* com.crm.service..*.*(..))" id="dstmqiedian" />
-		<aop:advisor advice-ref="dstmAdvice" pointcut-ref="dstmqiedian" />
-	</aop:config>
+	<!-- <aop:config> <aop:pointcut expression="execution(* com.crm.service..*.*(..))" 
+		id="dstmqiedian" /> <aop:advisor advice-ref="dstmAdvice" pointcut-ref="dstmqiedian" 
+		/> </aop:config> -->
+	<!-- <aop:config> 配置一个可以被多个切面共享的切入点 <aop:pointcut expression="execution(* 
+		com.crm.controller..*.*(..)" id="controllerqiedian"/> 配置一个切面 <aop:aspect 
+		id="logAspect" ref="logAspectBean"> 配置一个前置通知 <aop:before method="before" 
+		pointcut-ref="controllerqiedian"/> </aop:aspect> </aop:config> -->
+	
+
 </beans>
