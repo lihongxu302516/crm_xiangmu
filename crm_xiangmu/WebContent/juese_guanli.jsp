@@ -86,15 +86,14 @@
 		var data = $("#juese_tab").datagrid("getData");
 		var row = data.rows[index];
 		$('#tt').tree({
-			url : easyuiData.server + '/api/GetModulesByRoleId',
+			url : "juese_chakan_mokuaitree",
 			queryParams : {
-				roleId : row.Id,
-				token : easyuiData.mytoken
+				js_id : row.js_id
 			},
 			checkbox : true
 		});
 		jiaoseid = null;
-		jiaoseid = row.Id;
+		jiaoseid = row.js_id;
 		$('#quanxiantree').window('open');
 	}
 
@@ -108,12 +107,11 @@
 				ids = ids + "," + trees[i].id;
 			}
 		}
-		$.post(easyuiData.server + "/api/SetSysRights", {
-			parentIds : ids,
-			rId : jiaoseid,
-			token : easyuiData.mytoken
+		$.post("juese_mokuai_tianjia", {
+			mkids : ids,
+			js_id : jiaoseid
 		}, function(res) {
-			if (res.success) {
+			if (res>0) {
 				$('#quanxiantree').window('close');
 				$("#juese_tab").datagrid("reload");
 				$.messager.show({

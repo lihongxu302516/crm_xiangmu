@@ -7,10 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.crm.dao.JueseMapper;
 import com.crm.dao.LoginMapper;
 import com.crm.dao.UserMapper;
 import com.crm.entity.Fenye;
 import com.crm.entity.User;
+import com.crm.entity.User_juese;
 
 @Service
 public class UserServiceimp implements UserService {
@@ -18,6 +20,8 @@ public class UserServiceimp implements UserService {
 	UserMapper usermapper;
 	@Autowired
 	LoginMapper loginMapper;
+	@Autowired
+	JueseMapper jueseMapper;
 
 	@Override
 	public Fenye<User> selectUserAll(Fenye<User> fenye) {
@@ -85,6 +89,18 @@ public class UserServiceimp implements UserService {
 			usermapper.deleteUser_Juese(us_id);
 		}
 		return deleteUser;
+	}
+
+	@Override
+	public Integer insertuser_juese(User_juese uj) {
+		// TODO Auto-generated method stub
+		return usermapper.insertuser_juese(uj);
+	}
+
+	@Override
+	public Integer deleteuser_juese(User_juese uj) {
+		// TODO Auto-generated method stub
+		return usermapper.deleteuser_juese(uj);
 	}
 
 }

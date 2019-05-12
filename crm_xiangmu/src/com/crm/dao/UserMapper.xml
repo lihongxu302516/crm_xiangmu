@@ -71,7 +71,8 @@
 	</update>
 
 	<update id="updatechongzhimima" parameterType="int">
-		UPDATE `user` SET us_password='93aeab278e125b175cf45b7ab09af446' WHERE
+		UPDATE `user` SET
+		us_password='93aeab278e125b175cf45b7ab09af446' WHERE
 		us_id=#{us_id}
 	</update>
 
@@ -80,25 +81,34 @@
 		`user`(us_name,us_password,us_shojihao,us_youxiang,us_issuoding,us_passcuowucishu,us_chuangjiantime,us_quanzhong,us_pingfen,us_pingfenrenshu,us_biezhu)
 		VALUES(#{us_name},'93aeab278e125b175cf45b7ab09af446',#{us_shojihao},#{us_youxiang},#{us_issuoding},#{us_passcuowucishu},#{us_chuangjiantime},#{us_quanzhong},#{us_pingfen},#{us_pingfenrenshu},#{us_biezhu});
 	</insert>
-	
+
 	<update id="updateUser" parameterType="user">
-	UPDATE `user` 
-	<set>
-	<if test="us_name != null and us_name != ''">us_name=#{us_name},</if>
-	<if test="us_shojihao != null and us_shojihao != ''">us_shojihao=#{us_shojihao},</if>
-	<if test="us_youxiang != null and us_youxiang != ''">us_youxiang=#{us_youxiang},</if>
-	<if test="us_quanzhong != null and us_quanzhong != ''">us_quanzhong=#{us_quanzhong},</if>
-	<if test="us_biezhu != null and us_biezhu != ''">us_biezhu=#{us_biezhu},</if>
-	</set>
-	WHERE us_id=#{us_id}
+		UPDATE `user`
+		<set>
+			<if test="us_name != null and us_name != ''">us_name=#{us_name},</if>
+			<if test="us_shojihao != null and us_shojihao != ''">us_shojihao=#{us_shojihao},</if>
+			<if test="us_youxiang != null and us_youxiang != ''">us_youxiang=#{us_youxiang},</if>
+			<if test="us_quanzhong != null and us_quanzhong != ''">us_quanzhong=#{us_quanzhong},</if>
+			<if test="us_biezhu != null and us_biezhu != ''">us_biezhu=#{us_biezhu},</if>
+		</set>
+		WHERE us_id=#{us_id}
 	</update>
-	
+
 	<delete id="deleteUser" parameterType="int">
-	DELETE FROM `user` WHERE us_id=#{us_id}
+		DELETE FROM `user` WHERE us_id=#{us_id}
 	</delete>
-	
+
 	<delete id="deleteUser_Juese" parameterType="int">
-	DELETE FROM user_juese WHERE uj_userid=#{us_id}
+		DELETE FROM user_juese WHERE uj_userid=#{us_id}
+	</delete>
+
+	<insert id="insertuser_juese" parameterType="user_juese">
+		INSERT INTO user_juese(uj_userid,uj_jueseid,uj_exe1,uj_exe2)
+		VALUES(#{uj_userid},#{uj_jueseid},#{uj_exe1},#{uj_exe2})
+	</insert>
+	
+	<delete id="deleteuser_juese" parameterType="user_juese">
+	DELETE FROM user_juese WHERE uj_userid=#{uj_userid} and uj_jueseid=#{uj_jueseid}
 	</delete>
 
 </mapper>

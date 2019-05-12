@@ -12,10 +12,21 @@ public interface JueseMapper {
 	 */
 	Integer selectJueseCount(Fenye<Juese> fenye);
 	/**
-	 * 查看所有角色
+	 * 查看所有角色分页
 	 * @return
 	 */
 	List<Juese> selectJueseAll(Fenye<Juese> fenye);
+	/**
+	 * 查看所有角色不分页
+	 * @return
+	 */
+	List<Juese> selectJuese();
+	/**
+	 * 查看一个用户的所有角色
+	 * @param us_id
+	 * @return
+	 */
+	List<Juese> selectJuese_us_id(Integer us_id);
 	/**
 	 * 添加一个角色
 	 * @param juese

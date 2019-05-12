@@ -1,5 +1,7 @@
 package com.crm.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crm.entity.Fenye;
 import com.crm.entity.Juese;
+import com.crm.entity.Juese_mokuai;
+import com.crm.entity.MokuaiTree;
 import com.crm.service.JueseService;
 
 @Controller
@@ -49,6 +53,16 @@ public class JueseController {
 	@ResponseBody
 	public Integer juese_shanchu(Integer js_id) {
 		return jueseServiceimp.deleteJuese(js_id);
+	}
+	@RequestMapping(value = "juese_chakan_mokuaitree",method = RequestMethod.POST)
+	@ResponseBody
+	public List<MokuaiTree> juese_chakan_mokuaitree(Integer js_id) {
+		return jueseServiceimp.selectJuese_mktree(js_id);
+	}
+	@RequestMapping(value = "juese_mokuai_tianjia",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer juese_mokuai_tianjia(String mkids,Integer js_id) {
+		return jueseServiceimp.xiugaiJuese_mokuai(mkids, js_id);
 	}
 
 }

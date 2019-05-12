@@ -1,5 +1,8 @@
 package com.crm.entity;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Genzongrizhi {
 private Integer gz_id;
 private Integer gz_xuesheng;

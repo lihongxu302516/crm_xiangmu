@@ -1,5 +1,8 @@
 package com.crm.entity;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Student {
 private Integer xs_id;
 private String xs_chuangjiantime;

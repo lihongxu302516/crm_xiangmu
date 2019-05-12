@@ -1,5 +1,8 @@
 package com.crm.entity;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Mokuai {
 private Integer mk_id;
 private String mk_name;

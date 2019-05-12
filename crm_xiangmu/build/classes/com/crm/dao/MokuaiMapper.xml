@@ -18,15 +18,27 @@
 		mk_name=#{mk_name},mk_fuid=#{mk_fuid},mk_checked=#{mk_checked},mk_lujing=#{mk_lujing},mk_exe1=#{mk_exe1},mk_exe2=#{mk_exe2}
 		WHERE mk_id=#{mk_id}
 	</update>
-	
+
 	<delete id="deleteMokuai" parameterType="int">
-	DELETE FROM mokuai WHERE mk_id=#{mk_id}
+		DELETE FROM mokuai WHERE mk_id=#{mk_id}
 	</delete>
-	
-	<select id="selectMokuai_mk_id" parameterType="int" resultType="mokuai">
-	SELECT
+
+	<select id="selectMokuai_mk_id" parameterType="int"
+		resultType="mokuai">
+		SELECT
 		mk_id,mk_name,mk_fuid,mk_checked,mk_lujing,mk_exe1,mk_exe2 FROM
-		mokuai WHERE mk_id=#{mk_id}
+		mokuai
+		WHERE mk_id=#{mk_id}
+	</select>
+
+	<select id="selectMokuai_js_id" parameterType="juese_mokuai"
+		resultType="int">
+		SELECT COUNT(jm_id) FROM juese_mokuai WHERE jm_jueseid=#{jm_jueseid} AND jm_mokuaiid=#{jm_mokuaiid}
+	</select>
+	
+	<select id="selectMokuai_js_idAll" parameterType="int" resultType="mokuai">
+	SELECT mk_id,mk_name,mk_fuid,mk_checked,mk_lujing,mk_exe1,mk_exe2 FROM
+		mokuai FROM juese_mokuai WHERE jm_jueseid=#{jm_jueseid}
 	</select>
 
 </mapper>

@@ -2,6 +2,8 @@ package com.crm.entity;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+@Component
 public class Juese {
 private Integer js_id;
 private String js_name;

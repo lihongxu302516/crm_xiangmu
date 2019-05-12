@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.crm.entity.Fenye;
 import com.crm.entity.User;
+import com.crm.entity.User_juese;
 
 public interface UserMapper {
 	/**
@@ -54,5 +55,17 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer deleteUser_Juese(Integer us_id);
+	/**
+	 * 给用户添加一个角色
+	 * @param uj
+	 * @return
+	 */
+	Integer insertuser_juese(User_juese uj);
+	/**
+	 * 删除一个用户角色
+	 * @param uj
+	 * @return
+	 */
+	Integer deleteuser_juese(User_juese uj);
 
 }

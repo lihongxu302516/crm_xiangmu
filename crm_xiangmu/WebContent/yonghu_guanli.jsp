@@ -183,8 +183,8 @@ div {
 				data-options="rownumbers:true,singleSelect:true,fitColumns:true,method:'post'">
 				<thead>
 					<tr>
-						<th data-options="field:'Id',width:280,hidden:true">用户ID</th>
-						<th data-options="field:'Name',width:100">系统所有角色</th>
+						<th data-options="field:'js_id',width:280,hidden:true">用户ID</th>
+						<th data-options="field:'js_name',width:100">系统所有角色</th>
 					</tr>
 				</thead>
 			</table>
@@ -202,8 +202,8 @@ div {
 				data-options="rownumbers:true,singleSelect:true,fitColumns:true,method:'post'">
 				<thead>
 					<tr>
-						<th data-options="field:'Id',width:280,hidden:true">用户ID</th>
-						<th data-options="field:'Name',width:200">当前用户角色</th>
+						<th data-options="field:'js_id',width:280,hidden:true">用户ID</th>
+						<th data-options="field:'js_name',width:200">当前用户角色</th>
 					</tr>
 				</thead>
 			</table>
@@ -292,14 +292,14 @@ div {
 	</div>
 </body>
 <script type="text/javascript">
+var yonghuid=null;
 	function fenpei() {
 		var js = $("#js_left").datagrid("getSelections")[0];
-		$.post(easyuiData.server + "/api/AddUserToRole", {
-			uId : yonghuid,
-			rId : js.Id,
-			token : easyuiData.mytoken
+		$.post("user_juese_tianjia", {
+			uj_userid : yonghuid,
+			uj_jueseid : js.js_id
 		}, function(res) {
-			if (res.success) {
+			if (res==1) {
 				$("#js_left").datagrid("reload");
 				$("#js_right").datagrid("reload");
 				$.messager.show({
@@ -331,12 +331,11 @@ div {
 
 	function yichu() {
 		var js = $("#js_right").datagrid("getSelections")[0];
-		$.post(easyuiData.server + "/api/RemoveUserFromRole", {
-			uId : yonghuid,
-			rId : js.Id,
-			token : easyuiData.mytoken
+		$.post("user_juese_shanchu", {
+			uj_userid : yonghuid,
+			uj_jueseid : js.js_id
 		}, function(res) {
-			if (res.success) {
+			if (res==1) {
 				$("#js_left").datagrid("reload");
 				$("#js_right").datagrid("reload");
 				$.messager.show({
@@ -400,20 +399,16 @@ div {
 		var data = $("#dg").datagrid("getData");
 		var row = data.rows[index];
 		$("#js_left").datagrid({
-			url : easyuiData.server + '/api/GetRolesAll', //数据接口的地址
-			queryParams : { //要发送的参数列表
-				token : easyuiData.mytoken,
-			}
+			url : "chakan_user_jueseall" //数据接口的地址	
 		});
 		$("#js_right").datagrid({
-			url : easyuiData.server + '/api/GetRoleByUserId', //数据接口的地址
-			queryParams : { //要发送的参数列表
-				uId : row.Id,
-				token : easyuiData.mytoken
+			url : "chakan_user_juese_us_id", //数据接口的地址
+			queryParams: {
+				us_id : row.us_id
 			}
 		});
 		yonghuid = null;
-		yonghuid = row.Id;
+		yonghuid = row.us_id;
 		$('#jsmokuai').window({
 			title : "您正在设置" + row.LoginName + "的角色信息"
 		});
