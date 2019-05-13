@@ -34,7 +34,7 @@ public class LoginServiceimp implements LoginService {
 		// TODO Auto-generated method stub
 		int jg=0;
 		String us_name=user.getUs_name();
-		if(request.getSession().getAttribute("yanzhengmatext").equals(yanzhengma)) {
+		if(request.getSession().getAttribute("yanzhengmatext").toString().trim().equalsIgnoreCase(yanzhengma.trim())) {
 			if(loginMapper.selectUser_Login_username(us_name)==1) {
 				if(!"0".equals(yanzhengma)) {
 					user.setUs_password(digestUtil.string2MD5(user.getUs_password()));
