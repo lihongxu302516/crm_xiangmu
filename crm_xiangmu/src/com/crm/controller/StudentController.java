@@ -1,5 +1,7 @@
 package com.crm.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,7 @@ public class StudentController {
 	private Fenye<Student> fenye;
 	
 	@RequestMapping(value = "student_guanli")
-	public String student() {
+	public String student(HttpServletRequest request) {
 		return "student_guanli";
 	}
 	@RequestMapping(value = "student_xianshi",method = RequestMethod.POST)
