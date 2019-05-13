@@ -3,6 +3,7 @@ package com.crm.util;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,11 @@ public class WrongCodeInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     	if (request.getSession().getAttribute("user") == null) {
 			request.getRequestDispatcher("login").forward(request, response);
-		}
+		} /*
+			 * else { PrintWriter writer = response.getWriter();
+			 * writer.print("<script>alert('111111')</script>"); writer.flush();
+			 * writer.close(); }
+			 */
     	return true;
     }
  
