@@ -67,11 +67,5 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer deleteuser_juese(User_juese uj);
-	/**
-	 * 员工签到打卡
-	 * @param us
-	 * @return
-	 */
-	Integer updateUser_daka(User us);
 
 }

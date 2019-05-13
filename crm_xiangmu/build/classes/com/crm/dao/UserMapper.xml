@@ -110,12 +110,5 @@
 	<delete id="deleteuser_juese" parameterType="user_juese">
 	DELETE FROM user_juese WHERE uj_userid=#{uj_userid} and uj_jueseid=#{uj_jueseid}
 	</delete>
-	
-	<update id="updateUser_daka" parameterType="user">
-	UPDATE `user` SET us_isdaka=#{us_isdaka},us_dakatime=#{us_dakatime} 
-	<if test="us_id!=null and us_id!=''">
-	WHERE us_id=#{us_id}
-	</if>
-	</update>
 
 </mapper>
