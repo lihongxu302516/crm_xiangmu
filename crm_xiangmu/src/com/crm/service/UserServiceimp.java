@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import com.crm.dao.UserMapper;
 import com.crm.entity.Fenye;
 import com.crm.entity.User;
 import com.crm.entity.User_juese;
+import com.crm.util.ShijianQujian;
 
 @Service
 public class UserServiceimp implements UserService {
@@ -22,6 +25,8 @@ public class UserServiceimp implements UserService {
 	LoginMapper loginMapper;
 	@Autowired
 	JueseMapper jueseMapper;
+	@Autowired
+	ShijianQujian shijianQujian;
 
 	@Override
 	public Fenye<User> selectUserAll(Fenye<User> fenye) {
@@ -101,6 +106,21 @@ public class UserServiceimp implements UserService {
 	public Integer deleteuser_juese(User_juese uj) {
 		// TODO Auto-generated method stub
 		return usermapper.deleteuser_juese(uj);
+	}
+
+	@Override
+	public Integer updateUser_daka(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		User user = (User)request.getSession().getAttribute("user");
+		String sj = getdangqianshijian();
+		user.setUs_dakatime(sj);
+		boolean is_shijianq = shijianQujian.is_shijianq("8:00", "9:00");
+		if(is_shijianq) {
+			user.setUs_isdaka(1);
+		}else {
+			user.setUs_isdaka(3);
+		}
+		return usermapper.updateUser_daka(user);
 	}
 
 }

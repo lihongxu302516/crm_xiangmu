@@ -56,7 +56,7 @@ div {
 				<th data-options="field:'us_quanzhong',sortable:true">权重</th>
 				<th data-options="field:'us_pingfen',sortable:true">评分</th>
 				<th data-options="field:'us_pingfenrenshu',sortable:true">评分人数</th>
-				<th data-options="field:'us_isdaka',sortable:true">是否打卡</th>
+				<th data-options="field:'us_isdaka',sortable:true,formatter:ff_us_isdaka">是否打卡</th>
 				<th data-options="field:'us_isdakatime',sortable:true">打卡时间</th>
 				<th data-options="field:'us_biezhu',sortable:true">备注</th>
 				<th data-options="field:'jueseshezhi',formatter:jueseshezhi">角色设置</th>
@@ -292,6 +292,9 @@ div {
 	</div>
 </body>
 <script type="text/javascript">
+
+
+
 var yonghuid=null;
 	function fenpei() {
 		var js = $("#js_left").datagrid("getSelections")[0];
@@ -453,6 +456,17 @@ var yonghuid=null;
 				+ index
 				+ ",1)'>锁定用户</a>&nbsp;&nbsp;<a href='javascript:void(0)' class='easyui-linkbuton' onclick='suo_jie("
 				+ index + ",2)'>解锁用户</a>";
+	}
+	function ff_us_isdaka(value, row, index){
+		if(row.us_isdaka==1){
+			return "已打卡";
+		}else if(row.us_isdaka==2){
+			return "未打卡";
+		}else if(row.us_isdaka==3){
+			return "迟到";
+		}else{
+			return "未知状态";
+		}
 	}
 
 	function chongzhi(index) {

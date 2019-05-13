@@ -3,6 +3,7 @@ package com.crm.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,6 +83,11 @@ public class UserController {
 	@ResponseBody
 	public Integer user_juese_shanchu(User_juese uj) {
 		return userServiceimp.deleteuser_juese(uj);
+	}
+	@RequestMapping(value = "user_daka",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer user_daka(HttpServletRequest request) {
+		return userServiceimp.updateUser_daka(request);
 	}
 
 }
