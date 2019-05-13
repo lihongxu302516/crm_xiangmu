@@ -89,5 +89,20 @@ public class UserController {
 	public Integer user_daka(HttpServletRequest request) {
 		return userServiceimp.updateUser_daka(request);
 	}
+	@RequestMapping(value = "updateUser_qiantui_dan",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateUser_qiantui_dan(Integer us_id) {
+		return userServiceimp.updateUser_qiantui_dan(us_id);
+	}
+	@RequestMapping(value = "updateUser_qiantui_duo",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateUser_qiantui_duo(String us_ids) {
+		return userServiceimp.updateUser_qiantui_duo(us_ids);
+	}
+	@RequestMapping(value = "updateUser_qiantui_quan",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateUser_qiantui_quan() {
+		return userServiceimp.updateUser_qiantui_quan();
+	}
 
 }

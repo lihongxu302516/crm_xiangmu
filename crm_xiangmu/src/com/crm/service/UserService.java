@@ -1,5 +1,7 @@
 package com.crm.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.crm.entity.Fenye;
@@ -60,4 +62,22 @@ public interface UserService {
 	 * @return
 	 */
 	Integer updateUser_daka(HttpServletRequest request);
+	/**
+	 * 单员工签退
+	 * @param us_id
+	 * @return
+	 */
+	Integer updateUser_qiantui_dan(Integer us_id);
+	/**
+	 * 多员工签退
+	 * @param us_id
+	 * @return
+	 */
+	Integer updateUser_qiantui_duo(String us_ids);
+	/**
+	 * 全部员工签退
+	 * @param us_id
+	 * @return
+	 */
+	Integer updateUser_qiantui_quan();
 }

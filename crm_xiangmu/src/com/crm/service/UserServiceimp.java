@@ -1,6 +1,7 @@
 package com.crm.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -122,6 +123,29 @@ public class UserServiceimp implements UserService {
 			user.setUs_isdaka(3);
 		}
 		return usermapper.updateUser_daka(user);
+	}
+
+	@Override
+	public Integer updateUser_qiantui_dan(Integer us_id) {
+		// TODO Auto-generated method stub
+		return usermapper.updateUser_qiantui_dan(us_id);
+	}
+
+	@Override
+	public Integer updateUser_qiantui_duo(String us_ids) {
+		// TODO Auto-generated method stub
+		List<Integer> list=new ArrayList<Integer>();
+		String[] split = us_ids.split(",");
+		for(int i=0;i<split.length;i++) {
+			list.add(Integer.parseInt(split[i]));
+		}
+		return usermapper.updateUser_qiantui_duo(list);
+	}
+
+	@Override
+	public Integer updateUser_qiantui_quan() {
+		// TODO Auto-generated method stub
+		return usermapper.updateUser_qiantui_quan();
 	}
 
 }

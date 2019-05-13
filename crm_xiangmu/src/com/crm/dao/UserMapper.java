@@ -73,9 +73,23 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer updateUser_daka(User us);
-	
+	/**
+	 * 单员工签退
+	 * @param us_id
+	 * @return
+	 */
 	Integer updateUser_qiantui_dan(Integer us_id);
-	
+	/**
+	 * 多员工签退
+	 * @param us_id
+	 * @return
+	 */
 	Integer updateUser_qiantui_duo(List<Integer> list);
+	/**
+	 * 全部员工签退
+	 * @param us_id
+	 * @return
+	 */
+	Integer updateUser_qiantui_quan();
 
 }

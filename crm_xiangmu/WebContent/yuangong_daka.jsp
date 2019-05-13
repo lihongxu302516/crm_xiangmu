@@ -13,7 +13,7 @@
 		data-options="rownumbers:true,pagination:true,fitColumns:true,method:'post',toolbar:'#usertb',pageSize:10">
 		<thead>
 			<tr>
-				
+
 				<th data-options="field:'checkbox',sortable:true,checkbox:true">用户ID</th>
 				<th data-options="field:'us_id',sortable:true">用户ID</th>
 				<th data-options="field:'us_name',sortable:true">用户名</th>
@@ -28,7 +28,8 @@
 				<th data-options="field:'us_quanzhong',sortable:true">权重</th>
 				<th data-options="field:'us_pingfen',sortable:true">评分</th>
 				<th data-options="field:'us_pingfenrenshu',sortable:true">评分人数</th>
-				<th data-options="field:'us_isdaka',sortable:true,formatter:ff_us_isdaka">是否打卡</th>
+				<th
+					data-options="field:'us_isdaka',sortable:true,formatter:ff_us_isdaka">是否打卡</th>
 				<th data-options="field:'us_dakatime',sortable:true">打卡时间</th>
 				<th data-options="field:'us_biezhu',sortable:true">备注</th>
 				<th data-options="field:'caozuo',formatter:caozuo">操作</th>
@@ -80,7 +81,11 @@
 				<option value="us_pingfen">评分</option>
 				<option value="us_dakatime">打卡时间</option>
 			</select> <br> <a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-search" onclick="searchUserInfo()">查找</a>
+				iconCls="icon-search" onclick="searchUserInfo()">查找</a> <a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="updateUser_qiantui_duo()">批量签退</a> <a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="updateUser_qiantui_quan()">全部签退</a>
 		</div>
 	</div>
 </body>
@@ -115,7 +120,6 @@
 				});
 	}
 
-	
 	$(function() {
 		searchUserInfo();
 	});
@@ -126,23 +130,207 @@
 		return "<a href='javascript:void(0)' class='easyui-linkbuton' onclick='yg_qiantui("
 				+ index + ")'>签退</a>";
 	}
-	function ff_us_isdaka(value, row, index){
-		if(row.us_isdaka==1){
+	function ff_us_isdaka(value, row, index) {
+		if (row.us_isdaka == 1) {
 			return "已打卡";
-		}else if(row.us_isdaka==2){
+		} else if (row.us_isdaka == 2) {
 			return "未打卡";
-		}else if(row.us_isdaka==3){
+		} else if (row.us_isdaka == 3) {
 			return "迟到";
-		}else{
+		} else {
 			return "未知状态";
 		}
 	}
-	function yg_qiantui(index){
-		
-		
-		
+	function yg_qiantui(index) {
+		var us_isdaka = $("#dg").datagrid("getData").rows[index].us_isdaka;
+		if (us_isdaka == 2) {
+			$.messager.show({
+				title : '我的消息',
+				msg : '当前未签到，无法签退！',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		} else {
+			$.messager
+					.confirm(
+							'确认',
+							'您确认想要把该员工签退吗？',
+							function(r) {
+								if (r) {
+									$
+											.post(
+													"updateUser_qiantui_dan",
+													{
+														us_id : $("#dg")
+																.datagrid(
+																		"getData").rows[index].us_id
+													},
+													function(res) {
+														if (res == 1) {
+															$("#dg").datagrid(
+																	"reload");
+															$.messager
+																	.show({
+																		title : '我的消息',
+																		msg : '签退成功',
+																		timeout : 1000,
+																		showType : 'slide',
+																		style : {
+																			top : document.body.scrollTop
+																					+ document.documentElement.scrollTop,
+																		}
+																	});
+														} else {
+															$.messager
+																	.show({
+																		title : '我的消息',
+																		msg : '签退失败',
+																		timeout : 1000,
+																		showType : 'slide',
+																		style : {
+																			top : document.body.scrollTop
+																					+ document.documentElement.scrollTop,
+																		}
+																	});
+														}
+													});
+								}
+							});
+		}
 	}
 
-	
+	function updateUser_qiantui_quan() {
+		$.messager.confirm('确认', '您确认想要把所有员工签退吗？', function(r) {
+			if (r) {
+				$.post("updateUser_qiantui_quan", {}, function(res) {
+					if (res > 0) {
+						$("#dg").datagrid("reload");
+						$.messager.show({
+							title : '我的消息',
+							msg : '所有员工签退成功',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					} else {
+						$.messager.show({
+							title : '我的消息',
+							msg : '签退失败',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+
+	function updateUser_qiantui_duo() {
+		var row = $("#dg").datagrid("getSelections");
+		if (row != null && row!="") {
+			var us_ids = "";
+			var xz_ids = "";
+			var ss = 0;
+			var pp = 0;
+			for (var i = 0; i < row.length; i++) {
+				if (row[i].us_isdaka == 2) {
+					if (pp == 0) {
+						xz_ids = xz_ids + row[i].us_id;
+						pp++;
+					} else {
+						xz_ids = xz_ids + "," + row[i].us_id;
+					}
+				} else {
+					if (ss == 0) {
+						us_ids = us_ids + row[i].us_id;
+						ss++;
+					} else {
+						us_ids = us_ids + "," + row[i].us_id;
+					}
+				}
+
+			}
+			if (xz_ids == "") {
+				$.messager
+						.confirm(
+								'确认',
+								'您确认把选中的员工签退吗？',
+								function(r) {
+									if (r) {
+										$
+												.post(
+														"updateUser_qiantui_duo",
+														{
+															us_ids : us_ids
+														},
+														function(res) {
+															if (res > 0) {
+																$("#dg")
+																		.datagrid(
+																				"reload");
+																$.messager
+																		.show({
+																			title : '我的消息',
+																			msg : '所有选中的员工签退成功',
+																			timeout : 1000,
+																			showType : 'slide',
+																			style : {
+																				top : document.body.scrollTop
+																						+ document.documentElement.scrollTop,
+																			}
+																		});
+															} else {
+																$.messager
+																		.show({
+																			title : '我的消息',
+																			msg : '签退失败',
+																			timeout : 1000,
+																			showType : 'slide',
+																			style : {
+																				top : document.body.scrollTop
+																						+ document.documentElement.scrollTop,
+																			}
+																		});
+															}
+														}, "json");
+									}
+								});
+			} else {
+				$.messager.show({
+					title : '我的消息',
+					msg : '员工编号为' + xz_ids + "的员工，未处于签到状态，请重新选择！！！",
+					timeout : 3000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			}
+			;
+		} else {
+			$.messager.show({
+				title : '我的消息',
+				msg : '未选中员工，请选择！',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
+	}
 </script>
 </html>

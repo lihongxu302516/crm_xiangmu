@@ -117,5 +117,18 @@
 	WHERE us_id=#{us_id}
 	</if>
 	</update>
+	
+	<update id="updateUser_qiantui_dan" parameterType="int">
+	UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE us_id=#{us_id}
+	</update>
+	
+	<update id="updateUser_qiantui_duo" parameterType="list">
+	UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE us_id in
+	<foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+	</update>
+	
+	<update id="updateUser_qiantui_quan">
+	UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00'
+	</update>
 
 </mapper>
