@@ -35,8 +35,12 @@ public class LoginController {
 			user.setUs_name(us_name.getValue());
 			user.setUs_password(us_password.getValue());
 			request.getSession().setAttribute("yanzhengmatext", "0");;
-			denglu(user, "0", request, response);
-			return "home";
+			int denglu = denglu(user, "0", request, response);
+			if(denglu==0) {
+				return "home";
+			}else {
+				return "login";
+			}
 		}else {
 			return "login";
 		}

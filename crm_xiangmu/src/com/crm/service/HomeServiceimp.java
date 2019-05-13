@@ -19,18 +19,20 @@ public class HomeServiceimp implements HomeService {
 		// TODO Auto-generated method stub
 		User user = (User)requer.getSession().getAttribute("user");
 		List<Juese> juese = user.getJuese();
-		String jg="<ul id=\"treeUlId\" class=\"easyui-tree\"><li>";
+		String jg="<ul id=\"treeUlId\" class=\"easyui-tree\">";
 		for(int i=0;i<juese.size();i++) {
 			List<Mokuai> mokuai = juese.get(i).getMokuai();
 			for(int j=0;j<mokuai.size();j++) {
 				Mokuai mokuai2 = mokuai.get(j);
 				if(mokuai2.getMk_fuid()==0) {
-					jg=jg+"<span><a title=\""+mokuai2.getMk_id()+"\" onclick=\"navTab('"+mokuai2.getMk_name()+"','')\">"+mokuai2.getMk_name()+"</a></span>";
+					jg=jg+"<li>";
+					jg=jg+"<span><a title=\""+mokuai2.getMk_id()+"\" onclick=\"navTab('"+mokuai2.getMk_name()+"','"+mokuai2.getMk_lujing()+"')\">"+mokuai2.getMk_name()+"</a></span>";
 					jg = tree(jg, mokuai, mokuai2);
+					jg=jg+"</li>";
 				}
 			}
 		}
-		jg=jg+"</li></ul>";
+		jg=jg+"</ul>";
 		return jg;
 	}
 	private String tree(String jg, List<Mokuai> mokuai, Mokuai mokuai2) {
