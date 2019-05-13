@@ -10,9 +10,6 @@ import com.crm.entity.Juese;
 import com.crm.entity.Mokuai;
 import com.crm.entity.User;
 
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +28,6 @@ public class WrongCodeInterceptor implements HandlerInterceptor {
 		} else {
 			User user = new User();
 			user = loginMapper.selectUser_Login_password((User)request.getSession().getAttribute("user"));
-			System.out.println("++++"+user);
-			System.out.println(user.getUs_id());
 			List<Juese> selectJuese = loginMapper.selectJuese(user.getUs_id());
 			for (int i = 0; i < selectJuese.size(); i++) {
 				List<Mokuai> selectMokuai = loginMapper.selectMokuai(selectJuese.get(i).getJs_id());

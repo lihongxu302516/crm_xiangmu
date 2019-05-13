@@ -57,7 +57,7 @@ div {
 				<th data-options="field:'us_pingfen',sortable:true">评分</th>
 				<th data-options="field:'us_pingfenrenshu',sortable:true">评分人数</th>
 				<th data-options="field:'us_isdaka',sortable:true,formatter:ff_us_isdaka">是否打卡</th>
-				<th data-options="field:'us_isdakatime',sortable:true">打卡时间</th>
+				<th data-options="field:'us_dakatime',sortable:true">打卡时间</th>
 				<th data-options="field:'us_biezhu',sortable:true">备注</th>
 				<th data-options="field:'jueseshezhi',formatter:jueseshezhi">角色设置</th>
 				<th data-options="field:'suodingyonghu',formatter:suodingyonghu">锁定用户</th>

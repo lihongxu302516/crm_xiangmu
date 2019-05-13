@@ -73,5 +73,9 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer updateUser_daka(User us);
+	
+	Integer updateUser_qiantui_dan(Integer us_id);
+	
+	Integer updateUser_qiantui_duo(List<Integer> list);
 
 }
