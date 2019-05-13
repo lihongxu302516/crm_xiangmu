@@ -104,5 +104,10 @@ public class UserController {
 	public Integer updateUser_qiantui_quan() {
 		return userServiceimp.updateUser_qiantui_quan();
 	}
+	@RequestMapping(value = "updateUser_ygxx",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateUser_ygxx(User user) {
+		return userServiceimp.updateUser_ygxx(user);
+	}
 
 }

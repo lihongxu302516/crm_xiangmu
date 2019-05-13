@@ -95,40 +95,53 @@
 	</update>
 
 	<delete id="deleteUser" parameterType="int">
-		DELETE FROM `user` WHERE us_id=#{us_id}
+		DELETE FROM `user` WHERE
+		us_id=#{us_id}
 	</delete>
 
 	<delete id="deleteUser_Juese" parameterType="int">
-		DELETE FROM user_juese WHERE uj_userid=#{us_id}
+		DELETE FROM
+		user_juese WHERE uj_userid=#{us_id}
 	</delete>
 
 	<insert id="insertuser_juese" parameterType="user_juese">
-		INSERT INTO user_juese(uj_userid,uj_jueseid,uj_exe1,uj_exe2)
+		INSERT INTO
+		user_juese(uj_userid,uj_jueseid,uj_exe1,uj_exe2)
 		VALUES(#{uj_userid},#{uj_jueseid},#{uj_exe1},#{uj_exe2})
 	</insert>
-	
+
 	<delete id="deleteuser_juese" parameterType="user_juese">
-	DELETE FROM user_juese WHERE uj_userid=#{uj_userid} and uj_jueseid=#{uj_jueseid}
+		DELETE FROM user_juese WHERE uj_userid=#{uj_userid} and
+		uj_jueseid=#{uj_jueseid}
 	</delete>
-	
+
 	<update id="updateUser_daka" parameterType="user">
-	UPDATE `user` SET us_isdaka=#{us_isdaka},us_dakatime=#{us_dakatime} 
-	<if test="us_id!=null and us_id!=''">
-	WHERE us_id=#{us_id}
-	</if>
+		UPDATE `user` SET us_isdaka=#{us_isdaka},us_dakatime=#{us_dakatime}
+		<if test="us_id!=null and us_id!=''">
+			WHERE us_id=#{us_id}
+		</if>
 	</update>
-	
+
 	<update id="updateUser_qiantui_dan" parameterType="int">
-	UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE us_id=#{us_id}
+		UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE
+		us_id=#{us_id}
 	</update>
-	
+
 	<update id="updateUser_qiantui_duo" parameterType="list">
-	UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE us_id in
-	<foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+		UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE
+		us_id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">#{item}</foreach>
 	</update>
-	
+
 	<update id="updateUser_qiantui_quan">
-	UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00'
+		UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00'
+	</update>
+
+	<update id="updateUser_ygxx" parameterType="user">
+		UPDATE `user` SET
+		us_name=#{us_name},us_shojihao=#{us_shojihao},us_youxiang=#{us_youxiang},us_biezhu=#{us_biezhu}
+		WHERE us_id=#{us_id}
 	</update>
 
 </mapper>

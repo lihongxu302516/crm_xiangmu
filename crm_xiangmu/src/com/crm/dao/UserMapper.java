@@ -91,5 +91,11 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer updateUser_qiantui_quan();
+	/**
+	 * 员工修改自己信息
+	 * @param user
+	 * @return
+	 */
+	Integer updateUser_ygxx(User user);
 
 }

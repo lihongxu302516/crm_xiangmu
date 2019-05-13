@@ -1,6 +1,5 @@
 package com.crm.service;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -80,4 +79,10 @@ public interface UserService {
 	 * @return
 	 */
 	Integer updateUser_qiantui_quan();
+	/**
+	 * 员工修改自己信息
+	 * @param user
+	 * @return
+	 */
+	Integer updateUser_ygxx(User user);
 }

@@ -36,7 +36,7 @@ div {
 						&nbsp;&nbsp;&nbsp;今天已打卡！好棒棒！ </span>
 				</c:otherwise>
 			</c:choose>
-			<h1 style="float: left; margin-left: 30%;">云 时 代 欢 迎 您 ! ! !</h1>
+			<h1 style="float: left; margin-left: 15%;">云 时 代 欢 迎 您 ! ! !</h1>
 			<span
 				style="display: block; text-align: right; margin-top: 20px; margin-right: 30px;">
 				语言: <select id="yuyan" data-options="editable:false"

@@ -148,4 +148,10 @@ public class UserServiceimp implements UserService {
 		return usermapper.updateUser_qiantui_quan();
 	}
 
+	@Override
+	public Integer updateUser_ygxx(User user) {
+		// TODO Auto-generated method stub
+		return usermapper.updateUser_ygxx(user);
+	}
+
 }
