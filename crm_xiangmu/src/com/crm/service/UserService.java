@@ -1,7 +1,5 @@
 package com.crm.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.crm.entity.Fenye;
 import com.crm.entity.User;
 import com.crm.entity.User_juese;
@@ -55,9 +53,4 @@ public interface UserService {
 	 * @return
 	 */
 	Integer deleteuser_juese(User_juese uj);
-	/**
-	 * 员工签到打卡
-	 * @return
-	 */
-	Integer updateUser_daka(HttpServletRequest request);
 }
