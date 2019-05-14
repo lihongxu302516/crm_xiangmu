@@ -85,4 +85,16 @@ public interface UserService {
 	 * @return
 	 */
 	Integer updateUser_ygxx(User user);
+	/**
+	 * 获取手机号验证码
+	 * @param request
+	 * @return
+	 */
+	Integer shoujihaoyanzheng(HttpServletRequest request);
+	/**
+	 * 员工修改自己的密码
+	 * @param user
+	 * @return
+	 */
+	Integer updateUser_password(HttpServletRequest request,String us_yan_pas,String us_xin_pas2,String yanzhengma);
 }

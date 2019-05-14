@@ -109,5 +109,15 @@ public class UserController {
 	public Integer updateUser_ygxx(User user) {
 		return userServiceimp.updateUser_ygxx(user);
 	}
+	@RequestMapping(value = "shoujihaoyanzheng",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer shoujihaoyanzheng(HttpServletRequest request) {
+		return userServiceimp.shoujihaoyanzheng(request);
+	}
+	@RequestMapping(value = "updateUser_password",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateUser_password(HttpServletRequest request,String us_yan_pas,String us_xin_pas2,String yanzhengma) {
+		return userServiceimp.updateUser_password(request,us_yan_pas,us_xin_pas2, yanzhengma);
+	}
 
 }

@@ -97,5 +97,11 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer updateUser_ygxx(User user);
+	/**
+	 * 员工修改自己的密码
+	 * @param user
+	 * @return
+	 */
+	Integer updateUser_password(User user);
 
 }

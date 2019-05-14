@@ -14,8 +14,10 @@ import com.crm.dao.JueseMapper;
 import com.crm.dao.LoginMapper;
 import com.crm.dao.UserMapper;
 import com.crm.entity.Fenye;
+import com.crm.entity.IndustrySMS;
 import com.crm.entity.User;
 import com.crm.entity.User_juese;
+import com.crm.util.DigestUtil;
 import com.crm.util.ShijianQujian;
 
 @Service
@@ -28,6 +30,8 @@ public class UserServiceimp implements UserService {
 	JueseMapper jueseMapper;
 	@Autowired
 	ShijianQujian shijianQujian;
+	@Autowired
+	DigestUtil digestUtil;
 
 	@Override
 	public Fenye<User> selectUserAll(Fenye<User> fenye) {
@@ -87,7 +91,6 @@ public class UserServiceimp implements UserService {
 		// TODO Auto-generated method stub
 		return usermapper.updateUser(user);
 	}
-
 	@Override
 	public Integer deleteUser(Integer us_id) {
 		// TODO Auto-generated method stub
@@ -153,5 +156,44 @@ public class UserServiceimp implements UserService {
 		// TODO Auto-generated method stub
 		return usermapper.updateUser_ygxx(user);
 	}
+	public Integer shoujihaoyanzheng(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");
+			if (user.getUs_shojihao()!=null && user.getUs_shojihao()!="" ) {
+				if(user.getUs_shojihao().length()==11) {
+					int yanzhengma = (int) (Math.random() * (999999 - 100000 + 1) + 100000);
+					IndustrySMS.execute(user.getUs_shojihao(), yanzhengma);
+					request.getSession().setAttribute("yanzhengma", yanzhengma);
+					return 0;
+				}else {
+					return 2;
+				}
+			} else {
+				return 1;
+			}
+	}
+
+	@Override
+	public Integer updateUser_password(HttpServletRequest request,String us_yan_pas,String us_xin_pas2,String yanzhengma) {
+		// TODO Auto-generated method stub
+		User user = (User)request.getSession().getAttribute("user");
+		if(yanzhengma!=null && yanzhengma!="") {
+			if(request.getSession().getAttribute("yanzhengma").toString().equals(yanzhengma.trim())) {
+				if(user.getUs_password().equals(digestUtil.string2MD5(us_yan_pas))) {
+					String string2md5 = digestUtil.string2MD5(us_xin_pas2);
+					user.setUs_password(string2md5);
+					request.getSession().setAttribute("user", user);
+					Integer updateUser_password = usermapper.updateUser_password(user);
+					return updateUser_password;
+				}else {
+					return 4;
+				}
+			}else {
+				return 3;
+			}
+		}else {
+			return 2;
+		}
+	}
+	
 
 }

@@ -143,5 +143,9 @@
 		us_name=#{us_name},us_shojihao=#{us_shojihao},us_youxiang=#{us_youxiang},us_biezhu=#{us_biezhu}
 		WHERE us_id=#{us_id}
 	</update>
+	
+	<update id="updateUser_password" parameterType="user">
+	UPDATE `user` SET us_password=#{us_password} WHERE us_id=#{us_id}
+	</update>
 
 </mapper>

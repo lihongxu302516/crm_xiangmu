@@ -8,9 +8,9 @@
 <script src="js/gonggong.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/yincang.js" type="text/javascript" charset="utf-8"></script>
 <style type="text/css">
-#ygxx_div{
-margin-left:20px;
-font-size: 14px;
+#ygxx_div {
+	margin-left: 20px;
+	font-size: 14px;
 }
 </style>
 </head>
@@ -104,12 +104,61 @@ font-size: 14px;
 						value="${user.us_biezhu}" style="width: 300px"></td>
 				</tr>
 			</table>
-			<a style="margin-left: 120px;margin-top: 10px" id="btn" href="javascript:vodi(0)" onclick="baocun_xinxi()"
+			<a style="margin-left: 120px; margin-top: 10px" id="btn"
+				href="javascript:vodi(0)" onclick="baocun_xinxi()"
 				class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存信息</a>
+			<a style="margin-left: 10px; margin-top: 10px" id="btn"
+				href="javascript:vodi(0)" onclick="dk_xgmm()"
+				class="easyui-linkbutton">修改密码</a>
 		</form>
+	</div>
+	<div id="xgmm_win" class="easyui-window" title="修改密码"
+		style="width: 450px; height: 250px"
+		data-options="iconCls:'icon-save',modal:true">
+
+		<form id="xgmm_form">
+			<table>
+				<tr>
+					<td>原密码：</td>
+					<td><input class="easyui-textbox" data-options="required:true" type="password"
+						id="us_yan_pas" value="" style="width: 300px"></td>
+				</tr>
+				<tr>
+					<td>新密码：</td>
+					<td><input class="easyui-textbox" data-options="required:true" validType="length['3','20']"
+						type="password" name="us_xin_pas1" id="us_xin_pas1"
+						 value="" style="width: 300px"></td>
+				</tr>
+				<tr>
+					<td>重复新密码：</td>
+					<td><input class="easyui-textbox" data-options="required:true" type="password"
+						name="us_xin_pas2" id="us_xin_pas2" value=""
+						validType="equals['us_xin_pas1']" style="width: 300px"></td>
+				</tr>
+				<tr>
+					<td>手机验证码：</td>
+					<td><input class="easyui-textbox" data-options="required:true" id="us_sj_yzm"
+						 value="" validType="length['6','6']"
+						style="width: 300px"></td>
+				</tr>
+				<tr>
+					<td colspan="2"><a
+						style="margin-left: 130px; margin-top: 10px" id="xgmm_btn"
+						href="javascript:vodi(0)" onclick="shoujiyanzhengma()"
+						class="easyui-linkbutton"> 获取手机验证码 </a></td>
+				</tr>
+			</table>
+<a style="margin-left: 155px; margin-top: 10px" id="xgmm_btn"
+				href="javascript:vodi(0)" onclick="xiugai_mima()"
+				class="easyui-linkbutton" data-options="iconCls:'icon-save'"> 保存 </a>
+		</form>
+
 	</div>
 </body>
 <script type="text/javascript">
+$(function(){
+	$('#xgmm_win').window('close');
+})
 	function baocun_xinxi() {
 		$.post("updateUser_ygxx", {
 			us_id : $("#us_id").val(),
@@ -143,8 +192,130 @@ font-size: 14px;
 				});
 			}
 
-		},"json");
+		}, "json");
 
+	}
+	function dk_xgmm(){
+		$('#xgmm_win').window('open');
+	}
+	function xiugai_mima() {
+		if ($("#xgmm_form").form('validate')) {
+			$.post("updateUser_password", {
+				us_yan_pas : $("#us_yan_pas").val(),
+				us_xin_pas2 : $("#us_xin_pas2").val(),
+				yanzhengma : $("#us_sj_yzm").val()
+			}, function(res) {
+				if (res == 1) {
+					$('#xgmm_win').window('close');
+					$.messager.show({
+						title : '我的消息',
+						msg : '修改密码成功',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+					history.go(0);
+				} else if (res == 2) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '验证码为空',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else if (res == 3) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '验证码错误',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else if (res == 4) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '旧密码错误',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else {
+					$.messager.show({
+						title : '我的消息',
+						msg : '修改密码失败',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}
+			}, "json");
+		} else {
+			$.messager.show({
+				title : '我的消息',
+				msg : '对不起，你输入的信息不符合格式！',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
+
+	}
+
+	function shoujiyanzhengma() {
+		$.post("shoujihaoyanzheng", {}, function(res) {
+			if (res == 1) {
+				$.messager.show({
+					title : '我的消息',
+					msg : '对不起，你未绑定手机号！',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			} else if (res == 2) {
+				$.messager.show({
+					title : '我的消息',
+					msg : '手机号不符合格式',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			} else if (res == 0) {
+				$.messager.show({
+					title : '我的消息',
+					msg : '验证码已发送',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			}
+		}, "json");
 	}
 </script>
 </html>
