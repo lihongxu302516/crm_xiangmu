@@ -1,5 +1,7 @@
 package com.crm.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.crm.entity.Fenye;
 import com.crm.entity.Student;
 
@@ -9,13 +11,7 @@ public interface StudentService {
 	 * @param fenye
 	 * @return
 	 */
-	Fenye<Student> selesctStudent(Fenye<Student> fenye);
-	/**
-	 * 查询总条数
-	 * @param fenye
-	 * @return
-	 */
-	Integer selescCount(Fenye<Student> fenye);
+	Fenye<Student> selesctStudent(HttpServletRequest request,Fenye<Student> fenye);
 	/**
 	 * 修改一个学生
 	 * @param student

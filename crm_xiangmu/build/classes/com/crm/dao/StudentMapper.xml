@@ -82,6 +82,9 @@
 			<if test="t.maxxs_nianling !=null and t.maxxs_nianling !='' ">
 				and xs_nianling &gt;=#{t.maxxs_nianling}
 			</if>
+			<if test="t.us_id !=null and t.us_id !='' ">
+				and xs_zixunshi=#{t.us_id} OR xs_lururen=#{t.us_id}
+			</if>
 		</where>
 		limit #{page},#{limit}
 	</select>
@@ -117,6 +120,9 @@
 			</if>
 			<if test="t.maxxs_nianling !=null and t.maxxs_nianling !='' ">
 				and xs_nianling &gt;=#{t.maxxs_nianling}
+			</if>
+			<if test="t.us_id !=null and t.us_id !='' ">
+				and xs_zixunshi=#{t.us_id} OR xs_lururen=#{t.us_id}
 			</if>
 		</where>
 	</select>

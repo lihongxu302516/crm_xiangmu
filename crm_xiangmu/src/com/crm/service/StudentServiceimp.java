@@ -2,11 +2,14 @@ package com.crm.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.crm.dao.StudentMapper;
 import com.crm.entity.Fenye;
+import com.crm.entity.Juese;
 import com.crm.entity.Student;
 import com.crm.entity.User;
 
@@ -16,8 +19,19 @@ public class StudentServiceimp implements StudentService {
 	private StudentMapper studentMapper;
 
 	@Override
-	public Fenye<Student> selesctStudent(Fenye<Student> fenye) {
+	public Fenye<Student> selesctStudent(HttpServletRequest request,Fenye<Student> fenye) {
 		// TODO Auto-generated method stub
+		User user = (User)request.getSession().getAttribute("user");
+		List<Juese> juese = user.getJuese();
+		int is=0;
+		for(int i=0;i<juese.size();i++) {
+			if(juese.get(i).getJs_name().equals("×ÉÑ¯Ê¦")||juese.get(i).getJs_name().equals("ÍøÂç×ÉÑ¯Ê¦")) {
+				is++;
+			}
+		}
+		if(is>0) {
+			fenye.getT().setUs_id(user.getUs_id());
+		}
 		Integer selescCount = studentMapper.selescCount(fenye);
 		fenye.setTotal(selescCount);
 		List<Student> selesctStudent = studentMapper.selesctStudent(fenye);
@@ -29,12 +43,6 @@ public class StudentServiceimp implements StudentService {
 		}
 		fenye.setRows(selesctStudent);
 		return fenye;
-	}
-
-	@Override
-	public Integer selescCount(Fenye<Student> fenye) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

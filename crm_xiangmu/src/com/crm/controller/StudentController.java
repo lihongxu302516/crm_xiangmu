@@ -3,7 +3,6 @@ package com.crm.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,11 +25,11 @@ public class StudentController {
 	}
 	@RequestMapping(value = "student_xianshi",method = RequestMethod.POST)
 	@ResponseBody
-	public Fenye<Student> student_xianshi(Integer page,Integer rows,Student student){
+	public Fenye<Student> student_xianshi(HttpServletRequest request,Integer page,Integer rows,Student student){
 		fenye.setPage(page);
 		fenye.setLimit(rows);
 		fenye.setT(student);
-		fenye = studentService.selesctStudent(fenye);
+		fenye = studentService.selesctStudent(request,fenye);
 		return fenye;
 	}
 	@RequestMapping(value = "updateisyouxiao",method = RequestMethod.POST)

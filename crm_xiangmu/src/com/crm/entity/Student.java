@@ -60,6 +60,7 @@ public class Student {
 	private String maxxs_jinbantime;
 	private Integer minxs_nianling;
 	private Integer maxxs_nianling;
+	private Integer us_id;
 
 	
 	
@@ -432,6 +433,12 @@ public class Student {
 	public void setXs_exe2(String xs_exe2) {
 		this.xs_exe2 = xs_exe2;
 	}
+	public Integer getUs_id() {
+		return us_id;
+	}
+	public void setUs_id(Integer us_id) {
+		this.us_id = us_id;
+	}
 	@Override
 	public String toString() {
 		return "Student [xs_id=" + xs_id + ", xs_chuangjiantime=" + xs_chuangjiantime + ", xs_name=" + xs_name
@@ -456,11 +463,9 @@ public class Student {
 				+ maxxs_shuocihuifangtime + ", minxs_jiaofeitime=" + minxs_jiaofeitime + ", maxxs_jiaofeitime="
 				+ maxxs_jiaofeitime + ", minxs_jinbantime=" + minxs_jinbantime + ", maxxs_jinbantime="
 				+ maxxs_jinbantime + ", minxs_nianling=" + minxs_nianling + ", maxxs_nianling=" + maxxs_nianling
-				+ ", gz_genzongtime=" + gz_genzongtime + ", gz_genzongneirong=" + gz_genzongneirong
+				+ ", us_id=" + us_id + ", gz_genzongtime=" + gz_genzongtime + ", gz_genzongneirong=" + gz_genzongneirong
 				+ ", gz_genzongfangshi=" + gz_genzongfangshi + ", gz_beizhu=" + gz_beizhu + ", gz_xiacigenzongtime="
 				+ gz_xiacigenzongtime + "]";
 	}
-
-
-
+	
 }

@@ -123,8 +123,7 @@ public class UserController {
 	@RequestMapping(value = "cz_shoujihaoyanzheng",method = RequestMethod.POST)
 	@ResponseBody
 	public Integer cz_shoujihaoyanzheng(HttpServletResponse response,HttpServletRequest request,String us_name) {
-		//return userServiceimp.cz_shoujihaoyanzheng(request, us_name);
-		return 1;
+		return userServiceimp.cz_shoujihaoyanzheng(request, us_name);
 	}
 	@RequestMapping(value = "user_cz_mima",method = RequestMethod.POST)
 	@ResponseBody

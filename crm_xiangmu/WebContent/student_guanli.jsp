@@ -252,6 +252,9 @@
 	function xs_lururen(value, row, index){
 		return row.us_wangluozixunshi.us_name;
 	}
+	function xs_isbaobei(value, row, index){
+		return row.xs_isbaobei==1 ? "是":"否";
+	}
 	
 </script>
 </head>
@@ -276,7 +279,7 @@
 				<th data-options="field:'xs_weixin' ">微信</th>
 				<th data-options="field:'xs_qq' ">qq</th>
 				<th data-options="field:'xs_laiyuanbumen' ">来源部门</th>
-				<th data-options="field:'xs_isbaobei' ">是否备注</th>
+				<th data-options="field:'xs_isbaobei',formatter:xs_isbaobei">是否报备</th>
 				<th data-options="field:'xs_kecheng' ">课程方向</th>
 				<th data-options="field:'xs_isyouxiao' ">是否有效</th>
 				<th data-options="field:'xs_dafen' ">打分</th>
@@ -910,8 +913,8 @@
 					<tr>
 						<td>性别:</td>
 						<td><select id="xs_xingbie3" class="easyui-combobox"
-							name="xs_xingbie" style="width: 159px;">
-								<option value="">— —请输入— —</option>
+							name="xs_xingbie" data-options="editable:false" style="width: 159px;">
+								<option value="">---请选择---</option>
 								<option value="1">男</option>
 								<option value="2">女</option>
 						</select></td>
@@ -929,8 +932,8 @@
 					<tr>
 						<td>学历:</td>
 						<td><select id="xs_xueli3" 
-							class="easyui-combobox" name="xs_isjinban" style="width: 159px;">
-								<option value="">— —请输入— —</option>
+							class="easyui-combobox" data-options="editable:false" name="xs_isjinban" style="width: 159px;">
+								<option value="">---请选择---</option>
 								<option value="大专">大专</option>
 								<option value="高中">高中</option>
 								<option value="中专">中专</option>
@@ -943,8 +946,8 @@
 					<tr>
 						<td>状态:</td>
 						<td><select id="xs_zhuangtai3" 
-							class="easyui-combobox" name="xs_zhuangtai" style="width: 159px;">
-								<option value="">— —请输入— —</option>
+							class="easyui-combobox" data-options="editable:false" name="xs_zhuangtai" style="width: 159px;">
+								<option value="">---请选择---</option>
 								<option value="未知">未知</option>
 								<option value="待业">待业</option>
 								<option value="在职">在职</option>
@@ -956,8 +959,8 @@
 					<tr>
 						<td>来源渠道:</td>
 						<td><select id="xs_laiyuanqudao3" 
-							class="easyui-combobox" name="xs_laiyuanqudao" style="width: 159px;">
-								<option value="">— —请输入— —</option>
+							class="easyui-combobox" data-options="editable:false" name="xs_laiyuanqudao" style="width: 159px;">
+								<option value="">---请选择---</option>
 								<option value="未知">未知</option>
 								<option value="百度">百度</option>
 								<option value="百度移动端">百度移动端</option>
@@ -978,8 +981,8 @@
 						<td>来源网站:</td>
 						<td>
 						<select id="xs_laiyuanwangzhi3" 
-							class="easyui-combobox" name="xs_laiyuanwangzhi" style="width: 159px;">
-								<option value="">— —请输入— —</option>
+							class="easyui-combobox" data-options="editable:false" name="xs_laiyuanwangzhi" style="width: 159px;">
+								<option value="">---请选择---</option>
 								<option value="其他">其他</option>
 								<option value="职英B站">职英B站</option>
 								<option value="高考站">高考站</option>
@@ -1005,9 +1008,9 @@
 					</tr>
 					<tr>
 						<td>是否报备(是,否):</td>
-						<td><select id="xs_isbaobei3" class="easyui-combobox"
+						<td><select id="xs_isbaobei3" data-options="editable:false" class="easyui-combobox"
 							name="xs_isbaobei" style="width: 159px;">
-								<option value="">— —请输入— —</option>
+								<option value="">---请选择---</option>
 								<option value="1">是</option>
 								<option value="2">否</option>
 						</select></td>

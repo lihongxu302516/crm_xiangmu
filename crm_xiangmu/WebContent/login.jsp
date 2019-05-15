@@ -209,7 +209,6 @@ body {
 		var us_name = $("#cz_us_name").val();
 		if(us_name!=null && us_name!=""){
 			$.post("cz_shoujihaoyanzheng", {us_name:us_name}, function(res) {
-				alert(11);
 				if (res == 1) {
 					$.messager.show({
 						title : '我的消息',
