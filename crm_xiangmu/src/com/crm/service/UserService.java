@@ -97,4 +97,17 @@ public interface UserService {
 	 * @return
 	 */
 	Integer updateUser_password(HttpServletRequest request,String us_yan_pas,String us_xin_pas2,String yanzhengma);
+	/**
+	 * 重置密码获取获取手机号验证码
+	 * @param request
+	 * @return
+	 */
+	Integer cz_shoujihaoyanzheng(HttpServletRequest request,String us_name);
+	/**
+	 * 员工自己重置密码
+	 * @param request
+	 * @param us_sj_yzm
+	 * @return
+	 */
+	Integer user_cz_mima(HttpServletRequest request,String us_sj_yzm);
 }

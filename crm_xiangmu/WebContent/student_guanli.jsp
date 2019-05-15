@@ -246,7 +246,12 @@
 			}
 		}, 'json')
 	}
-	
+	function xs_zixunshi(value, row, index){
+		return row.us_zixunshi.us_name;
+	}
+	function xs_lururen(value, row, index){
+		return row.us_wangluozixunshi.us_name;
+	}
 	
 </script>
 </head>
@@ -290,8 +295,8 @@
 				<th data-options="field:'xs_tuifeiyuanyin' ">退费原因</th>
 				<th data-options="field:'xs_dingjinjine' ">定金金额</th>
 				<th data-options="field:'xs_dingjintime' ">定金时间</th>
-				<th data-options="field:'xs_zixunshi' ">咨询师</th>
-				<th data-options="field:'xs_lururen' ">录入人</th>
+				<th data-options="field:'xs_zixunshi',formatter:xs_zixunshi">咨询师</th>
+				<th data-options="field:'xs_lururen',formatter:xs_lururen">录入人</th>
 				<th data-options="field:'xs_zixunshibeizhu' ">咨询师备注</th>
 				<th data-options="field:'xs_caozuo',formatter:formattercaozuo ">操作</th>
 			</tr>

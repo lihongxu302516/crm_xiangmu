@@ -4,6 +4,7 @@ package com.crm.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -118,6 +119,17 @@ public class UserController {
 	@ResponseBody
 	public Integer updateUser_password(HttpServletRequest request,String us_yan_pas,String us_xin_pas2,String yanzhengma) {
 		return userServiceimp.updateUser_password(request,us_yan_pas,us_xin_pas2, yanzhengma);
+	}
+	@RequestMapping(value = "cz_shoujihaoyanzheng",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer cz_shoujihaoyanzheng(HttpServletResponse response,HttpServletRequest request,String us_name) {
+		//return userServiceimp.cz_shoujihaoyanzheng(request, us_name);
+		return 1;
+	}
+	@RequestMapping(value = "user_cz_mima",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer user_cz_mima(HttpServletResponse response,HttpServletRequest request,String us_sj_yzm) {
+		return userServiceimp.user_cz_mima(request, us_sj_yzm);
 	}
 
 }

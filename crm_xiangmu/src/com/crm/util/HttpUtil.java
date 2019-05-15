@@ -47,14 +47,16 @@ public class HttpUtil
 	 */
 	public static String post(String url, String body)
 	{
+		OutputStreamWriter out = null;
+		BufferedReader in = null;
 		System.out.println("url:" + System.getProperty("line.sepatator") + url);
 		System.out.println("body:" + System.getProperty("line.sepatator") + body);
 
 		String result = "";
 		try
 		{
-			OutputStreamWriter out = null;
-			BufferedReader in = null;
+			
+			
 			URL realUrl = new URL(url);
 			URLConnection conn = realUrl.openConnection();
 
@@ -68,7 +70,7 @@ public class HttpUtil
 			out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
 			out.write(body);
 			out.flush();
-
+			
 			// 读取返回数据
 			in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 			String line = "";
@@ -87,6 +89,14 @@ public class HttpUtil
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}finally {
+			try {
+				out.close();
+				in.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -101,10 +111,11 @@ public class HttpUtil
 	public static String postHuiDiao(String url, String body)
 	{
 		String result = "";
+		OutputStreamWriter out = null;
+		BufferedReader in = null;
 		try
 		{
-			OutputStreamWriter out = null;
-			BufferedReader in = null;
+			
 			URL realUrl = new URL(url);
 			URLConnection conn = realUrl.openConnection();
 
@@ -137,6 +148,14 @@ public class HttpUtil
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}finally {
+			try {
+				out.close();
+				in.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}

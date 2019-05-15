@@ -97,6 +97,9 @@ public class LoginServiceimp implements LoginService {
 		// System.out.println(request.getSession().getAttribute("yanzhengmatext"));
 		try {
 			ivc.output(image, response.getOutputStream());
+			response.getOutputStream().flush();
+			response.getOutputStream().close();;
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

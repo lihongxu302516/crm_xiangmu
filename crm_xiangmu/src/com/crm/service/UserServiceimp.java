@@ -194,6 +194,57 @@ public class UserServiceimp implements UserService {
 			return 2;
 		}
 	}
+
+	@Override
+	public Integer cz_shoujihaoyanzheng(HttpServletRequest request,String us_name) {
+		// TODO Auto-generated method stub
+		Integer jg=0;
+		us_name=us_name.trim();
+		if(us_name!=null && us_name!="") {
+			User user = usermapper.selectUser_us_name_shoujihao(us_name);
+			String us_shoujihao=user.getUs_shojihao();
+			if(us_shoujihao!=null && us_shoujihao!="") {
+				if(us_shoujihao.length()==11) {
+					int yanzhengma = (int) (Math.random() * (999999 - 100000 + 1) + 100000);
+					IndustrySMS.execute(us_shoujihao, yanzhengma);
+					request.getSession().setAttribute("cz_yanzhengma", yanzhengma);
+					request.getSession().setAttribute("cz_mima_us_id", user.getUs_id());
+					jg=4;
+				}else {
+					//该用户绑定的手机号不符合格式
+					jg=3;
+				}
+			}else {
+				//没有该用户或该用户没有绑定手机号
+				jg=2;
+			}
+		}else {
+			//用户名为空
+			jg=1;
+		}
+		return jg;
+	}
+
+	@Override
+	public Integer user_cz_mima(HttpServletRequest request, String us_sj_yzm) {
+		// TODO Auto-generated method stub
+		Integer jg=0;
+		us_sj_yzm=us_sj_yzm.trim();
+		if(us_sj_yzm!=null && us_sj_yzm!="") {
+			String cz_yanzhengma = request.getSession().getAttribute("cz_yanzhengma").toString();
+			String cz_mima_us_id = request.getSession().getAttribute("cz_mima_us_id").toString();
+			if(cz_yanzhengma.equals(us_sj_yzm)) {
+				jg = usermapper.updatechongzhimima(Integer.parseInt(cz_mima_us_id));
+			}else {
+				//验证码错误
+				jg=3;
+			}
+		}else {
+			//验证码为空
+			jg=2;
+		}
+		return jg;
+	}
 	
 
 }

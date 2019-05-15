@@ -130,6 +130,7 @@ public class SCaptcha {
     public  void output(BufferedImage image, OutputStream out) throws IOException                  //将验证码图片写出的方法
     {
         ImageIO.write(image, "JPEG", out);
+        
     }
 
 }

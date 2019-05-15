@@ -73,16 +73,46 @@ body {
 					</table>
 				</form>
 			</div>
-			<span><a id="chongzhi_mima" href="javascript:void(0)"
-				class="easyui-linkbutton" onclick="chongzhi_mima()">
-					&nbsp;&nbsp;忘记密码？重置密码！</a></span>
+			<span id="czmm_span"><a id="chongzhi_mima"
+				href="javascript:void(0)" onclick="chongzhi_mima()">
+					&nbsp;&nbsp;忘记密码？点击重置！</a></span>
 		</div>
+	</div>
+	<div id="cz_win" class="easyui-window" title="重置密码"
+		style="width: 400px; height: 200px"
+		data-options="iconCls:'icon-save',modal:true">
+		<form id="czmm_form">
+			<table>
+				<tr>
+					<td>用户名：</td>
+					<td><input class="easyui-textbox" data-options="required:true"
+						id="cz_us_name" value="" style="width: 300px"></td>
+				</tr>
+				<tr>
+					<td>手机验证码：</td>
+					<td><input class="easyui-textbox" data-options="required:true"
+						id="us_sj_yzm" value="" validType="length['6','6']"
+						style="width: 300px"></td>
+				</tr>
+				<tr>
+					<td colspan="2"><a
+						style="margin-left: 130px; margin-top: 10px" id="czmm_btn"
+						href="javascript:void(0)" onclick="shoujiyanzhengma()"
+						class="easyui-linkbutton"> 获取手机验证码 </a></td>
+				</tr>
+			</table>
+			<a style="margin-left: 155px; margin-top: 10px" id="czmm_btn"
+				href="javascript:void(0)" onclick="cz_mima()"
+				class="easyui-linkbutton" data-options="iconCls:'icon-save'"> 保存
+			</a>
+		</form>
 	</div>
 </body>
 <script type="text/javascript">
 	$(function() {
 		denglu_panel_f();
 		test();
+		$('#cz_win').window('close');
 	});
 	function denglu_panel_f() {
 		$('#denglu_panel').panel({
@@ -173,6 +203,127 @@ body {
 				window.location.href = "home";
 			}
 		}, "json");
+	}
+
+	function shoujiyanzhengma() {
+		var us_name = $("#cz_us_name").val();
+		if(us_name!=null && us_name!=""){
+			$.post("cz_shoujihaoyanzheng", {us_name:us_name}, function(res) {
+				alert(11);
+				if (res == 1) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '用户名为空！',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else if (res == 2) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '没有该用户或该用户没有绑定手机号',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else if (res == 3) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '该用户绑定的手机号不符合格式',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}else if(res ==4 ){
+					$.messager.show({
+						title : '我的消息',
+						msg : '验证码已发送',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}
+			}, "json");
+		}else{
+			$.messager.show({
+				title : '我的消息',
+				msg : '请先输入用户名',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
+	}
+	function cz_mima(){
+		if ($("#czmm_form").form('validate')) {
+			$.post("user_cz_mima", {us_sj_yzm : $("#us_sj_yzm").val()}, function(res) {
+				if (res == 1) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '密码重置成功！',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+					$('#cz_win').window('close');
+				} else if (res == 2) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '验证码为空',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else if (res == 3) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '验证码错误',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}else if(res ==0 ){
+					$.messager.show({
+						title : '我的消息',
+						msg : '密码重置失败',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}
+			}, "json");
+			
+		}
+	}
+	function chongzhi_mima(){
+		$('#cz_win').window('open');
 	}
 </script>
 </html>

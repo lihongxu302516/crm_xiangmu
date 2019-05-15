@@ -103,5 +103,11 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer updateUser_password(User user);
+	/**
+	 * 通过用户名查看用户手机号
+	 * @param us_name
+	 * @return
+	 */
+	User selectUser_us_name_shoujihao(String us_name);
 
 }
