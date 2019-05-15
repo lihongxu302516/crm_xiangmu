@@ -5,47 +5,249 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css"
-	href="js/jquery-easyui-1.4.3/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="js/jquery-easyui-1.4.3/themes/icon.css">
-<script type="text/javascript"
-	src="js/jquery-easyui-1.4.3/jquery.min.js"></script>
-<script type="text/javascript"
-	src="js/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
-<script type="text/javascript"
-	src="js/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="js/gonggong.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/yincang.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	$(function() {
 		student_guanli();
 	})
 	function student_guanli() {
-		$("#StudentTab").datagrid({
-			url:'student_xianshi',
-			method:'post',
-			toolbar:'#StudentToo',
-			pagination:true,
-			singleSelect:true,
-			queryParams: {
-				xs_name:$("#xs_name").val(),
-				xs_dianhua:$("#xs_dianhua").val(),
-				xs_zixunshi:$("#xs_zixunshi").val(),
-				xs_isjiaofei:$("#xs_isjiaofei").combobox("getValue"),
-				xs_isyouxiao:$("#xs_isyouxiao").combobox("getValue"),
-				xs_ishuifang:$("#xs_ishuifang").combobox("getValue"),
-				xs_qq:$("#xs_qq").val(),
-				xs_chuangjiantime:$("#xs_chuangjiantime").val(),
-				xs_shangmentime:$("#xs_shangmentime").val(),
-				xs_shuocihuifangtime:$("#xs_shuocihuifangtime").val(),
-				xs_jiaofeitime:$("#xs_jiaofeitime").val(),
-				xs_jinbantime:$("#xs_jinbantime").val(),
-			}
+		$("#StudentTab").datagrid(
+				{
+					url : 'student_xianshi',
+					method : 'post',
+					toolbar : '#StudentToo',
+					pagination : true,
+					singleSelect : true,
+					queryParams : {
+						xs_name : $("#xs_name").val(),
+						xs_dianhua : $("#xs_dianhua").val(),
+						xs_zixunshi : $("#xs_zixunshi").val(),
+						xs_isjiaofei : $("#xs_isjiaofei").combobox("getValue"),
+						xs_isyouxiao : $("#xs_isyouxiao").combobox("getValue"),
+						xs_ishuifang : $("#xs_ishuifang").combobox("getValue"),
+						xs_qq : $("#xs_qq").val(),
+						xs_chuangjiantime : $("#minxs_chuangjiantime")
+								.datetimebox('getValue'),
+						xs_chuangjiantime : $("#maxxs_chuangjiantime")
+								.datetimebox('getValue'),
+						xs_shangmentime : $("#minxs_shangmentime").datetimebox(
+								'getValue'),
+						xs_shangmentime : $("#maxxs_shangmentime").datetimebox(
+								'getValue'),
+						xs_shuocihuifangtime : $("#minxs_shuocihuifangtime")
+								.datetimebox('getValue'),
+						xs_shuocihuifangtime : $("#maxxs_shuocihuifangtime")
+								.datetimebox('getValue'),
+						xs_jiaofeitime : $("#minxs_jiaofeitime").datetimebox(
+								'getValue'),
+						xs_jiaofeitime : $("#maxxs_jiaofeitime").datetimebox(
+								'getValue'),
+						xs_jinbantime : $("#minxs_jinbantime").datetimebox(
+								'getValue'),
+						xs_jinbantime : $("#maxxs_jinbantime").datetimebox(
+								'getValue')
+					}
 
-		})
+				})
 	}
-	function formattercaozuo(value,row,index){
-		return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='updateU("+index+")' > 修改 </a>  <a href='javascript:void(0)' class='easyui-linkbutton' onclick='deleteD("+index+")' > 删除 </a>";
+	function formattercaozuo(value, row, index) {
+		return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='updateU("
+				+ index
+				+ ")' > 编辑 </a>  <a href='javascript:void(0)' class='easyui-linkbutton' onclick='deleteD("
+				+ index
+				+ ")' > 删除 </a>  <a href='javascript:void(0)' class='easyui-linkbutton' onclick='updateUU("
+				+ index + ")' > 查看 </a>   <a href='javascript:void(0)' class='easyui-linkbutton' onclick='genzong("
+				+ index + ")' > 跟踪 </a>";
 	}
+	function formatterxingbie(value, row, index) {
+		return row.xs_xingbie == 2 ? '女' : '男';
+	}
+	
+	/*  判断是否有效*/
+	function deleteD(index) {
+		$.messager.confirm('确认', '您确认要将该学生无效吗？', function(r) {
+			if (r) {
+				var data = $("#StudentTab").datagrid("getData");
+				var row = data.rows[index];
+				var xs_id = row.xs_id;
+				$.post('updateisyouxiao', {
+					xs_id : xs_id
+				}, function(res) {
+					if (res == 1) {
+						$("#StudentTab").datagrid("reload");
+						$.messager.show({
+							title : '我的消息',
+							msg : '设置无效成功',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					} else {
+						alert('设置无效失败');
+					}
+				}, 'json')
+			}
+		});
+	}
+	
+	/*修改 在线录入,咨询师录入  */
+	function updateU(index) {
+		var data = $("#StudentTab").datagrid("getData");
+		var row = data.rows[index];
+		$("#frm1").form("load", row);
+		$("#updateStuYuan").dialog("open");
+	}
+	function updateGuanbi() {
+		$("#updateStuYuan").dialog("close");
+	}
+	function updateStuYuanBao() {
+		$.post("updateStudnet", {
+			xs_id : ("#xs_id1").val(),
+			xs_name : $("#xs_name1").val(),
+			xs_xingbie : $("#xs_xingbie1").combobox("getValue"),
+			xs_nianling : $("#xs_nianling1").val(),
+			xs_dianhua : $("#xs_dianhua1").val(),
+			xs_xueli : $("#xs_xueli1").val(),
+			xs_zhuangtai : $("#xs_zhuangtai1").val(),
+			xs_laiyuanwangzhi : $("#xs_laiyuanwangzhi1").val(),
+			xs_laiyuanqudao : $("#xs_laiyuanqudao1").val(),
+			xs_liyuanguanjianzi : $("#xs_liyuanguanjianzi1").val(),
+			xs_suozaiquyu1 : $("#xs_suozaiquyu1").val(),
+			xs_guanzhu : $("#xs_guanzhu1").val(),
+			xs_laiyuanbumen : $("#xs_laiyuanbumen1").val(),
+			xs_qq : $("#xs_qq1").val(),
+			xs_weixin : $("#xs_weixin1").val(),
+			xs_isbaobei : $("#xs_isbaobei1").combobox("getValue"),
+			xs_zixunshi : $("#xs_zixunshi1").val(),
+			xs_lururen : $("#xs_lururen1").val(),
+
+			xs_namezixun : $("#xs_namezixun1").val(),
+			xs_kecheng : $("#xs_kecheng1").val(),
+			xs_dafen : $("#xs_dafen1").val(),
+			xs_isyouxiao : $("#xs_isyouxiao1").combobox("getValue"),
+			xs_wuxiaoyuanyin : $("#xs_wuxiaoyuanyin1").val(),
+			xs_ishuifang : $("#xs_ishuifang1").combobox("getValue"),
+			xs_shuocihuifangtime : $("#xs_shuocihuifangtime1").val(),
+			xs_isshangmen : $("#xs_isshangmen1").combobox("getValue"),
+			xs_shangmentime : $("#xs_shangmentime1").val(),
+			xs_dingjinjine : $("#xs_dingjinjine1").val(),
+			xs_dingjintime : $("#xs_dingjintime1").val(),
+			xs_isjiaofei : $("#xs_isjiaofei1").combobox("getValue"),
+			xs_jiaofeitime : $("#xs_jiaofeitime1").val(),
+			xs_jine : $("#xs_jine1").val(),
+			xs_istuifei : $("#xs_istuifei1").combobox("getValue"),
+			xs_tuifeiyuanyin : $("#xs_tuifeiyuanyin1").val(),
+			xs_isjinban : $("#xs_isjinban1").combobox("getValue"),
+			xs_jinbantime : $("#xs_jinbantime1").val(),
+			xs_jinbanbeizhu : $("#xs_jinbanbeizhu1").val(),
+			xs_zixunshibeizhu : $("#xs_zixunshibeizhu1").val()
+		}, function(res) {
+			if (res > 0) {
+				alert('修改成功');
+				$("#updateStuYuan").dialog("close");
+				$("#StudentTab").datagrid("reload");
+			} else {
+				alert('修改失败');
+				$("#updateStuYuan").dialog("close");
+			}
+		}, 'json')
+	}
+	
+	/*查看  */
+	function updateUU(index) {
+		var data = $("#StudentTab").datagrid("getData");
+		var row = data.rows[index];
+		$("#frm2").form("load", row);
+		$("#chakanStudent").dialog("open");
+	}
+	function updateUUGuanbi() {
+		$("#chakanStudent").dialog("close");
+	}
+	function updateUUBao() {
+		$.post("updateStudnet", {
+			xs_id : ("#xs_id2").val(),
+			xs_name : $("#xs_name2").val(),
+			xs_xingbie : $("#xs_xingbie2").combobox("getValue"),
+			xs_nianling : $("#xs_nianling2").val(),
+			xs_dianhua : $("#xs_dianhua2").val(),
+			xs_xueli : $("#xs_xueli2").val(),
+			xs_zhuangtai : $("#xs_zhuangtai2").val(),
+			xs_laiyuanwangzhi : $("#xs_laiyuanwangzhi2").val(),
+			xs_laiyuanqudao : $("#xs_laiyuanqudao2").val(),
+			xs_liyuanguanjianzi : $("#xs_liyuanguanjianzi2").val(),
+			xs_suozaiquyu1 : $("#xs_suozaiquyu2").val(),
+			xs_guanzhu : $("#xs_guanzhu2").val(),
+			xs_laiyuanbumen : $("#xs_laiyuanbumen2").val(),
+			xs_qq : $("#xs_qq2").val(),
+			xs_weixin : $("#xs_weixin2").val(),
+			xs_isbaobei : $("#xs_isbaobei2").combobox("getValue"),
+			xs_zixunshi : $("#xs_zixunshi2").val(),
+			xs_lururen : $("#xs_lururen2").val(),
+
+			xs_namezixun : $("#xs_namezixun2").val(),
+			xs_kecheng : $("#xs_kecheng2").val(),
+			xs_dafen : $("#xs_dafen2").val(),
+			xs_isyouxiao : $("#xs_isyouxiao2").combobox("getValue"),
+			xs_wuxiaoyuanyin : $("#xs_wuxiaoyuanyin2").val(),
+			xs_ishuifang : $("#xs_ishuifang2").combobox("getValue"),
+			xs_shuocihuifangtime : $("#xs_shuocihuifangtime2").val(),
+			xs_isshangmen : $("#xs_isshangmen2").combobox("getValue"),
+			xs_shangmentime : $("#xs_shangmentime2").val(),
+			xs_dingjinjine : $("#xs_dingjinjine2").val(),
+			xs_dingjintime : $("#xs_dingjintime2").val(),
+			xs_isjiaofei : $("#xs_isjiaofei2").combobox("getValue"),
+			xs_jiaofeitime : $("#xs_jiaofeitime2").val(),
+			xs_jine : $("#xs_jine2").val(),
+			xs_istuifei : $("#xs_istuifei2").combobox("getValue"),
+			xs_tuifeiyuanyin : $("#xs_tuifeiyuanyin2").val(),
+			xs_isjinban : $("#xs_isjinban2").combobox("getValue"),
+			xs_jinbantime : $("#xs_jinbantime2").val(),
+			xs_jinbanbeizhu : $("#xs_jinbanbeizhu2").val(),
+			xs_zixunshibeizhu : $("#xs_zixunshibeizhu2").val()
+		}, function(res) {
+			
+		}, 'json')
+	}
+	/*  添加*/
+	function insertDakai(){
+		$("#insertStudent").dialog("open");
+	}
+	function inserGuanbi() {
+		$("#insertStudent").dialog("close");
+	}
+	function inserStudent() {
+		$.post("insertStudnet", {
+			xs_name : $("#xs_name3").val(),
+			xs_xingbie : $("#xs_xingbie3").combobox("getValue"),
+			xs_nianling : $("#xs_nianling3").val(),
+			xs_dianhua : $("#xs_dianhua3").val(),
+			xs_xueli : $("#xs_xueli3").val(),
+			xs_zhuangtai : $("#xs_zhuangtai3").val(),
+			xs_laiyuanwangzhi : $("#xs_laiyuanwangzhi3").val(),
+			xs_laiyuanqudao : $("#xs_laiyuanqudao3").val(),
+			xs_liyuanguanjianzi : $("#xs_liyuanguanjianzi3").val(),
+			xs_qq : $("#xs_qq3").val(),
+			xs_weixin : $("#xs_weixin3").val(),
+			xs_isbaobei : $("#xs_isbaobei3").combobox("getValue"),
+		}, function(res) {
+			if (res > 0) {
+				alert('添加成功');
+				$("#insertStudent").dialog("close");
+				$("#StudentTab").datagrid("reload");
+				$("#frm3").form("reset");
+			} else {
+				alert('添加失败');
+				$("#insertStudent").dialog("close");
+				$("#frm3").form("reset");
+			}
+		}, 'json')
+	}
+	
+	
 </script>
 </head>
 <body>
@@ -54,7 +256,7 @@
 			<tr>
 				<th data-options="field:'xs_id'">学生编号</th>
 				<th data-options="field:'xs_name' ">姓名</th>
-				<th data-options="field:'xs_xingbie' ">性别</th>
+				<th data-options="field:'xs_xingbie',formatter:formatterxingbie">性别</th>
 				<th data-options="field:'xs_nianling' ">年龄</th>
 				<th data-options="field:'xs_dianhua' ">电话</th>
 				<th data-options="field:'xs_chuangjiantime' ">创建时间</th>
@@ -95,54 +297,723 @@
 			</tr>
 		</thead>
 	</table>
-	<div id="StudentToo">
-		<form id="frm">
+	<div id="StudentToo" style="padding: 5px; height: auto">
+		<div style="margin-bottom: 5px">
+			<form id="frm">
 
-			<label >姓名:</label> <input class="easyui-validatebox"
-				type="text" id="xs_name" name="xs_name" />
-			<label >电话:</label> <input class="easyui-validatebox"
-				type="text" id="xs_dianhua" name="xs_dianhua" />
-			<label >咨询师:</label> <input class="easyui-validatebox"
-				type="text" id="xs_zixunshi" name="xs_zixunshi" />
-			<label >是否缴费:</label> 
-			  <select id="xs_isjiaofei" class="easyui-combobox" name="xs_isjiaofei" style="width:200px;">   
-                  <option value="">— —请输入— —</option>   
-                  <option value="1">是</option>   
-                  <option value="2">否</option>     
-              </select> 
+				<label>姓名:</label><input class="easyui-textbox" id="xs_name"
+					name="xs_name" style="width: 100px"> <label>电话:</label><input
+					class="easyui-textbox" id="xs_dianhua" name="xs_dianhua"
+					style="width: 100px"> <label>咨询师:</label><input
+					class="easyui-textbox" id="xs_zixunshi" name="xs_zixunshi"
+					style="width: 100px"> <label>是否缴费:</label> <select
+					id="xs_isjiaofei" class="easyui-combobox" name="xs_isjiaofei"
+					style="width: 159px;">
+					<option value="">— —请输入— —</option>
+					<option value="1">是</option>
+					<option value="2">否</option>
+				</select> <label>是否有效:</label> <select id="xs_isyouxiao"
+					class="easyui-combobox" name="xs_isyouxiao" style="width: 159px;">
+					<option value="">— —请输入— —</option>
+					<option value="1">是</option>
+					<option value="2">否</option>
+				</select> <label>是否回访:</label> <select id="xs_ishuifang"
+					class="easyui-combobox" name="xs_ishuifang" style="width: 159px;">
+					<option value="">— —请输入— —</option>
+					<option value="1">是</option>
+					<option value="2">否</option>
+				</select> <label>QQ:</label><input class="easyui-textbox" id="xs_qq"
+					name="xs_qq" style="width: 100px"> <label>创建时间:</label><input
+					class="easyui-datetimebox" id="minxs_chuangjiantime"
+					name="minxs_chuangjiantime" value="" style="width: 150px">~~~<input
+					class="easyui-datetimebox" id="maxxs_chuangjiantime"
+					name="maxxs_chuangjiantime" value="" style="width: 150px">
 
-			<label >是否有效:</label> 
-			   <select id="xs_isyouxiao" class="easyui-combobox" name="xs_isyouxiao" style="width:200px;">   
-                  <option value="">— —请输入— —</option>   
-                  <option value="1">是</option>   
-                  <option value="2">否</option>     
-               </select> 
-			
-			<label >是否回访:</label>
-			  <select id="xs_ishuifang" class="easyui-combobox" name="xs_ishuifang" style="width:200px;">   
-                  <option value="">— —请输入— —</option>   
-                  <option value="1">是</option>   
-                  <option value="2">否</option>     
-               </select> 
-			<label >QQ:</label> <input class="easyui-validatebox"
-				type="text" id="xs_qq" name="xs_qq" />
-			<label >创建时间:</label> <input class="easyui-validatebox"
-				type="text" id="xs_chuangjiantime" name="xs_chuangjiantime" />
-			<label >上门时间:</label> <input class="easyui-validatebox"
-				type="text" id="xs_shangmentime" name="xs_shangmentime" />
-			<label >首次回访时间:</label> <input class="easyui-validatebox"
-				type="text" id="xs_shuocihuifangtime" name="xs_shuocihuifangtime" />
-			<label >缴费时间:</label> <input class="easyui-validatebox"
-				type="text" id="xs_jiaofeitime" name="xs_jiaofeitime" />
-			<label >进班时间:</label> <input class="easyui-validatebox"
-				type="text" id="xs_jinbantime" name="xs_jinbantime" />
-			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">搜索</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
-			
-			
-				
+				<label>上门时间:</label><input class="easyui-datetimebox"
+					id="minxs_shangmentime" name="minxs_shangmentime" value=""
+					style="width: 150px">~~~<input class="easyui-datetimebox"
+					id="maxxs_shangmentime" name="maxxs_shangmentime" value=""
+					style="width: 150px"> <label>首次回访时间:</label><input
+					class="easyui-datetimebox" id="minxs_shuocihuifangtime"
+					name="minxs_shuocihuifangtime" value="" style="width: 150px">~~~<input
+					class="easyui-datetimebox" id="maxxs_shuocihuifangtime"
+					name="maxxs_shuocihuifangtime" value="" style="width: 150px">
 
+				<label>缴费时间:</label><input class="easyui-datetimebox"
+					id="minxs_jiaofeitime" name="minxs_jiaofeitime" value=""
+					style="width: 150px">~~~<input class="easyui-datetimebox"
+					id="maxxs_jiaofeitime" name="maxxs_jiaofeitime" value=""
+					style="width: 150px"> <label>进班时间:</label><input
+					class="easyui-datetimebox" id="minxs_jinbantime"
+					name="minxs_jinbantime" value="" style="width: 150px">~~~<input
+					class="easyui-datetimebox" id="maxxs_jinbantime"
+					name="maxxs_jinbantime" value="" style="width: 150px"> <a
+					href="javascript:void(0)" class="easyui-linkbutton"
+					onclick="student_guanli()"
+					data-options="iconCls:'icon-search',plain:true">搜索</a> <a
+					href="javascript:void(0)" class="easyui-linkbutton" onclick="insertDakai()"
+					data-options="iconCls:'icon-add',plain:true">添加</a>
+			</form>
+		</div>
+	</div>
+
+<!--  编辑-->
+	<div id="updateStuYuan" class="easyui-dialog"
+		style="width: 700px; height: 600px"
+		data-options="title:' 编辑 ',modal:true,closed:true,
+			buttons:[{
+				text:'保存',
+				handler:function(){
+				updateStuYuanBao();
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				 updateGuanbi();
+				}
+			}]">
+
+		<form id="frm1" class="easyui-form">
+			<input disabled="disabled" type="text" id="xs_id1" name="xs_id"
+				style="display: none;" />
+			<div style="float: left;">
+				<table>
+					<tr>
+						<td>
+							<h3>在线录入</h3>
+						</td>
+					</tr>
+					<tr>
+						<td>姓名:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_name1"
+							name="xs_name" /></td>
+					</tr>
+					<tr>
+						<td>性别:</td>
+						<td><select id="xs_xingbie1" class="easyui-combobox"
+							name="xs_xingbie" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>年龄:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_nianling1" name="xs_nianling" /></td>
+					</tr>
+					<tr>
+						<td>电话:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_dianhua1" name="xs_dianhua" /></td>
+					</tr>
+					<tr>
+						<td>学历:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_xueli1"
+							name="xs_xueli" /></td>
+					</tr>
+					<tr>
+						<td>状态:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_zhuangtai1" name="xs_zhuangtai" /></td>
+					</tr>
+					<tr>
+						<td>来源渠道:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_laiyuanqudao1" name="xs_laiyuanqudao" /></td>
+					</tr>
+					<tr>
+						<td>来源网站:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_laiyuanwangzhi1" name="xs_laiyuanwangzhi" /></td>
+					</tr>
+					<tr>
+						<td>来源关键字:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_liyuanguanjianzi1" name="xs_liyuanguanjianzi" /></td>
+					</tr>
+					<tr>
+						<td>所在区域:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_suozaiquyu1" name="xs_suozaiquyu" /></td>
+					</tr>
+					<tr>
+						<td>学员关注:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_guanzhu1" name="xs_guanzhu" /></td>
+					</tr>
+					<tr>
+						<td>来源部门:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_laiyuanbumen1" name="xs_laiyuanbumen" /></td>
+					</tr>
+					<tr>
+						<td>学员QQ:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_qq1"
+							name="xs_qq" /></td>
+					</tr>
+					<tr>
+						<td>微信号:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_weixin1"
+							name="xs_weixin" /></td>
+					</tr>
+					<tr>
+						<td>是否报备(是,否):</td>
+						<td><select id="xs_isbaobei1" class="easyui-combobox"
+							name="xs_isbaobei" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">是</option>
+								<option value="2">否</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>咨询师:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_zixunshi1" name="xs_zixunshi" /></td>
+					</tr>
+					<tr>
+						<td>录入人:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_lururen1" name="xs_lururen" /></td>
+					</tr>
+				</table>
+
+
+			</div>
+
+
+			<div style="float: right;">
+				<table>
+					<tr>
+						<td>
+							<h3>咨询师录入</h3>
+						</td>
+					</tr>
+					<tr>
+						<td>姓名咨询:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_namezixun1" name="xs_namezixun" /></td>
+					</tr>
+					<tr>
+						<td>课程方向:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_kecheng1" name="xs_kecheng" /></td>
+					</tr>
+					<tr>
+						<td>打分:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_dafen1"
+							name="xs_dafen" /></td>
+					</tr>
+					<tr>
+						<td>是否有效(是,否):</td>
+						<td><select id="xs_isyouxiao1" class="easyui-combobox"
+							name="xs_isyouxiao" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">是</option>
+								<option value="2">否</option>
+								<option value="3">待定</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>无效原因:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_wuxiaoyuanyin1" name="xs_wuxiaoyuanyin" /></td>
+					</tr>
+					<tr>
+						<td>是否回访(是,否):</td>
+						<td><select id="xs_ishuifang1" class="easyui-combobox"
+							name="xs_ishuifang" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已回访</option>
+								<option value="2">未回访</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>首访时间:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_shuocihuifangtime1" name="xs_shuocihuifangtime" /></td>
+					</tr>
+					<tr>
+						<td>是否上门(是,否):</td>
+						<td><select id="xs_isshangmen1" class="easyui-combobox"
+							name="xs_isshangmen" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已上门</option>
+								<option value="2">未上门</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>上门时间:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_shangmentime1" name="xs_shangmentime" /></td>
+					</tr>
+					<tr>
+						<td>定金金额:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_dingjinjine1" name="xs_dingjinjine" /></td>
+					</tr>
+					<tr>
+						<td>定金时间:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_dingjintime1" name="xs_dingjintime" /></td>
+					</tr>
+					<tr>
+						<td>是否缴费(是,否):</td>
+						<td><select id="xs_isjiaofei1" class="easyui-combobox"
+							name="xs_isjiaofei" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已缴费</option>
+								<option value="2">未缴费</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>缴费时间:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_jiaofeitime1" name="xs_jiaofeitime" /></td>
+					</tr>
+					<tr>
+						<td>缴费金额:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_jine1"
+							name="xs_jine" /></td>
+					</tr>
+					<tr>
+						<td>是否退费(是,否):</td>
+						<td><select id="xs_istuifei1" class="easyui-combobox"
+							name="xs_istuifei" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已退费</option>
+								<option value="2">未退费</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>退费原因:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_tuifeiyuanyin1" name="xs_tuifeiyuanyin" /></td>
+					</tr>
+					<tr>
+						<td>是否进班(是,否):</td>
+						<td><select id="xs_isjinban1" class="easyui-combobox"
+							name="xs_isjinban" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已进班</option>
+								<option value="2">未进班</option>
+						</select></td>
+					</tr>
+					<tr>
+
+						<td>进班时间:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_jinbantime1" name="xs_jinbantime" /></td>
+					</tr>
+					<tr>
+
+						<td>进班备注:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_jinbanbeizhu1" name="xs_jinbanbeizhu" /></td>
+					</tr>
+					<tr>
+						<td>咨询师 备注:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_zixunshibeizhu1" name="xs_zixunshibeizhu" /></td>
+					</tr>
+				</table>
+			</div>
 		</form>
 	</div>
-</body>
+
+<!--查看  -->
+	<div id="chakanStudent" class="easyui-dialog"
+		style="width: 700px; height: 600px"
+		data-options="title:' 查看 ',modal:true,closed:true,
+			buttons:[{
+				text:'关闭',
+				handler:function(){
+				updateUUGuanbi();
+				}
+			}]">
+
+		<form id="frm2" class="easyui-form">
+			
+			<div style="float: left;">
+				<table>
+					<tr>
+						<td>编号:</td>
+						<td><input  disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_id2" name="xs_id" /></td>
+					</tr>
+					<tr>
+						<td>姓名:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_name2" name="xs_name" /></td>
+					</tr>
+					<tr>
+						<td>性别:</td>
+						<td><select disabled="disabled" id="xs_xingbie2"
+							class="easyui-combobox" name="xs_xingbie" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>年龄:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_nianling2" name="xs_nianling" /></td>
+					</tr>
+					<tr>
+						<td>电话:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_dianhua2" name="xs_dianhua" /></td>
+					</tr>
+					<tr>
+						<td>学历:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_xueli2" name="xs_xueli" /></td>
+					</tr>
+					<tr>
+						<td>状态:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_zhuangtai2" name="xs_zhuangtai" /></td>
+					</tr>
+					<tr>
+						<td>来源渠道:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_laiyuanqudao2" name="xs_laiyuanqudao" /></td>
+					</tr>
+					<tr>
+						<td>来源网站:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_laiyuanwangzhi2" name="xs_laiyuanwangzhi" /></td>
+					</tr>
+					<tr>
+						<td>来源关键字:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_liyuanguanjianzi2" name="xs_liyuanguanjianzi" /></td>
+					</tr>
+					<tr>
+						<td>所在区域:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_suozaiquyu2" name="xs_suozaiquyu" /></td>
+					</tr>
+					<tr>
+						<td>学员关注:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_guanzhu2" name="xs_guanzhu" /></td>
+					</tr>
+					<tr>
+						<td>来源部门:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_laiyuanbumen2" name="xs_laiyuanbumen" /></td>
+					</tr>
+					<tr>
+						<td>学员QQ:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_qq2" name="xs_qq" /></td>
+					</tr>
+					<tr>
+						<td>微信号:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_weixin2" name="xs_weixin" /></td>
+					</tr>
+					<tr>
+						<td>是否报备(是,否):</td>
+						<td><select disabled="disabled" id="xs_isbaobei2"
+							class="easyui-combobox" name="xs_isbaobei" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">是</option>
+								<option value="2">否</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>咨询师:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_zixunshi2" name="xs_zixunshi" /></td>
+					</tr>
+					<tr>
+						<td>录入人:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_lururen2" name="xs_lururen" /></td>
+					</tr>
+				</table>
+
+			</div>
+
+			<div style="float: right;">
+				<table>
+					<tr>
+						<td>姓名咨询:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_namezixun2" name="xs_namezixun" /></td>
+					</tr>
+					<tr>
+						<td>课程方向:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_kecheng2" name="xs_kecheng" /></td>
+					</tr>
+					<tr>
+						<td>打分:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_dafen2" name="xs_dafen" /></td>
+					</tr>
+					<tr>
+						<td>是否有效(是,否):</td>
+						<td><select disabled="disabled" id="xs_isyouxiao2"
+							class="easyui-combobox" name="xs_isyouxiao" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">是</option>
+								<option value="2">否</option>
+								<option value="3">待定</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>无效原因:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_wuxiaoyuanyin2" name="xs_wuxiaoyuanyin" /></td>
+					</tr>
+					<tr>
+						<td>是否回访(是,否):</td>
+						<td><select disabled="disabled" id="xs_ishuifang2"
+							class="easyui-combobox" name="xs_ishuifang" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已回访</option>
+								<option value="2">未回访</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>首访时间:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_shuocihuifangtime2"
+							name="xs_shuocihuifangtime" /></td>
+					</tr>
+					<tr>
+						<td>是否上门(是,否):</td>
+						<td><select disabled="disabled" id="xs_isshangmen2"
+							class="easyui-combobox" name="xs_isshangmen"
+							style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已上门</option>
+								<option value="2">未上门</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>上门时间:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_shangmentime2" name="xs_shangmentime" /></td>
+					</tr>
+					<tr>
+						<td>定金金额:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_dingjinjine2" name="xs_dingjinjine" /></td>
+					</tr>
+					<tr>
+						<td>定金时间:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_dingjintime2" name="xs_dingjintime" /></td>
+					</tr>
+					<tr>
+						<td>是否缴费(是,否):</td>
+						<td><select disabled="disabled" id="xs_isjiaofei2"
+							class="easyui-combobox" name="xs_isjiaofei" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已缴费</option>
+								<option value="2">未缴费</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>缴费时间:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_jiaofeitime2" name="xs_jiaofeitime" /></td>
+					</tr>
+					<tr>
+						<td>缴费金额:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_jine2" name="xs_jine" /></td>
+					</tr>
+					<tr>
+						<td>是否退费(是,否):</td>
+						<td><select disabled="disabled" id="xs_istuifei2"
+							class="easyui-combobox" name="xs_istuifei" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已退费</option>
+								<option value="2">未退费</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>退费原因:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_tuifeiyuanyin2" name="xs_tuifeiyuanyin" /></td>
+					</tr>
+					<tr>
+						<td>是否进班(是,否):</td>
+						<td><select id="xs_isjinban2" disabled="disabled"
+							class="easyui-combobox" name="xs_isjinban" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">已进班</option>
+								<option value="2">未进班</option>
+						</select></td>
+					</tr>
+					<tr>
+
+						<td>进班时间:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_jinbantime2" name="xs_jinbantime" /></td>
+					</tr>
+					<tr>
+
+						<td>进班备注:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_jinbanbeizhu2" name="xs_jinbanbeizhu" /></td>
+					</tr>
+					<tr>
+						<td>咨询师 备注:</td>
+						<td><input disabled="disabled" class="easyui-textbox"
+							type="text" id="xs_zixunshibeizhu2" name="xs_zixunshibeizhu" /></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+	
+	<!--  添加-->
+	<div id="insertStudent" class="easyui-dialog"
+		style="width: 400px; height: 400px"
+		data-options="title:' 添加 ',modal:true,closed:true,
+			buttons:[{
+				text:'保存',
+				handler:function(){
+				inserStudent();
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				 inserGuanbi();
+				}
+			}]">
+
+		<form id="frm3" class="easyui-form">
+			<input disabled="disabled" type="text" id="xs_id1" name="xs_id"
+				style="text-align:center;  display: none;" />
+			<div style="float: left;">
+				<table>
+					
+					<tr>
+						<td>姓名:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_name3"
+							name="xs_name" /></td>
+					</tr>
+					
+					<tr>
+						<td>性别:</td>
+						<td><select id="xs_xingbie3" class="easyui-combobox"
+							name="xs_xingbie" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>年龄:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_nianling3" name="xs_nianling" /></td>
+					</tr>
+					<tr>
+						<td>电话:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_dianhua3" name="xs_dianhua" /></td>
+					</tr>
+					<tr>
+						<td>学历:</td>
+						<td><select id="xs_xueli3" 
+							class="easyui-combobox" name="xs_isjinban" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="大专">大专</option>
+								<option value="高中">高中</option>
+								<option value="中专">中专</option>
+								<option value="初中">初中</option>
+								<option value="本科">本科</option>
+								<option value="其他">其他</option>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td>状态:</td>
+						<td><select id="xs_zhuangtai3" 
+							class="easyui-combobox" name="xs_zhuangtai" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="未知">未知</option>
+								<option value="待业">待业</option>
+								<option value="在职">在职</option>
+								<option value="在读">在读</option>
+						</select>
+						</td>
+						
+					</tr>
+					<tr>
+						<td>来源渠道:</td>
+						<td><select id="xs_laiyuanqudao3" 
+							class="easyui-combobox" name="xs_laiyuanqudao" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="未知">未知</option>
+								<option value="百度">百度</option>
+								<option value="百度移动端">百度移动端</option>
+								<option value="360">360</option>
+								<option value="360移动端">360移动端</option>
+								<option value="搜狗">搜狗</option>
+								<option value="搜狗移动端">搜狗移动端</option>
+								<option value="UC移动端">UC移动端</option>
+								<option value="直接输入">直接输入</option>
+								<option value="自然流量">自然流量</option>
+								<option value="直电">直电</option>
+								<option value="微信">微信</option>
+								<option value="QQ">QQ</option>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td>来源网站:</td>
+						<td>
+						<select id="xs_laiyuanwangzhi3" 
+							class="easyui-combobox" name="xs_laiyuanwangzhi" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="其他">其他</option>
+								<option value="职英B站">职英B站</option>
+								<option value="高考站">高考站</option>
+								<option value="职英A站">职英A站</option>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td>来源关键字:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="xs_liyuanguanjianzi3" name="xs_liyuanguanjianzi" /></td>
+					</tr>
+					
+					<tr>
+						<td>学员QQ:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_qq3"
+							name="xs_qq" /></td>
+					</tr>
+					<tr>
+						<td>微信号:</td>
+						<td><input class="easyui-textbox" type="text" id="xs_weixin3"
+							name="xs_weixin" /></td>
+					</tr>
+					<tr>
+						<td>是否报备(是,否):</td>
+						<td><select id="xs_isbaobei3" class="easyui-combobox"
+							name="xs_isbaobei" style="width: 159px;">
+								<option value="">— —请输入— —</option>
+								<option value="1">是</option>
+								<option value="2">否</option>
+						</select></td>
+					</tr>
+				
+				</table>
+			</div>
+		</form>
+	</div>
+	
+	
+
+	
 </html>

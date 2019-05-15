@@ -33,4 +33,24 @@ public class StudentController {
 		fenye = studentService.selesctStudent(fenye);
 		return fenye;
 	}
+	@RequestMapping(value = "updateisyouxiao",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateisyouxiao(Student student) {
+		Integer updateisyouxiao = studentService.updateisyouxiao(student);
+		return updateisyouxiao;
+		
+	}
+	@RequestMapping(value = "updateStudnet",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateStudnet(Student student) {
+		Integer updateStudent = studentService.updateStudent(student);
+		return updateStudent;
+	}
+	@RequestMapping(value = "insertStudnet",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer insertStudnet(Student student) {
+		Integer insertStudent = studentService.insertStudent(student);
+		return insertStudent;
+		
+	}
 }

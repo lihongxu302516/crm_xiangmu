@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.crm.dao.StudentMapper;
 import com.crm.entity.Fenye;
 import com.crm.entity.Student;
+import com.crm.entity.User;
 
 @Service
 public class StudentServiceimp implements StudentService {
@@ -17,10 +18,16 @@ public class StudentServiceimp implements StudentService {
 	@Override
 	public Fenye<Student> selesctStudent(Fenye<Student> fenye) {
 		// TODO Auto-generated method stub
-		List selesctStudent = studentMapper.selesctStudent(fenye);
-		fenye.setRows(selesctStudent);
 		Integer selescCount = studentMapper.selescCount(fenye);
 		fenye.setTotal(selescCount);
+		List<Student> selesctStudent = studentMapper.selesctStudent(fenye);
+		for (int i = 0; i < selesctStudent.size(); i++) {
+			User zixunshi = studentMapper.selectUser_student_us_id(selesctStudent.get(i).getXs_zixunshi());
+			User lururen = studentMapper.selectUser_student_us_id(selesctStudent.get(i).getXs_lururen());
+			selesctStudent.get(i).setUs_zixunshi(zixunshi);
+			selesctStudent.get(i).setUs_wangluozixunshi(lururen);
+		}
+		fenye.setRows(selesctStudent);
 		return fenye;
 	}
 
@@ -33,17 +40,32 @@ public class StudentServiceimp implements StudentService {
 	@Override
 	public Integer updateStudent(Student student) {
 		// TODO Auto-generated method stub
-		return null;
+		Integer updateStudent = studentMapper.updateStudent(student);
+		return updateStudent;
 	}
 
 	@Override
 	public Integer insertStudent(Student student) {
 		// TODO Auto-generated method stub
-		return null;
+		Integer insertStudent = studentMapper.insertStudent(student);
+		return insertStudent;
 	}
 
 	@Override
 	public Integer deleteStudent(Integer xs_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer updateisyouxiao(Student student) {
+		// TODO Auto-generated method stub
+		Integer updateisyouxiao = studentMapper.updateisyouxiao(student);
+		return updateisyouxiao;
+	}
+
+	@Override
+	public Integer insertGenZong(Student student) {
 		// TODO Auto-generated method stub
 		return null;
 	}

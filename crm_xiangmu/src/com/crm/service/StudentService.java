@@ -34,4 +34,14 @@ public interface StudentService {
 	 * @return
 	 */
 	Integer deleteStudent(Integer xs_id);
+	/**
+	 * 修改是否有效
+	 * @param student
+	 * @return
+	 */
+	Integer updateisyouxiao(Student student);
+	/**
+	 * 添加跟踪信息
+	 */
+	Integer insertGenZong(Student student);
 }
