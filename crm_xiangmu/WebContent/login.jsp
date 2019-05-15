@@ -61,6 +61,12 @@ body {
 								onclick="test()">看不清楚？立马刷新！</a></td>
 						</tr>
 						<tr>
+						<td></td>
+					<td>
+					<input name="is_miandenglu" id="is_miandenglu" type="checkbox" />免登陆
+					</td>
+				</tr>
+						<tr>
 							<td></td>
 							<td>
 								<p></p> <a id="denglu" href="javascript:void(0)"
@@ -100,6 +106,7 @@ body {
 						href="javascript:void(0)" onclick="shoujiyanzhengma()"
 						class="easyui-linkbutton"> 获取手机验证码 </a></td>
 				</tr>
+				
 			</table>
 			<a style="margin-left: 155px; margin-top: 10px" id="czmm_btn"
 				href="javascript:void(0)" onclick="cz_mima()"
@@ -129,10 +136,19 @@ body {
 		$('#denglu_form').form('reset');
 	}
 	function denglu() {
+		//is_miandenglu
+		var obj = document.getElementsByName("is_miandenglu");
+		var a=1;
+		for (var i = 0; i < obj.length; i++) {
+			if (obj[i].checked) {
+				a=2;
+			}
+		}
 		$.post("denglu", {
 			us_name : $("#us_name").val(),
 			us_password : $("#us_password").val(),
-			yanzhengma : $("#yanzhengma").val()
+			yanzhengma : $("#yanzhengma").val(),
+			mdl : a
 		}, function(res) {
 			if (res == 1) {
 				$.messager.show({

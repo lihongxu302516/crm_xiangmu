@@ -45,5 +45,10 @@ public interface JueseMapper {
 	 * @return
 	 */
 	Integer deleteJuese(Integer js_id);
+	/**
+	 * ²é¿´×ÉÑ¯Ê¦id
+	 * @return
+	 */
+	Integer selectJuese_zixunshi();
 
 }

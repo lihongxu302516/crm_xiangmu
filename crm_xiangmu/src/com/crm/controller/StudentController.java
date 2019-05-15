@@ -47,8 +47,8 @@ public class StudentController {
 	}
 	@RequestMapping(value = "insertStudnet",method = RequestMethod.POST)
 	@ResponseBody
-	public Integer insertStudnet(Student student) {
-		Integer insertStudent = studentService.insertStudent(student);
+	public Integer insertStudnet(HttpServletRequest request,Student student) {
+		Integer insertStudent = studentService.insertStudent(request,student);
 		return insertStudent;
 		
 	}

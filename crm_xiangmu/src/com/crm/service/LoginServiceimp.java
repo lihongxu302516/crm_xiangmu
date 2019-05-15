@@ -30,7 +30,7 @@ public class LoginServiceimp implements LoginService {
 	CookiesUtil cookiesUtil;
 
 	@Override
-	public Integer Login_service(User user,String yanzhengma,HttpServletRequest request,HttpServletResponse response) {
+	public Integer Login_service(User user,String yanzhengma,HttpServletRequest request,HttpServletResponse response,Integer mdl) {
 		// TODO Auto-generated method stub
 		int jg=0;
 		String us_name=user.getUs_name();
@@ -48,8 +48,10 @@ public class LoginServiceimp implements LoginService {
 						loginMapper.updatezuihoudenglutime(user);
 						user=loginMapper.selectUser_Login_password(user);
 						if(!"0".equals(yanzhengma)) {
-							cookiesUtil.setCookie(response, "us_name", us_name,7*24*60*60);
-							cookiesUtil.setCookie(response, "us_password", user.getUs_password(),7*24*60*60);
+							if(mdl==2) {
+								cookiesUtil.setCookie(response, "us_name", us_name,7*24*60*60);
+								cookiesUtil.setCookie(response, "us_password", user.getUs_password(),7*24*60*60);
+							}
 						}
 						List<Juese> selectJuese = loginMapper.selectJuese(user.getUs_id());
 						for(int i=0;i<selectJuese.size();i++) {

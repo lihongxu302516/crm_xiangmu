@@ -23,7 +23,7 @@ public interface StudentService {
 	 * @param student
 	 * @return
 	 */
-	Integer insertStudent(Student student);
+	Integer insertStudent(HttpServletRequest request,Student student);
 	/**
 	 * 删除一个学生
 	 * @param student

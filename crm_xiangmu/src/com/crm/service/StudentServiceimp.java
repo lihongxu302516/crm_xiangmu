@@ -7,16 +7,25 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.crm.dao.JueseMapper;
 import com.crm.dao.StudentMapper;
+import com.crm.dao.UserMapper;
 import com.crm.entity.Fenye;
 import com.crm.entity.Juese;
 import com.crm.entity.Student;
 import com.crm.entity.User;
+import com.crm.util.QuanZhongFenPei;
 
 @Service
 public class StudentServiceimp implements StudentService {
 	@Autowired
 	private StudentMapper studentMapper;
+	@Autowired
+	QuanZhongFenPei quanZhongFenPei;
+	@Autowired
+	JueseMapper juesemapper;
+	@Autowired
+	UserMapper usermapper;
 
 	@Override
 	public Fenye<Student> selesctStudent(HttpServletRequest request,Fenye<Student> fenye) {
@@ -53,8 +62,14 @@ public class StudentServiceimp implements StudentService {
 	}
 
 	@Override
-	public Integer insertStudent(Student student) {
+	public Integer insertStudent(HttpServletRequest request,Student student) {
 		// TODO Auto-generated method stub
+		User user = (User)request.getSession().getAttribute("user");
+		student.setXs_lururen(user.getUs_id());
+		Integer selectJuese_zixunshi = juesemapper.selectJuese_zixunshi();
+		List<User> selectUser_zixunshi = usermapper.selectUser_zixunshi(selectJuese_zixunshi);
+		User fenpei = quanZhongFenPei.fenpei(selectUser_zixunshi);
+		student.setXs_zixunshi(fenpei.getUs_id());
 		Integer insertStudent = studentMapper.insertStudent(student);
 		return insertStudent;
 	}

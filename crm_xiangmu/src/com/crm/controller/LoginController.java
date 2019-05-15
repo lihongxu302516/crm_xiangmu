@@ -35,7 +35,7 @@ public class LoginController {
 			user.setUs_name(us_name.getValue());
 			user.setUs_password(us_password.getValue());
 			request.getSession().setAttribute("yanzhengmatext", "0");;
-			int denglu = denglu(user, "0", request, response);
+			int denglu = denglu(user, "0", request, response,1);
 			if(denglu==0) {
 				return "home";
 			}else {
@@ -52,8 +52,8 @@ public class LoginController {
 	}
 	@RequestMapping(value = "denglu",method = RequestMethod.POST)
 	@ResponseBody
-	public int denglu(User user,String yanzhengma,HttpServletRequest request,HttpServletResponse response) {
-		Integer login_service = loginServiceimp.Login_service(user,yanzhengma,request,response);
+	public int denglu(User user,String yanzhengma,HttpServletRequest request,HttpServletResponse response,Integer mdl) {
+		Integer login_service = loginServiceimp.Login_service(user,yanzhengma,request,response,mdl);
 		return login_service;
 	}
 

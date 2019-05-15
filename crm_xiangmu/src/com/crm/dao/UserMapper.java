@@ -109,5 +109,10 @@ public interface UserMapper {
 	 * @return
 	 */
 	User selectUser_us_name_shoujihao(String us_name);
+	/**
+	 * 查询所有的咨询师
+	 * @return
+	 */
+	List<User> selectUser_zixunshi(Integer uj_userid);
 
 }

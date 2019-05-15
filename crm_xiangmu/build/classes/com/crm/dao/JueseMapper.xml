@@ -34,5 +34,9 @@
 	<delete id="deleteJuese" parameterType="int">
 		DELETE FROM juese WHERE js_id=#{js_id}
 	</delete>
+	
+	<select id="selectJuese_zixunshi" resultType="int">
+	SELECT js_id FROM juese WHERE js_name='咨询师'
+	</select>
 
 </mapper>

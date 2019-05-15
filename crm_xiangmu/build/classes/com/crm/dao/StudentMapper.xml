@@ -265,9 +265,9 @@
 	<insert id="insertStudent" parameterType="student">
 		insert into
 		student(xs_name,xs_dianhua,xs_xingbie,xs_nianling,xs_xueli,xs_zhuangtai,xs_laiyuanqudao,
-		xs_laiyuanwangzhi,xs_liyuanguanjianzi,xs_weixin,xs_qq,xs_isbaobei,xs_zixunshibeizhu)
+		xs_laiyuanwangzhi,xs_liyuanguanjianzi,xs_weixin,xs_qq,xs_isbaobei,xs_zixunshi,xs_lururen,xs_zixunshibeizhu)
 		values(#{xs_name},#{xs_dianhua},#{xs_xingbie},#{xs_nianling},#{xs_xueli},#{xs_zhuangtai},
-		#{xs_laiyuanqudao},#{xs_laiyuanwangzhi},#{xs_liyuanguanjianzi},#{xs_weixin},#{xs_qq},#{xs_isbaobei},
+		#{xs_laiyuanqudao},#{xs_laiyuanwangzhi},#{xs_liyuanguanjianzi},#{xs_weixin},#{xs_qq},#{xs_isbaobei},#{xs_zixunshi},#{xs_lururen},
 		#{xs_zixunshibeizhu})
 	</insert>
 	<insert id="insertGenZong" parameterType="student">

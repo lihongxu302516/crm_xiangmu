@@ -13,7 +13,7 @@ public interface LoginService {
 	 * @param request
 	 * @return
 	 */
-	Integer Login_service(User user,String yanzhengma,HttpServletRequest request,HttpServletResponse response);
+	Integer Login_service(User user,String yanzhengma,HttpServletRequest request,HttpServletResponse response,Integer mdl);
 	/**
 	 * 获取验证码图片
 	 * @param request

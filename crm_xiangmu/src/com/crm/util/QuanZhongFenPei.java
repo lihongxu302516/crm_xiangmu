@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.crm.entity.User;
+import org.springframework.stereotype.Component;
 
+import com.crm.entity.User;
+@Component
 public class QuanZhongFenPei {
 
 	public User fenpei(List<User> userlist) {

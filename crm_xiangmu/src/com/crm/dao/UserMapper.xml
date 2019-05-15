@@ -151,5 +151,9 @@
 	<select id="selectUser_us_name_shoujihao" parameterType="string" resultType="user">
 	SELECT us_id,us_shojihao FROM `user` WHERE us_name=#{us_name}
 	</select>
+	
+	<select id="selectUser_zixunshi" parameterType="int" resultType="user">
+	SELECT * FROM `user` u INNER JOIN user_juese uj ON u.us_id=uj.uj_userid WHERE uj.uj_jueseid=#{uj_jueseid}
+	</select>
 
 </mapper>
