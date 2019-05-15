@@ -73,6 +73,9 @@ body {
 					</table>
 				</form>
 			</div>
+			<span><a id="chongzhi_mima" href="javascript:void(0)"
+				class="easyui-linkbutton" onclick="chongzhi_mima()">
+					&nbsp;&nbsp;忘记密码？重置密码！</a></span>
 		</div>
 	</div>
 </body>
@@ -97,73 +100,79 @@ body {
 	}
 	function denglu() {
 		$.post("denglu", {
-			us_name:$("#us_name").val(),
-			us_password:$("#us_password").val(),
-			yanzhengma:$("#yanzhengma").val()
+			us_name : $("#us_name").val(),
+			us_password : $("#us_password").val(),
+			yanzhengma : $("#yanzhengma").val()
 		}, function(res) {
-			if(res==1){
+			if (res == 1) {
 				$.messager.show({
-					title: '我的消息',
-					msg: '验证码错误',
-					timeout: 1000,
-					showType: 'slide',
-					style: {
-						top: document.body.scrollTop + document.documentElement.scrollTop,
+					title : '我的消息',
+					msg : '验证码错误',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
 					}
 				});
-			}else if(res==2){
+			} else if (res == 2) {
 				$.messager.show({
-					title: '我的消息',
-					msg: '用户名错误',
-					timeout: 1000,
-					showType: 'slide',
-					style: {
-						top: document.body.scrollTop + document.documentElement.scrollTop,
+					title : '我的消息',
+					msg : '用户名错误',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
 					}
 				});
-			}else if(res==3){
+			} else if (res == 3) {
 				$.messager.show({
-					title: '我的消息',
-					msg: '密码错误',
-					timeout: 1000,
-					showType: 'slide',
-					style: {
-						top: document.body.scrollTop + document.documentElement.scrollTop,
+					title : '我的消息',
+					msg : '密码错误',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
 					}
 				});
-			}else if(res==4){
+			} else if (res == 4) {
 				$.messager.show({
-					title: '我的消息',
-					msg: '账户已被锁定，请联系管理员解除锁定！',
-					timeout: 1000,
-					showType: 'slide',
-					style: {
-						top: document.body.scrollTop + document.documentElement.scrollTop,
+					title : '我的消息',
+					msg : '账户已被锁定，请联系管理员解除锁定！',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
 					}
 				});
-			}else if(res==5){
+			} else if (res == 5) {
 				$.messager.show({
-					title: '我的消息',
-					msg: '今日密码错误次数超出3次，账户已被锁定！',
-					timeout: 1000,
-					showType: 'slide',
-					style: {
-						top: document.body.scrollTop + document.documentElement.scrollTop,
+					title : '我的消息',
+					msg : '今日密码错误次数超出3次，账户已被锁定！',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
 					}
 				});
-			}else if(res==0){
+			} else if (res == 0) {
 				$.messager.show({
-					title: '我的消息',
-					msg: '登陆成功',
-					timeout: 1000,
-					showType: 'slide',
-					style: {
-						top: document.body.scrollTop + document.documentElement.scrollTop,
+					title : '我的消息',
+					msg : '登陆成功',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
 					}
 				});
 				window.location.href = "home";
 			}
-		},"json");
+		}, "json");
 	}
 </script>
 </html>
