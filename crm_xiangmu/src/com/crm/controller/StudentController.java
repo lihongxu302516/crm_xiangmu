@@ -50,6 +50,20 @@ public class StudentController {
 	public Integer insertStudnet(HttpServletRequest request,Student student) {
 		Integer insertStudent = studentService.insertStudent(request,student);
 		return insertStudent;
-		
+	}
+	@RequestMapping(value = "Gongneng_zdfp",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer Gongneng_zdfp() {
+		return studentService.selectGongneng_zdfp();
+	}
+	@RequestMapping(value = "updateGongneng_zdfp",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateGongneng_zdfp(Integer gn_iskaiqi) {
+		return studentService.updateGongneng_zdfp(gn_iskaiqi);
+	}
+	@RequestMapping(value = "updateStudent_zixunshi",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateStudent_zixunshi(Student student) {
+		return studentService.updateStudent_zixunshi(student);
 	}
 }

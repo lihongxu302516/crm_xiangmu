@@ -51,4 +51,21 @@ public interface StudentMapper {
 	 * 添加跟踪信息
 	 */
 	Integer insertGenZong(Student student);
+	/**
+	 * 查看是否自动分配
+	 * @return
+	 */
+	Integer selectGongneng_zdfp();
+	/**
+	 * 修改自动分配
+	 * @param gn_iskaiqi
+	 * @return
+	 */
+	Integer updateGongneng_zdfp(Integer gn_iskaiqi);
+	/**
+	 * 给学生设置咨询师
+	 * @param student
+	 * @return
+	 */
+	Integer updateStudent_zixunshi(Student student);
 }

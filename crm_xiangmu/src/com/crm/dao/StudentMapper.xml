@@ -17,7 +17,8 @@
 			<if test="t.xs_dianhua !=null and t.xs_dianhua !='' ">
 				and xs_dianhua=#{t.xs_dianhua}
 			</if>
-			<if test="t.xs_zixunshi !=null and t.xs_zixunshi !='' ">
+			<if
+				test="t.xs_zixunshi !=null and t.xs_zixunshi !='' and t.xs_zixunshi !=-1">
 				and xs_zixunshi=#{t.xs_zixunshi}
 			</if>
 			<if test="t.xs_qq !=null and t.xs_qq !='' ">
@@ -85,6 +86,11 @@
 			<if test="t.us_id !=null and t.us_id !='' ">
 				and xs_zixunshi=#{t.us_id} OR xs_lururen=#{t.us_id}
 			</if>
+			<if
+				test="t.xs_zixunshi !=null and t.xs_zixunshi !='' and t.xs_zixunshi==-1 ">
+				and xs_id not in (SELECT xs_id FROM student WHERE
+				xs_zixunshi>0)
+			</if>
 		</where>
 		limit #{page},#{limit}
 	</select>
@@ -97,11 +103,15 @@
 			<if test="t.xs_dianhua !=null and t.xs_dianhua !='' ">
 				and xs_dianhua=#{t.xs_dianhua}
 			</if>
+			<if
+				test="t.xs_zixunshi !=null and t.xs_zixunshi !='' and t.xs_zixunshi !=-1">
+				and xs_zixunshi=#{t.xs_zixunshi}
+			</if>
+			<if test="t.xs_qq !=null and t.xs_qq !='' ">
+				and xs_qq=#{t.xs_qq}
+			</if>
 			<if test="t.xs_xingbie !=null and t.xs_xingbie !='' ">
 				and xs_xingbie=#{xs_xingbie}
-			</if>
-			<if test="t.xs_xueli !=null and t.xs_xueli !='' ">
-				and xs_xueli=#{t.xs_xueli}
 			</if>
 			<if test="t.xs_isyouxiao !=null and t.xs_isyouxiao !='' ">
 				and xs_isyouxiao=#{t.xs_isyouxiao}
@@ -111,6 +121,44 @@
 			</if>
 			<if test="t.xs_ishuifang !=null and t.xs_ishuifang !='' ">
 				and xs_ishuifang=#{t.xs_ishuifang}
+			</if>
+			<if
+				test="t.minxs_chuangjiantime !=null and t.minxs_chuangjiantime !='' ">
+				and xs_chuangjiantime=#{t.minxs_chuangjiantime}
+			</if>
+			<if
+				test="t.maxxs_chuangjiantime !=null and t.maxxs_chuangjiantime !='' ">
+				and xs_chuangjiantime=#{t.maxxs_chuangjiantime}
+			</if>
+			<if
+				test="t.minxs_shangmentime !=null and t.minxs_shangmentime !='' ">
+				and xs_shangmentime=#{t.minxs_shangmentime}
+			</if>
+			<if
+				test="t.maxxs_shangmentime !=null and t.maxxs_shangmentime !='' ">
+				and xs_shangmentime=#{t.maxxs_shangmentime}
+			</if>
+			<if
+				test="t.minxs_shuocihuifangtime !=null and t.minxs_shuocihuifangtime !='' ">
+				and xs_shuocihuifangtime=#{t.minxs_shuocihuifangtime}
+			</if>
+			<if
+				test="t.maxxs_shuocihuifangtime !=null and t.maxxs_shuocihuifangtime !='' ">
+				and xs_shuocihuifangtime=#{t.maxxs_shuocihuifangtime}
+			</if>
+			<if
+				test="t.minxs_jiaofeitime !=null and t.minxs_jiaofeitime !='' ">
+				and xs_jiaofeitime=#{t.minxs_jiaofeitime}
+			</if>
+			<if
+				test="t.maxxs_jiaofeitime !=null and t.maxxs_jiaofeitime !='' ">
+				and xs_jiaofeitime=#{t.maxxs_jiaofeitime}
+			</if>
+			<if test="t.minxs_jinbantime !=null and t.minxs_jinbantime !='' ">
+				and xs_jinbantime=#{t.minxs_jinbantime}
+			</if>
+			<if test="t.maxxs_jinbantime !=null and t.maxxs_jinbantime !='' ">
+				and xs_jinbantime=#{t.maxxs_jinbantime}
 			</if>
 			<if test="t.xs_isshangmen !=null and t.xs_isshangmen !='' ">
 				and xs_isshangmen=#{t.xs_isshangmen}
@@ -123,6 +171,11 @@
 			</if>
 			<if test="t.us_id !=null and t.us_id !='' ">
 				and xs_zixunshi=#{t.us_id} OR xs_lururen=#{t.us_id}
+			</if>
+			<if
+				test="t.xs_zixunshi !=null and t.xs_zixunshi !='' and t.xs_zixunshi==-1 ">
+				and xs_id not in (SELECT xs_id FROM student WHERE
+				xs_zixunshi>0)
 			</if>
 		</where>
 	</select>
@@ -256,7 +309,7 @@
 	<update id="updateisyouxiao" parameterType="student">
 		update student
 		<set>
-				xs_isyouxiao=1,
+			xs_isyouxiao=1,
 		</set>
 		<where>
 			xs_id=#{xs_id}
@@ -271,8 +324,9 @@
 		#{xs_zixunshibeizhu})
 	</insert>
 	<insert id="insertGenZong" parameterType="student">
-	insert into student(gz_genzongtime,gz_genzongneirong,gz_genzongfangshi,gz_beizhu,gz_xiacigenzongtime)
-	values(#{gz_genzongtime},#{gz_genzongneirong},#{gz_genzongfangshi},#{gz_beizhu},#{gz_xiacigenzongtime})
+		insert into
+		student(gz_genzongtime,gz_genzongneirong,gz_genzongfangshi,gz_beizhu,gz_xiacigenzongtime)
+		values(#{gz_genzongtime},#{gz_genzongneirong},#{gz_genzongfangshi},#{gz_beizhu},#{gz_xiacigenzongtime})
 	</insert>
 	<delete id="deleteStudent" parameterType="int">
 		delete from where
@@ -285,4 +339,13 @@
 		us_pingfenrenshu,us_isdaka,us_dakatime,us_biezhu,us_exe1,us_exe2 from
 		user where us_id=#{us_id}
 	</select>
+	<select id="selectGongneng_zdfp" resultType="int">
+		SELECT gn_iskaiqi FROM gongneng WHERE gn_name='自动分配'
+	</select>
+	<update id="updateGongneng_zdfp" parameterType="int">
+		UPDATE gongneng SET gn_iskaiqi=#{gn_iskaiqi} WHERE gn_name='自动分配'
+	</update>
+	<update id="updateStudent_zixunshi" parameterType="student">
+	UPDATE student SET xs_zixunshi=#{xs_zixunshi} WHERE xs_id=#{xs_id}
+	</update>
 </mapper>

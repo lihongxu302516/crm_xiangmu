@@ -1,6 +1,8 @@
 package com.crm.service;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.crm.entity.Fenye;
@@ -110,4 +112,9 @@ public interface UserService {
 	 * @return
 	 */
 	Integer user_cz_mima(HttpServletRequest request,String us_sj_yzm);
+	/**
+	 * 查询所有的咨询师
+	 * @return
+	 */
+	List<User> zixunshi_all();
 }

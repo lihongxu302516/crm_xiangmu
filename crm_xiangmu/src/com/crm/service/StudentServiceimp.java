@@ -28,17 +28,19 @@ public class StudentServiceimp implements StudentService {
 	UserMapper usermapper;
 
 	@Override
-	public Fenye<Student> selesctStudent(HttpServletRequest request,Fenye<Student> fenye) {
+	public Fenye<Student> selesctStudent(HttpServletRequest request, Fenye<Student> fenye) {
 		// TODO Auto-generated method stub
-		User user = (User)request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
 		List<Juese> juese = user.getJuese();
-		int is=0;
-		for(int i=0;i<juese.size();i++) {
-			if(juese.get(i).getJs_name().equals("×ÉÑ¯Ê¦")||juese.get(i).getJs_name().equals("ÍøÂç×ÉÑ¯Ê¦")) {
+		int is = 0;
+		for (int i = 0; i < juese.size(); i++) {
+			if (juese.get(i).getJs_name().equals("×ÉÑ¯Ê¦") || juese.get(i).getJs_name().equals("ÍøÂç×ÉÑ¯Ê¦")) {
 				is++;
+			} else if (juese.get(i).getJs_name().equals("×ÉÑ¯¾­Àí") || juese.get(i).getJs_name().equals("¹ÜÀíÔ±")) {
+				is = -100;
 			}
 		}
-		if(is>0) {
+		if (is > 0) {
 			fenye.getT().setUs_id(user.getUs_id());
 		}
 		Integer selescCount = studentMapper.selescCount(fenye);
@@ -62,14 +64,17 @@ public class StudentServiceimp implements StudentService {
 	}
 
 	@Override
-	public Integer insertStudent(HttpServletRequest request,Student student) {
+	public Integer insertStudent(HttpServletRequest request, Student student) {
 		// TODO Auto-generated method stub
-		User user = (User)request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
 		student.setXs_lururen(user.getUs_id());
-		Integer selectJuese_zixunshi = juesemapper.selectJuese_zixunshi();
-		List<User> selectUser_zixunshi = usermapper.selectUser_zixunshi(selectJuese_zixunshi);
-		User fenpei = quanZhongFenPei.fenpei(selectUser_zixunshi);
-		student.setXs_zixunshi(fenpei.getUs_id());
+		Integer selectGongneng_zdfp = studentMapper.selectGongneng_zdfp();
+		if(selectGongneng_zdfp==1) {
+			Integer selectJuese_zixunshi = juesemapper.selectJuese_zixunshi();
+			List<User> selectUser_zixunshi = usermapper.selectUser_zixunshi(selectJuese_zixunshi);
+			User fenpei = quanZhongFenPei.fenpei(selectUser_zixunshi);
+			student.setXs_zixunshi(fenpei.getUs_id());
+		}
 		Integer insertStudent = studentMapper.insertStudent(student);
 		return insertStudent;
 	}
@@ -91,6 +96,24 @@ public class StudentServiceimp implements StudentService {
 	public Integer insertGenZong(Student student) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Integer selectGongneng_zdfp() {
+		// TODO Auto-generated method stub
+		return studentMapper.selectGongneng_zdfp();
+	}
+
+	@Override
+	public Integer updateGongneng_zdfp(Integer gn_iskaiqi) {
+		// TODO Auto-generated method stub
+		return studentMapper.updateGongneng_zdfp(gn_iskaiqi);
+	}
+
+	@Override
+	public Integer updateStudent_zixunshi(Student student) {
+		// TODO Auto-generated method stub
+		return studentMapper.updateStudent_zixunshi(student);
 	}
 
 }

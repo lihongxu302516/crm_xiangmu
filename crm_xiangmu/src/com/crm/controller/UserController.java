@@ -130,5 +130,12 @@ public class UserController {
 	public Integer user_cz_mima(HttpServletResponse response,HttpServletRequest request,String us_sj_yzm) {
 		return userServiceimp.user_cz_mima(request, us_sj_yzm);
 	}
+	@RequestMapping(value = "zixunshi_all",method = RequestMethod.POST)
+	@ResponseBody
+	public List<User> zixunshi_all() {
+		List<User> zixunshi_all = userServiceimp.zixunshi_all();
+		System.out.println(zixunshi_all);
+		return zixunshi_all;
+	}
 
 }

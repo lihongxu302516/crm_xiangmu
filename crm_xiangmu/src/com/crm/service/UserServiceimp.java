@@ -245,6 +245,14 @@ public class UserServiceimp implements UserService {
 		}
 		return jg;
 	}
+
+	@Override
+	public List<User> zixunshi_all() {
+		// TODO Auto-generated method stub
+		Integer uj_userid = jueseMapper.selectJuese_zixunshi();
+		List<User> selectUser_zixunshi = usermapper.selectUser_zixunshi(uj_userid);
+		return selectUser_zixunshi;
+	}
 	
 
 }

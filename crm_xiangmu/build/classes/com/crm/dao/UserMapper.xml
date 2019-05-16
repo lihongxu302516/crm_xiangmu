@@ -153,7 +153,7 @@
 	</select>
 	
 	<select id="selectUser_zixunshi" parameterType="int" resultType="user">
-	SELECT * FROM `user` u INNER JOIN user_juese uj ON u.us_id=uj.uj_userid WHERE uj.uj_jueseid=#{uj_jueseid}
+	SELECT <include refid="userziduanming"></include> FROM `user` u INNER JOIN user_juese uj ON u.us_id=uj.uj_userid WHERE uj.uj_jueseid=#{uj_jueseid}
 	</select>
 
 </mapper>

@@ -247,7 +247,11 @@
 		}, 'json')
 	}
 	function xs_zixunshi(value, row, index){
-		return row.us_zixunshi.us_name;
+		if(row.us_zixunshi!=null && row.us_zixunshi!=""){
+			return row.us_zixunshi.us_name;
+		}else{
+			return "暂无咨询师";
+		}	
 	}
 	function xs_lururen(value, row, index){
 		return row.us_wangluozixunshi.us_name;
@@ -317,17 +321,17 @@
 					style="width: 100px"> <label>是否缴费:</label> <select
 					id="xs_isjiaofei" class="easyui-combobox" name="xs_isjiaofei"
 					style="width: 159px;">
-					<option value="">— —请输入— —</option>
+					<option value="">---请输入---</option>
 					<option value="1">是</option>
 					<option value="2">否</option>
 				</select> <label>是否有效:</label> <select id="xs_isyouxiao"
 					class="easyui-combobox" name="xs_isyouxiao" style="width: 159px;">
-					<option value="">— —请输入— —</option>
+					<option value="">---请输入---</option>
 					<option value="1">是</option>
 					<option value="2">否</option>
 				</select> <label>是否回访:</label> <select id="xs_ishuifang"
 					class="easyui-combobox" name="xs_ishuifang" style="width: 159px;">
-					<option value="">— —请输入— —</option>
+					<option value="">---请输入---</option>
 					<option value="1">是</option>
 					<option value="2">否</option>
 				</select> <label>QQ:</label><input class="easyui-textbox" id="xs_qq"
