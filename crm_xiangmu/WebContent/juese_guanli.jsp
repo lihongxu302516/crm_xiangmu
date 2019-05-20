@@ -61,11 +61,11 @@
 		</form>
 	</div>
 
-	<div id="quanxiantree" class="easyui-window"
-		style="width: 300px; height: 600px"
+	<div id="quanxiantree" title="分配权限" class="easyui-window"
+		style="width: 300px; height: 500px"
 		data-options="iconCls:'icon-save',modal:true">
 		<div class="easyui-layout" data-options="fit:true">
-			<div data-options="region:'north',split:true" style="height: 535px">
+			<div data-options="region:'north',split:true" style="height: 435px">
 				<div id="mkdiv" class="easyui-panel" style="padding: 5px">
 					<ul id="tt" class="easyui-tree"
 						data-options="iconCls:'icon-save',collapsible:true"></ul>

@@ -114,6 +114,7 @@ div {
 <script type="text/javascript">
 	//树形结构显示
 	$(function() {
+		dongtaixueshengrizhi();
 		$('#daka_win').window('close');
 		$.post("hometree", {
 			treeUlId : "treeUlId"
@@ -205,6 +206,21 @@ div {
 	function dk_deng() {
 		$('#daka_win').window('close');
 	}
+	function dongtaixueshengrizhi(){
+		$.post("dongtaixueshengrizhi",{},function(res){
+			if(res!="1" && res!="2" && res!=""){
+				$.messager.show({
+					title:'我的消息',
+					msg:'你的学生：'+res+"有动态信息，请及时查看！",
+					timeout:0,
+					showType:'slide',
+					width:"400px",
+					height:"200px"
+				});
+			}	
+		});
+		
+	}
 </script>
 <c:if test="${user!=null and user.us_isdaka==2}">
 		<script type="text/javascript">
@@ -212,5 +228,7 @@ div {
 				$('#daka_win').window('open');
 			});
 		</script>
-	</c:if>
+</c:if>
+	
+	
 </html>

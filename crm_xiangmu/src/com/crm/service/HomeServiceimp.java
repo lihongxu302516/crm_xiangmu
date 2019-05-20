@@ -4,13 +4,18 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.crm.dao.StudentMapper;
 import com.crm.entity.Juese;
 import com.crm.entity.Mokuai;
+import com.crm.entity.Student;
 import com.crm.entity.User;
 @Service
 public class HomeServiceimp implements HomeService {
+	@Autowired
+	private StudentMapper studentmapper;
 
 	private Mokuai mokuai3;
 
@@ -47,6 +52,37 @@ public class HomeServiceimp implements HomeService {
 			}
 		}
 		jg=jg+"</ul>";
+		return jg;
+	}
+	@Override
+	public String dongtaixueshengrizhi(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		User user=(User)request.getSession().getAttribute("user");
+		List<Juese> juese = user.getJuese();
+		String jg="";
+		int is = 0;
+		for (int i = 0; i < juese.size(); i++) {
+			if (juese.get(i).getJs_name().equals("×ÉÑ¯Ê¦")) {
+				is++;
+			} 
+		}
+		if(is>0) {
+			List<Student> s = studentmapper.selectUser_Student_exe1_isbeixiugai(user.getUs_id());
+			studentmapper.updateStudent_exe1_isbeixiugai_user(user.getUs_id());
+			if(s!=null) {
+				for(int i=0;i<s.size();i++) {
+					if(i==0) {
+						jg=jg+s.get(i).getXs_name()+"(Ñ§ºÅ£º"+s.get(i).getXs_id()+")";
+					}else {
+						jg=jg+","+s.get(i).getXs_name()+"(Ñ§ºÅ£º"+s.get(i).getXs_id()+")";
+					}
+				}
+			}else {
+				jg="2";
+			}	
+		}else {
+			jg="1";
+		}
 		return jg;
 	}
 

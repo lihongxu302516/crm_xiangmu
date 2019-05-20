@@ -134,7 +134,6 @@ public class UserController {
 	@ResponseBody
 	public List<User> zixunshi_all() {
 		List<User> zixunshi_all = userServiceimp.zixunshi_all();
-		System.out.println(zixunshi_all);
 		return zixunshi_all;
 	}
 

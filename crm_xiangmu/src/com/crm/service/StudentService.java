@@ -1,8 +1,13 @@
 package com.crm.service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.crm.entity.Dongtai;
 import com.crm.entity.Fenye;
+import com.crm.entity.Genzongrizhi;
 import com.crm.entity.Student;
 
 public interface StudentService {
@@ -31,6 +36,12 @@ public interface StudentService {
 	 */
 	Integer deleteStudent(Integer xs_id);
 	/**
+	 * 删除多个学生
+	 * @param list
+	 * @return
+	 */
+	Integer deleteStudent_duo(String xs_ids);
+	/**
 	 * 修改是否有效
 	 * @param student
 	 * @return
@@ -39,7 +50,7 @@ public interface StudentService {
 	/**
 	 * 添加跟踪信息
 	 */
-	Integer insertGenZong(Student student);
+	Integer insertGenZong(Genzongrizhi genzongrizhi,HttpServletRequest request);
 	/**
 	 * 查看是否自动分配
 	 * @return
@@ -57,4 +68,30 @@ public interface StudentService {
 	 * @return
 	 */
 	Integer updateStudent_zixunshi(Student student);
+	/**
+	 * 导出excel
+	 * @param request
+	 * @return
+	 * @throws IOException 
+	 */
+	void daochuexcel(HttpServletRequest request,HttpServletResponse response,String xs_ids) throws IOException;
+	/**
+	 * 添加动态日志
+	 * @param request
+	 * @param dt
+	 * @return
+	 */
+	Integer tianjia_dongtairizhi(HttpServletRequest request,Dongtai dt);
+	/**
+	 * 查看该学生的动态日志
+	 * @param dt_student
+	 * @return
+	 */
+	Fenye<Dongtai> selectDongtai_stu_id(Fenye<Dongtai> fenye);
+	/**
+	 * 根据学生id查看跟踪日志
+	 * @param fenye
+	 * @return
+	 */
+	Fenye<Genzongrizhi> selectGengzongrizhi_xs_id(Fenye<Genzongrizhi> fenye);
 }

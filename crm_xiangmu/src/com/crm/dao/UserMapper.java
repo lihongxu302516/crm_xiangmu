@@ -114,5 +114,11 @@ public interface UserMapper {
 	 * @return
 	 */
 	List<User> selectUser_zixunshi(Integer uj_userid);
+	/**
+	 * 添加签到日志
+	 * @param user
+	 * @return
+	 */
+	Integer insertqiandaorizhi(User user);
 
 }

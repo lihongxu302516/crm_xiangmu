@@ -14,6 +14,12 @@ private String gz_beizhu;
 private String gz_xiacigenzongtime;
 private String gz_exe1;
 private String gz_exe2;
+
+private Student stu;
+private User us;
+
+private String min_gz_genzongtime;
+private String max_gz_genzongtime;
 public Integer getGz_id() {
 	return gz_id;
 }
@@ -74,12 +80,37 @@ public String getGz_exe2() {
 public void setGz_exe2(String gz_exe2) {
 	this.gz_exe2 = gz_exe2;
 }
+public Student getStu() {
+	return stu;
+}
+public void setStu(Student stu) {
+	this.stu = stu;
+}
+public User getUs() {
+	return us;
+}
+public void setUs(User us) {
+	this.us = us;
+}
+public String getMin_gz_genzongtime() {
+	return min_gz_genzongtime;
+}
+public void setMin_gz_genzongtime(String min_gz_genzongtime) {
+	this.min_gz_genzongtime = min_gz_genzongtime;
+}
+public String getMax_gz_genzongtime() {
+	return max_gz_genzongtime;
+}
+public void setMax_gz_genzongtime(String max_gz_genzongtime) {
+	this.max_gz_genzongtime = max_gz_genzongtime;
+}
 @Override
 public String toString() {
 	return "Genzongrizhi [gz_id=" + gz_id + ", gz_xuesheng=" + gz_xuesheng + ", gz_user=" + gz_user
 			+ ", gz_genzongtime=" + gz_genzongtime + ", gz_genzongneirong=" + gz_genzongneirong + ", gz_genzongfangshi="
 			+ gz_genzongfangshi + ", gz_beizhu=" + gz_beizhu + ", gz_xiacigenzongtime=" + gz_xiacigenzongtime
-			+ ", gz_exe1=" + gz_exe1 + ", gz_exe2=" + gz_exe2 + "]";
+			+ ", gz_exe1=" + gz_exe1 + ", gz_exe2=" + gz_exe2 + ", stu=" + stu + ", us=" + us + ", min_gz_genzongtime="
+			+ min_gz_genzongtime + ", max_gz_genzongtime=" + max_gz_genzongtime + "]";
 }
 
 }

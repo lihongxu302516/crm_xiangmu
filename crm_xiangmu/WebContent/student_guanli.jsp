@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ page import="com.crm.entity.*"%>
+<%@ page import="java.util.List"%>
+<%
+	User user = (User) request.getSession().getAttribute("user");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +14,11 @@
 <script src="js/yincang.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	$(function() {
+		$("#tj_dtrz_win").window("close");
+		$("#ck_dtrz_win").window("close");
+		$("#nr_dtrz_win").window("close");
+		$("#nr_gzrz_win").window("close");
+		$("#ck_gzrz_win").window("close");
 		student_guanli();
 	})
 	function student_guanli() {
@@ -18,7 +28,6 @@
 					method : 'post',
 					toolbar : '#StudentToo',
 					pagination : true,
-					singleSelect : true,
 					queryParams : {
 						xs_name : $("#xs_name").val(),
 						xs_dianhua : $("#xs_dianhua").val(),
@@ -56,14 +65,13 @@
 				+ index
 				+ ")' > 编辑 </a>  <a href='javascript:void(0)' class='easyui-linkbutton' onclick='deleteD("
 				+ index
-				+ ")' > 删除 </a>  <a href='javascript:void(0)' class='easyui-linkbutton' onclick='updateUU("
-				+ index + ")' > 查看 </a>   <a href='javascript:void(0)' class='easyui-linkbutton' onclick='genzong("
-				+ index + ")' > 跟踪 </a>";
+				+ ")' > 无效 </a>  <a href='javascript:void(0)' class='easyui-linkbutton' onclick='updateUU("
+				+ index + ")' > 查看 </a> ";
 	}
 	function formatterxingbie(value, row, index) {
 		return row.xs_xingbie == 2 ? '女' : '男';
 	}
-	
+
 	/*  判断是否有效*/
 	function deleteD(index) {
 		$.messager.confirm('确认', '您确认要将该学生无效吗？', function(r) {
@@ -93,20 +101,42 @@
 			}
 		});
 	}
-	
+
 	/*修改 在线录入,咨询师录入  */
 	function updateU(index) {
 		var data = $("#StudentTab").datagrid("getData");
 		var row = data.rows[index];
-		$("#frm1").form("load", row);
-		$("#updateStuYuan").dialog("open");
+		$("#frm1_zai").form("load", row);
+		$("#frm1_zi").form("load", row);
+<%List<Juese> juese1 = user.getJuese();
+			int zxs = 0;
+			int wlzxs = 0;
+			for (int i = 0; i < juese1.size(); i++) {
+				if (juese1.get(i).getJs_name().equals("咨询师")) {
+					zxs++;
+				} else if (juese1.get(i).getJs_name().equals("网络咨询师")) {
+					wlzxs++;
+				} else if(juese1.get(i).getJs_name().equals("管理员")){
+					zxs++;
+					wlzxs++;
+				}
+			}
+			if (zxs == 0 && wlzxs == 0) {%>
+			$('input,select,textarea',$('form[name="frm1_zi"]')).prop('disabled',true);
+			$('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
+<%} else if (zxs == 0) {%>
+$('input,select,textarea',$('form[name="frm1_zi"]')).prop('disabled',true);
+<%} else if (wlzxs == 0) {%>
+$('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
+<%}%>
+	$("#updateStuYuan").dialog("open");
 	}
 	function updateGuanbi() {
 		$("#updateStuYuan").dialog("close");
 	}
 	function updateStuYuanBao() {
 		$.post("updateStudnet", {
-			xs_id : ("#xs_id1").val(),
+			xs_id : $("#xs_id_xiugai").val(),
 			xs_name : $("#xs_name1").val(),
 			xs_xingbie : $("#xs_xingbie1").combobox("getValue"),
 			xs_nianling : $("#xs_nianling1").val(),
@@ -124,7 +154,6 @@
 			xs_isbaobei : $("#xs_isbaobei1").combobox("getValue"),
 			xs_zixunshi : $("#xs_zixunshi1").val(),
 			xs_lururen : $("#xs_lururen1").val(),
-
 			xs_namezixun : $("#xs_namezixun1").val(),
 			xs_kecheng : $("#xs_kecheng1").val(),
 			xs_dafen : $("#xs_dafen1").val(),
@@ -147,16 +176,36 @@
 			xs_zixunshibeizhu : $("#xs_zixunshibeizhu1").val()
 		}, function(res) {
 			if (res > 0) {
-				alert('修改成功');
+				//alert('修改成功');
+				$.messager.show({
+					title : '我的消息',
+					msg : '修改成功',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
 				$("#updateStuYuan").dialog("close");
 				$("#StudentTab").datagrid("reload");
 			} else {
-				alert('修改失败');
+				//alert('修改失败');
+				$.messager.show({
+					title : '我的消息',
+					msg : '修改成功',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
 				$("#updateStuYuan").dialog("close");
 			}
 		}, 'json')
 	}
-	
+
 	/*查看  */
 	function updateUU(index) {
 		var data = $("#StudentTab").datagrid("getData");
@@ -209,11 +258,12 @@
 			xs_jinbanbeizhu : $("#xs_jinbanbeizhu2").val(),
 			xs_zixunshibeizhu : $("#xs_zixunshibeizhu2").val()
 		}, function(res) {
-			
+
 		}, 'json')
 	}
 	/*  添加*/
-	function insertDakai(){
+	function insertDakai() {
+		$("#frm3").form("reset");
 		$("#insertStudent").dialog("open");
 	}
 	function inserGuanbi() {
@@ -235,37 +285,284 @@
 			xs_isbaobei : $("#xs_isbaobei3").combobox("getValue"),
 		}, function(res) {
 			if (res > 0) {
-				alert('添加成功');
+				//alert('添加成功');
+				$.messager.show({
+					title : '我的消息',
+					msg : '添加成功',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
 				$("#insertStudent").dialog("close");
 				$("#StudentTab").datagrid("reload");
 				$("#frm3").form("reset");
 			} else {
-				alert('添加失败');
+				//alert('添加失败');
+				$.messager.show({
+					title : '我的消息',
+					msg : '添加失败',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
 				$("#insertStudent").dialog("close");
 				$("#frm3").form("reset");
 			}
 		}, 'json')
 	}
-	function xs_zixunshi(value, row, index){
-		if(row.us_zixunshi!=null && row.us_zixunshi!=""){
+	function xs_zixunshi(value, row, index) {
+		if (row.us_zixunshi != null && row.us_zixunshi != "") {
 			return row.us_zixunshi.us_name;
-		}else{
+		} else {
 			return "暂无咨询师";
-		}	
+		}
 	}
-	function xs_lururen(value, row, index){
+	function xs_lururen(value, row, index) {
 		return row.us_wangluozixunshi.us_name;
 	}
-	function xs_isbaobei(value, row, index){
-		return row.xs_isbaobei==1 ? "是":"否";
+	function xs_isbaobei(value, row, index) {
+		return row.xs_isbaobei == 1 ? "是" : "否";
 	}
-	
+	function xs_isyouxiao(value, row, index) {
+		return row.xs_isyouxiao == 1 ? "有效" : "无效";
+	}
+	function xs_ishuifang(value, row, index){
+		return row.xs_ishuifang ==1 ? "已回访":"未回访";
+	}
+	/* 添加跟踪信息 */
+	function genzong(index) {
+		$("#frm4").form("reset");
+		$("#genzongStudent").dialog("open");
+	}
+	function genzongGuanbi() {
+		$("#genzongStudent").dialog("close");
+	}
+	function genzongBaoCun() {
+		$.post("insertGenZong", {
+			gz_xuesheng : $("#StudentTab").datagrid("getSelected").xs_id,
+			gz_genzongtime : $("#gz_genzongtime").datetimebox("getValue"),
+			gz_genzongneirong : $("#gz_genzongneirong").val(),
+			gz_genzongfangshi : $("#gz_genzongfangshi").textbox("getValue"),
+			gz_beizhu : $("#gz_beizhu").val(),
+			gz_xiacigenzongtime : $("#gz_xiacigenzongtime").datetimebox(
+					"getValue")
+		}, function(res) {
+			if (res == 1) {
+				//alert('添加成功');
+				$.messager.show({
+					title : '我的消息',
+					msg : '添加跟踪成功',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+				$("#genzongStudent").dialog("close");
+				$("#StudentTab").datagrid("reload");
+				$("#frm4").form("reset");
+			} else {
+				//alert('添加失败');
+				$.messager.show({
+					title : '我的消息',
+					msg : '添加跟踪失败',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+				$("#genzongStudent").dialog("close");
+				$("#frm4").form("reset");
+			}
+		}, 'json')
+	}
+	function daochuexcel() {
+		var row = $("#StudentTab").datagrid("getSelections");
+		if (row != null && row != "") {
+			var xs_ids = "";
+			for (var i = 0; i < row.length; i++) {
+				if (i == 0) {
+					xs_ids = xs_ids + row[i].xs_id;
+				} else {
+					xs_ids = xs_ids + "," + row[i].xs_id;
+				}
+			}
+			$.messager.confirm('确认', '您确认想要把当前数据导出Excel吗？', function(r) {
+				if (r) {
+					window.location.href = "daochuexcel?xs_ids=" + xs_ids;
+				}
+			});
+
+		} else {
+			$.messager.show({
+				title : '我的消息',
+				msg : '还未选择学生，请选择！',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
+	}
+	function dongtai(value, row, index) {
+<%List<Juese> juese = user.getJuese();
+			int zx = 0;
+			int jl = 0;
+			for (int i = 0; i < juese.size(); i++) {
+				if (juese.get(i).getJs_name().equals("咨询师") || juese.get(i).getJs_name().equals("网络咨询师")) {
+					zx++;
+				} else if (juese.get(i).getJs_name().equals("咨询经理") || juese.get(i).getJs_name().equals("管理员")) {
+					jl++;
+				}
+			}
+			if (zx > 0 && jl > 0) {%>
+	return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='ck_dtrz("
+				+ index
+				+ ")' > 查看动态日志 </a>&nbsp;&nbsp;<a href='javascript:void(0)' class='easyui-linkbutton' onclick='tj_dtrz("
+				+ index + ")' > 添加动态日志 </a>";
+<%} else if (zx > 0) {%>
+	return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='ck_dtrz("
+				+ index + ")' > 查看动态日志 </a>";
+<%} else if (jl > 0) {%>
+	return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='tj_dtrz("
+				+ index + ")' > 添加动态日志 </a>";
+<%}%>
+	}
+
+	function tj_dtrz(index) {
+		$("#tj_dtrz_ff").form("reset");
+		$("#tj_dtrz_win").window("open");
+	}
+	function tj_dtrz_bc() {
+		$.post("tianjia_dongtairizhi", {
+			dt_student : $("#StudentTab").datagrid("getSelected").xs_id,
+			dt_neirong : $("#tj_dt_neirong").val()
+		}, function(res) {
+			if (res == 1) {
+				$("#tj_dtrz_ff").form("reset");
+				$("#tj_dtrz_win").window("close");
+				$.messager.show({
+					title : '我的消息',
+					msg : '添加动态信息成功',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			} else {
+				$.messager.show({
+					title : '我的消息',
+					msg : '添加动态信息失败',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			}
+		}, "json");
+	}
+
+	function ck_dtrz(index) {
+		$("#dtxx_tt")
+				.datagrid(
+						{
+							url : 'student_dtrz_xs',
+							method : 'post',
+							pagination : true,
+							queryParams : {
+								dt_student : $("#StudentTab").datagrid(
+										"getData").rows[index].xs_id
+							}
+
+						});
+		$("#ck_dtrz_win").window("open");
+	}
+	function ck_dtrz_gb() {
+		$("#ck_dtrz_win").window("close");
+	}
+	function dt_student(value, row, index) {
+		return $("#StudentTab").datagrid("getData").rows[index].xs_name;
+	}
+	function dt_tianjiaren(value, row, index) {
+		return row.us.us_name;
+	}
+	function dt_neirong(value, row, index) {
+		return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='dt_neirong_chankan("
+				+ index + ")' > 查看 </a>";
+	}
+	function dt_neirong_chankan(index) {
+		$("#nr_dt_neirong").val(
+				$("#dtxx_tt").datagrid("getData").rows[index].dt_neirong);
+		$("#nr_dtrz_win").window("open");
+	}
+	function nr_dtrz_gb() {
+		$("#nr_dtrz_win").window("close");
+	}
+	function formattergenzong(value, row, index) {
+		return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='genzong("
+				+ index
+				+ ")' > 跟踪 </a>&nbsp;&nbsp;<a href='javascript:void(0)' class='easyui-linkbutton' onclick='ck_genzong("
+				+ index + ")' > 查看跟踪 </a>"
+	}
+	function ck_genzong(index) {
+		$("#ck_gzrz_tt")
+				.datagrid(
+						{
+							url : 'selectGengzongrizhi_xs_id',
+							method : 'post',
+							pagination : true,
+							queryParams : {
+								gz_xuesheng : $("#StudentTab").datagrid(
+										"getData").rows[index].xs_id
+							}
+
+						});
+		$("#ck_gzrz_win").window("open");
+	}
+	function gz_xuesheng(value, row, index) {
+		return row.stu == null ? "" : row.stu.xs_name;
+	}
+	function gz_user(value, row, index) {
+		return row.us == null ? "" : row.us.us_name;
+	}
+	function ck_gz_genzongneirong(value, row, index) {
+		return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='ck_gz_genzongneirong_a("
+				+ index + ")' > 查看 </a>";
+	}
+	function ck_gz_genzongneirong_a(index) {
+		$("#nr_gz_neirong")
+				.val(
+						$("#ck_gzrz_tt").datagrid("getData").rows[index].gz_genzongneirong);
+		$("#nr_gzrz_win").window("open");
+	}
+	function ck_gzrz_gb() {
+		$("#ck_gzrz_win").window("close");
+	}
+	function nr_gzrz_gb() {
+		$("#nr_gzrz_win").window("close");
+	}
 </script>
 </head>
 <body>
 	<table id="StudentTab" class="easyui-datagrid">
 		<thead>
 			<tr>
+				<th data-options="field:'checkbox',sortable:true,checkbox:true">用户ID</th>
 				<th data-options="field:'xs_id'">学生编号</th>
 				<th data-options="field:'xs_name' ">姓名</th>
 				<th data-options="field:'xs_xingbie',formatter:formatterxingbie">性别</th>
@@ -278,16 +575,16 @@
 				<th data-options="field:'xs_laiyuanwangzhi' ">来源网址</th>
 				<th data-options="field:'xs_guanzhu' ">学生关注</th>
 				<th data-options="field:'xs_liyuanguanjianzi' ">来源关键字</th>
-				<th data-options="field:'xs_namezixun' ">姓名质询</th>
+				<th data-options="field:'xs_namezixun' ">姓名咨询</th>
 				<th data-options="field:'xs_suozaiquyu' ">所在区域</th>
 				<th data-options="field:'xs_weixin' ">微信</th>
 				<th data-options="field:'xs_qq' ">qq</th>
 				<th data-options="field:'xs_laiyuanbumen' ">来源部门</th>
 				<th data-options="field:'xs_isbaobei',formatter:xs_isbaobei">是否报备</th>
 				<th data-options="field:'xs_kecheng' ">课程方向</th>
-				<th data-options="field:'xs_isyouxiao' ">是否有效</th>
+				<th data-options="field:'xs_isyouxiao',formatter:xs_isyouxiao">是否有效</th>
 				<th data-options="field:'xs_dafen' ">打分</th>
-				<th data-options="field:'xs_ishuifang' ">是否回访</th>
+				<th data-options="field:'xs_ishuifang',formatter:xs_ishuifang">是否回访</th>
 				<th data-options="field:'xs_shuocihuifangtime' ">首次回访时间</th>
 				<th data-options="field:'xs_isshangmen' ">是否上门</th>
 				<th data-options="field:'xs_shangmentime' ">上门时间</th>
@@ -306,6 +603,8 @@
 				<th data-options="field:'xs_lururen',formatter:xs_lururen">录入人</th>
 				<th data-options="field:'xs_zixunshibeizhu' ">咨询师备注</th>
 				<th data-options="field:'xs_caozuo',formatter:formattercaozuo ">操作</th>
+				<th data-options="field:'xs_genzong',formatter:formattergenzong ">跟踪</th>
+				<th data-options="field:'dongtai',formatter:dongtai">动态</th>
 			</tr>
 		</thead>
 	</table>
@@ -361,17 +660,18 @@
 					class="easyui-datetimebox" id="maxxs_jinbantime"
 					name="maxxs_jinbantime" value="" style="width: 150px"> <a
 					href="javascript:void(0)" class="easyui-linkbutton"
-					onclick="student_guanli()"
-					data-options="iconCls:'icon-search',plain:true">搜索</a> <a
-					href="javascript:void(0)" class="easyui-linkbutton" onclick="insertDakai()"
-					data-options="iconCls:'icon-add',plain:true">添加</a>
+					onclick="student_guanli()" data-options="iconCls:'icon-search'">搜索</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					onclick="insertDakai()" data-options="iconCls:'icon-add'">添加</a> <a
+					href="javascript:void(0)" class="easyui-linkbutton"
+					onclick="daochuexcel()" data-options="iconCls:'icon-redo'">导出Excel</a>
 			</form>
 		</div>
 	</div>
 
-<!--  编辑-->
+	<!--  编辑-->
 	<div id="updateStuYuan" class="easyui-dialog"
-		style="width: 700px; height: 600px"
+		style="width: 700px; height: 550px"
 		data-options="title:' 编辑 ',modal:true,closed:true,
 			buttons:[{
 				text:'保存',
@@ -385,10 +685,11 @@
 				}
 			}]">
 
-		<form id="frm1" class="easyui-form">
-			<input disabled="disabled" type="text" id="xs_id1" name="xs_id"
-				style="display: none;" />
-			<div style="float: left;">
+		
+		<div style="float: left;">
+			<form id="frm1_zai" name="frm1_zai" class="easyui-form">
+			<input disabled="disabled" type="text" id="xs_id_xiugai" name="xs_id"
+			style="display: none;" />
 				<table>
 					<tr>
 						<td>
@@ -489,12 +790,13 @@
 							id="xs_lururen1" name="xs_lururen" /></td>
 					</tr>
 				</table>
+			</form>
+
+		</div>
 
 
-			</div>
-
-
-			<div style="float: right;">
+		<div style="float: right;">
+			<form id="frm1_zi" name="frm1_zi" class="easyui-form">
 				<table>
 					<tr>
 						<td>
@@ -629,13 +931,13 @@
 							id="xs_zixunshibeizhu1" name="xs_zixunshibeizhu" /></td>
 					</tr>
 				</table>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 
-<!--查看  -->
+	<!--查看  -->
 	<div id="chakanStudent" class="easyui-dialog"
-		style="width: 700px; height: 600px"
+		style="width: 700px; height: 550px"
 		data-options="title:' 查看 ',modal:true,closed:true,
 			buttons:[{
 				text:'关闭',
@@ -645,12 +947,12 @@
 			}]">
 
 		<form id="frm2" class="easyui-form">
-			
+
 			<div style="float: left;">
 				<table>
 					<tr>
 						<td>编号:</td>
-						<td><input  disabled="disabled" class="easyui-textbox"
+						<td><input disabled="disabled" class="easyui-textbox"
 							type="text" id="xs_id2" name="xs_id" /></td>
 					</tr>
 					<tr>
@@ -885,7 +1187,7 @@
 			</div>
 		</form>
 	</div>
-	
+
 	<!--  添加-->
 	<div id="insertStudent" class="easyui-dialog"
 		style="width: 400px; height: 400px"
@@ -904,20 +1206,21 @@
 
 		<form id="frm3" class="easyui-form">
 			<input disabled="disabled" type="text" id="xs_id1" name="xs_id"
-				style="text-align:center;  display: none;" />
+				style="text-align: center; display: none;" />
 			<div style="float: left;">
 				<table>
-					
+
 					<tr>
 						<td>姓名:</td>
 						<td><input class="easyui-textbox" type="text" id="xs_name3"
 							name="xs_name" /></td>
 					</tr>
-					
+
 					<tr>
 						<td>性别:</td>
 						<td><select id="xs_xingbie3" class="easyui-combobox"
-							name="xs_xingbie" data-options="editable:false" style="width: 159px;">
+							name="xs_xingbie" data-options="editable:false"
+							style="width: 159px;">
 								<option value="">---请选择---</option>
 								<option value="1">男</option>
 								<option value="2">女</option>
@@ -935,8 +1238,9 @@
 					</tr>
 					<tr>
 						<td>学历:</td>
-						<td><select id="xs_xueli3" 
-							class="easyui-combobox" data-options="editable:false" name="xs_isjinban" style="width: 159px;">
+						<td><select id="xs_xueli3" class="easyui-combobox"
+							data-options="editable:false" name="xs_isjinban"
+							style="width: 159px;">
 								<option value="">---请选择---</option>
 								<option value="大专">大专</option>
 								<option value="高中">高中</option>
@@ -944,26 +1248,26 @@
 								<option value="初中">初中</option>
 								<option value="本科">本科</option>
 								<option value="其他">其他</option>
-						</select>
-						</td>
+						</select></td>
 					</tr>
 					<tr>
 						<td>状态:</td>
-						<td><select id="xs_zhuangtai3" 
-							class="easyui-combobox" data-options="editable:false" name="xs_zhuangtai" style="width: 159px;">
+						<td><select id="xs_zhuangtai3" class="easyui-combobox"
+							data-options="editable:false" name="xs_zhuangtai"
+							style="width: 159px;">
 								<option value="">---请选择---</option>
 								<option value="未知">未知</option>
 								<option value="待业">待业</option>
 								<option value="在职">在职</option>
 								<option value="在读">在读</option>
-						</select>
-						</td>
-						
+						</select></td>
+
 					</tr>
 					<tr>
 						<td>来源渠道:</td>
-						<td><select id="xs_laiyuanqudao3" 
-							class="easyui-combobox" data-options="editable:false" name="xs_laiyuanqudao" style="width: 159px;">
+						<td><select id="xs_laiyuanqudao3" class="easyui-combobox"
+							data-options="editable:false" name="xs_laiyuanqudao"
+							style="width: 159px;">
 								<option value="">---请选择---</option>
 								<option value="未知">未知</option>
 								<option value="百度">百度</option>
@@ -978,28 +1282,26 @@
 								<option value="直电">直电</option>
 								<option value="微信">微信</option>
 								<option value="QQ">QQ</option>
-						</select>
-						</td>
+						</select></td>
 					</tr>
 					<tr>
 						<td>来源网站:</td>
-						<td>
-						<select id="xs_laiyuanwangzhi3" 
-							class="easyui-combobox" data-options="editable:false" name="xs_laiyuanwangzhi" style="width: 159px;">
+						<td><select id="xs_laiyuanwangzhi3" class="easyui-combobox"
+							data-options="editable:false" name="xs_laiyuanwangzhi"
+							style="width: 159px;">
 								<option value="">---请选择---</option>
 								<option value="其他">其他</option>
 								<option value="职英B站">职英B站</option>
 								<option value="高考站">高考站</option>
 								<option value="职英A站">职英A站</option>
-						</select>
-						</td>
+						</select></td>
 					</tr>
 					<tr>
 						<td>来源关键字:</td>
 						<td><input class="easyui-textbox" type="text"
 							id="xs_liyuanguanjianzi3" name="xs_liyuanguanjianzi" /></td>
 					</tr>
-					
+
 					<tr>
 						<td>学员QQ:</td>
 						<td><input class="easyui-textbox" type="text" id="xs_qq3"
@@ -1012,20 +1314,150 @@
 					</tr>
 					<tr>
 						<td>是否报备(是,否):</td>
-						<td><select id="xs_isbaobei3" data-options="editable:false" class="easyui-combobox"
-							name="xs_isbaobei" style="width: 159px;">
+						<td><select id="xs_isbaobei3" data-options="editable:false"
+							class="easyui-combobox" name="xs_isbaobei" style="width: 159px;">
 								<option value="">---请选择---</option>
 								<option value="1">是</option>
 								<option value="2">否</option>
 						</select></td>
 					</tr>
-				
+
 				</table>
 			</div>
 		</form>
 	</div>
-	
-	
+	<!--  跟踪-->
+	<div id="genzongStudent" class="easyui-dialog"
+		style="width: 400px; height: 300px"
+		data-options="title:' 添加跟踪信息 ',modal:true,closed:true,
+			buttons:[{
+				text:'保存',
+				handler:function(){
+				genzongBaoCun();
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				genzongGuanbi();
+				}
+			}]">
 
-	
+		<form id="frm4" class="easyui-form" style="align: center;">
+			<div style="text-align: center;">
+				<table style="width: 70%; margin: auto;">
+					<tr>
+						<td>回访时间:</td>
+						<td><input class="easyui-datetimebox" type="text"
+							id="gz_genzongtime" /></td>
+					</tr>
+					<tr>
+						<td>回访情况:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="gz_genzongneirong" /></td>
+					</tr>
+					<tr>
+						<td>跟踪方式:</td>
+						<td><input class="easyui-textbox" type="text"
+							id="gz_genzongfangshi" /></td>
+					</tr>
+					<tr>
+						<td>下次跟踪时间:</td>
+						<td><input class="easyui-datetimebox" type="text"
+							id="gz_xiacigenzongtime" /></td>
+					</tr>
+					<tr>
+						<td>备注:</td>
+						<td><input class="easyui-textbox" type="text" id="gz_beizhu" /></td>
+					</tr>
+
+				</table>
+			</div>
+		</form>
+	</div>
+
+	<div id="tj_dtrz_win" class="easyui-window" title="添加动态"
+		style="width: 600px; height: 400px; text-align: center;"
+		data-options="iconCls:'icon-save',modal:true">
+		<form id="tj_dtrz_ff">
+			<h3>学生动态信息</h3>
+			<div>
+				<textarea cols="80" rows="15" id="tj_dt_neirong"
+					style="OVERFLOW: hidden"></textarea>
+			</div>
+		</form>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="tj_dtrz_bc()" data-options="iconCls:'icon-save'">保存</a>
+	</div>
+
+	<div id="ck_dtrz_win" class="easyui-window" title="查看动态"
+		style="width: 600px; height: 400px; text-align: center;"
+		data-options="iconCls:'icon-save',modal:true">
+		<h3>学生动态信息</h3>
+		<table id="dtxx_tt" class="easyui-datagrid">
+			<thead>
+				<tr>
+					<th data-options="field:'dt_student',formatter:dt_student">学生</th>
+					<th data-options="field:'dt_time'">时间</th>
+					<th data-options="field:'dt_tianjiaren',formatter:dt_tianjiaren">添加人</th>
+					<th data-options="field:'dt_neirong',formatter:dt_neirong">内容</th>
+				</tr>
+			</thead>
+		</table>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="ck_dtrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+	</div>
+
+	<div id="nr_dtrz_win" class="easyui-window" title="动态内容"
+		style="width: 500px; height: 300px; text-align: center;"
+		data-options="iconCls:'icon-save',modal:true">
+		<form id="nr_dtrz_ff">
+			<h3>内容</h3>
+			<div>
+				<textarea cols="60" disabled="disabled" rows="11" id="nr_dt_neirong"
+					style="OVERFLOW: hidden"></textarea>
+			</div>
+		</form>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="nr_dtrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+	</div>
+
+
+	<div id="ck_gzrz_win" class="easyui-window" title="查看跟踪日志"
+		style="width: 700px; height: 450px; text-align: center;"
+		data-options="iconCls:'icon-save',modal:true">
+		<h3>跟踪日志</h3>
+		<table id="ck_gzrz_tt" class="easyui-datagrid">
+			<thead>
+				<tr>
+					<th data-options="field:'gz_xuesheng',formatter:gz_xuesheng">学生</th>
+					<th data-options="field:'gz_genzongtime'">跟踪时间</th>
+					<th data-options="field:'gz_genzongneirong'">跟踪内容</th>
+					<th data-options="field:'gz_genzongfangshi'">跟踪方式</th>
+					<th data-options="field:'gz_beizhu'">备注</th>
+					<th data-options="field:'gz_xiacigenzongtime'">下次跟踪时间</th>
+					<th data-options="field:'gz_exe1'">回访情况</th>
+					<th data-options="field:'gz_user',formatter:gz_user">跟踪人</th>
+					<th
+						data-options="field:'ck_gz_genzongneirong',formatter:ck_gz_genzongneirong">查看详细内容</th>
+				</tr>
+			</thead>
+		</table>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="ck_gzrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+	</div>
+
+	<div id="nr_gzrz_win" class="easyui-window" title="跟踪内容"
+		style="width: 500px; height: 300px; text-align: center;"
+		data-options="iconCls:'icon-save',modal:true">
+		<form id="nr_gzrz_ff">
+			<h3>内容</h3>
+			<div>
+				<textarea cols="60" disabled="disabled" rows="11" id="nr_gz_neirong"
+					style="OVERFLOW: hidden"></textarea>
+			</div>
+		</form>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="nr_gzrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+	</div>
+</body>
 </html>

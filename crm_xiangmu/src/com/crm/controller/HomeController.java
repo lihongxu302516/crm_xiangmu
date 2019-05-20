@@ -23,7 +23,6 @@ public class HomeController {
 	public String home(HttpServletRequest request) {
 			return "home";
 	}
-
 	@RequestMapping(value = "hometree", method = RequestMethod.POST)
 	@ResponseBody
 	public String hometree(String treeUlId, HttpServletRequest requer) {
@@ -36,6 +35,11 @@ public class HomeController {
 		cookiesUtil.setCookie(response, "us_name", "", 0);
 		cookiesUtil.setCookie(response, "us_password", "", 0);
 		return "login";
+	}
+	@RequestMapping(value = "dongtaixueshengrizhi",method = RequestMethod.POST)
+	@ResponseBody
+	public String dongtaixueshengrizhi(HttpServletRequest request) {
+		return homeServiceimp.dongtaixueshengrizhi(request);
 	}
 
 }

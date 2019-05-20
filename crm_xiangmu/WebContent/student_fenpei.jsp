@@ -12,6 +12,7 @@
 	<table id="StudentTab" class="easyui-datagrid">
 		<thead>
 			<tr>
+			<th data-options="field:'checkbox',sortable:true,checkbox:true">用户ID</th>
 				<th data-options="field:'xs_id'">学生编号</th>
 				<th data-options="field:'xs_name' ">姓名</th>
 				<th data-options="field:'xs_xingbie',formatter:formatterxingbie">性别</th>
@@ -107,6 +108,8 @@
 				+ index + ")' > 分配咨询师 </a>"
 	}
 	function fenpei_zxs(index) {
+		/* $("#StudentTab").datagrid("clearChecked");
+		$("#StudentTab").datagrid("selectRow",index); */
 		$('#fenpei_zxs_id').combobox({
 			url : 'zixunshi_all',
 			valueField : 'us_id',
@@ -130,6 +133,7 @@
 	}
 	function fenpei_zixuxuenshi(){
 		var zxs=$("#fenpei_zxs_id").combobox("getValue");
+		//alert($("#StudentTab").datagrid("getSelected").xs_id);
 		if(zxs!="---请选择---"){
 		$.post("updateStudent_zixunshi",{
 			xs_id : $("#StudentTab").datagrid("getSelected").xs_id,
@@ -191,7 +195,6 @@
 					method : 'post',
 					toolbar : '#StudentToo',
 					pagination : true,
-					singleSelect : true,
 					queryParams : {
 						xs_name : $("#xs_name").val(),
 						xs_dianhua : $("#xs_dianhua").val(),

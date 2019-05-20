@@ -125,7 +125,11 @@ public class UserServiceimp implements UserService {
 		}else {
 			user.setUs_isdaka(3);
 		}
-		return usermapper.updateUser_daka(user);
+		Integer updateUser_daka = usermapper.updateUser_daka(user);
+		if(updateUser_daka>0) {
+			usermapper.insertqiandaorizhi(user);
+		}
+		return updateUser_daka;
 	}
 
 	@Override
@@ -251,8 +255,11 @@ public class UserServiceimp implements UserService {
 		// TODO Auto-generated method stub
 		Integer uj_userid = jueseMapper.selectJuese_zixunshi();
 		List<User> selectUser_zixunshi = usermapper.selectUser_zixunshi(uj_userid);
+		for(int i=0;i<selectUser_zixunshi.size();i++) {
+			if(selectUser_zixunshi.get(i).getUs_isdaka()==2) {
+				selectUser_zixunshi.get(i).setUs_name(selectUser_zixunshi.get(i).getUs_name()+"(Î´Ç©µ½)");
+			}
+		}
 		return selectUser_zixunshi;
 	}
-	
-
 }

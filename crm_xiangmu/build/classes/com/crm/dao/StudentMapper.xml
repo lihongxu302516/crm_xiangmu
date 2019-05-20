@@ -309,7 +309,7 @@
 	<update id="updateisyouxiao" parameterType="student">
 		update student
 		<set>
-			xs_isyouxiao=1,
+			xs_isyouxiao=2,
 		</set>
 		<where>
 			xs_id=#{xs_id}
@@ -317,19 +317,21 @@
 	</update>
 	<insert id="insertStudent" parameterType="student">
 		insert into
-		student(xs_name,xs_dianhua,xs_xingbie,xs_nianling,xs_xueli,xs_zhuangtai,xs_laiyuanqudao,
+		student(xs_chuangjiantime,xs_name,xs_dianhua,xs_xingbie,xs_nianling,xs_xueli,xs_zhuangtai,xs_laiyuanqudao,
 		xs_laiyuanwangzhi,xs_liyuanguanjianzi,xs_weixin,xs_qq,xs_isbaobei,xs_zixunshi,xs_lururen,xs_zixunshibeizhu)
-		values(#{xs_name},#{xs_dianhua},#{xs_xingbie},#{xs_nianling},#{xs_xueli},#{xs_zhuangtai},
+		values(#{xs_chuangjiantime},#{xs_name},#{xs_dianhua},#{xs_xingbie},#{xs_nianling},#{xs_xueli},#{xs_zhuangtai},
 		#{xs_laiyuanqudao},#{xs_laiyuanwangzhi},#{xs_liyuanguanjianzi},#{xs_weixin},#{xs_qq},#{xs_isbaobei},#{xs_zixunshi},#{xs_lururen},
 		#{xs_zixunshibeizhu})
 	</insert>
-	<insert id="insertGenZong" parameterType="student">
+	<insert id="insertGenZong" parameterType="genzongrizhi">
 		insert into
-		student(gz_genzongtime,gz_genzongneirong,gz_genzongfangshi,gz_beizhu,gz_xiacigenzongtime)
-		values(#{gz_genzongtime},#{gz_genzongneirong},#{gz_genzongfangshi},#{gz_beizhu},#{gz_xiacigenzongtime})
+		genzongrizhi
+		(gz_genzongtime,gz_genzongneirong,gz_genzongfangshi,gz_beizhu,gz_xiacigenzongtime,gz_xuesheng,gz_user)
+		values(#{gz_genzongtime},#{gz_genzongneirong},#{gz_genzongfangshi},#{gz_beizhu},#{gz_xiacigenzongtime},#{gz_xuesheng},#{gz_user})
 	</insert>
 	<delete id="deleteStudent" parameterType="int">
-		delete from where
+		delete from student
+		where
 		xs_id=#{xs_id}
 	</delete>
 	<select id="selectUser_student_us_id" parameterType="int"
@@ -340,12 +342,105 @@
 		user where us_id=#{us_id}
 	</select>
 	<select id="selectGongneng_zdfp" resultType="int">
-		SELECT gn_iskaiqi FROM gongneng WHERE gn_name='自动分配'
+		SELECT gn_iskaiqi
+		FROM gongneng WHERE gn_name='自动分配'
 	</select>
 	<update id="updateGongneng_zdfp" parameterType="int">
-		UPDATE gongneng SET gn_iskaiqi=#{gn_iskaiqi} WHERE gn_name='自动分配'
+		UPDATE gongneng
+		SET gn_iskaiqi=#{gn_iskaiqi} WHERE gn_name='自动分配'
 	</update>
 	<update id="updateStudent_zixunshi" parameterType="student">
-	UPDATE student SET xs_zixunshi=#{xs_zixunshi} WHERE xs_id=#{xs_id}
+		UPDATE student
+		SET xs_zixunshi=#{xs_zixunshi} WHERE xs_id=#{xs_id}
 	</update>
+	<select id="selectStudent_xuanzhong" parameterType="list"
+		resultType="student">
+		SELECT
+		xs_id,xs_chuangjiantime,xs_name,xs_dianhua,xs_xingbie,xs_nianling,xs_xueli,xs_zhuangtai,xs_laiyuanqudao,
+		xs_laiyuanwangzhi,xs_guanzhu,xs_liyuanguanjianzi,xs_namezixun,xs_suozaiquyu,xs_weixin,xs_qq,xs_laiyuanbumen,
+		xs_isbaobei,xs_kecheng,xs_isyouxiao,xs_dafen,xs_ishuifang,xs_shuocihuifangtime,xs_isshangmen,xs_shangmentime,
+		xs_wuxiaoyuanyin,xs_isjiaofei,xs_jiaofeitime,xs_jine,xs_istuifei,xs_isjinban,xs_jinbantime,xs_jinbanbeizhu,
+		xs_tuifeiyuanyin,xs_dingjinjine,xs_dingjintime,xs_zixunshi,xs_lururen,xs_zixunshibeizhu
+		FROM student WHERE xs_id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</select>
+	<delete id="deleteStudent_duo" parameterType="list">
+		delete from student where xs_id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<insert id="tianjia_dongtairizhi" parameterType="dongtai">
+		INSERT INTO
+		dongtai(dt_student,dt_time,dt_neirong,dt_tianjiaren,dt_exe1,dt_exe2)
+		VALUES(#{dt_student},#{dt_time},#{dt_neirong},#{dt_tianjiaren},#{dt_exe1},#{dt_exe2})
+	</insert>
+	<resultMap type="dongtai" id="dongtai_user">
+		<id column="dt_id" property="dt_id" />
+		<result column="dt_student" property="dt_student" />
+		<result column="dt_time" property="dt_time" />
+		<result column="dt_neirong" property="dt_neirong" />
+		<result column="dt_tianjiaren" property="dt_tianjiaren" />
+		<result column="dt_exe1" property="dt_exe1" />
+		<result column="dt_exe2" property="dt_exe2" />
+		<result column="us_name" property="us.us_name" />
+	</resultMap>
+	<select id="selectDongtai_stu_id" parameterType="fenye"
+		resultMap="dongtai_user">
+		SELECT * from dongtai d INNER JOIN `user` u ON
+		d.dt_tianjiaren=u.us_id WHERE
+		d.dt_student=#{t.dt_student} limit
+		#{page},#{limit}
+	</select>
+	<update id="updateStudent_exe1_isbeixiugai"
+		parameterType="student">
+		UPDATE student SET xs_exe1=#{xs_exe1} WHERE
+		xs_id=#{xs_id}
+	</update>
+	<update id="updateStudent_exe1_isbeixiugai_user"
+		parameterType="int">
+		UPDATE student SET xs_exe1=1 WHERE
+		xs_zixunshi=#{xs_zixunshi}
+	</update>
+	<select id="selectUser_Student_exe1_isbeixiugai"
+		parameterType="int" resultType="student">
+		SELECT * FROM student WHERE
+		xs_zixunshi=#{xs_zixunshi} AND xs_exe1=2
+	</select>
+	<resultMap type="genzongrizhi" id="genzongrizhi_us_stu">
+	<id column="gz_id" property="gz_id"/>
+	<result column="gz_xuesheng" property="gz_xuesheng"/>
+	<result column="gz_user" property="gz_user"/>
+	<result column="gz_genzongtime" property="gz_genzongtime"/>
+	<result column="gz_genzongneirong" property="gz_genzongneirong"/>
+	<result column="gz_genzongfangshi" property="gz_genzongfangshi"/>
+	<result column="gz_beizhu" property="gz_beizhu"/>
+	<result column="gz_xiacigenzongtime" property="gz_xiacigenzongtime"/>
+	<result column="gz_exe1" property="gz_exe1"/>
+	<result column="us_name" property="us.us_name"/>
+	<result column="xs_name" property="stu.xs_name"/>
+	</resultMap>
+	<select id="selectGengzongrizhi_xs_id" parameterType="fenye"
+		resultMap="genzongrizhi_us_stu">
+		SELECT * FROM genzongrizhi g INNER JOIN student s INNER JOIN `user` u
+		ON
+		g.gz_xuesheng=s.xs_id AND g.gz_user=u.us_id
+		<where>
+			<if test="t.gz_xuesheng !=null and t.gz_xuesheng!=''">AND g.gz_xuesheng=#{t.gz_xuesheng}</if>
+			<if test="t.stu.xs_name != null and t.stu.xs_name != ''">AND s.xs_name LIKE "%"#{t.stu.xs_name}"%"</if>
+			<if
+				test="t.min_gz_genzongtime != null and t.min_gz_genzongtime != ''">AND g.gz_genzongtime &gt; #{t.min_gz_genzongtime}</if>
+			<if
+				test="t.max_gz_genzongtime != null and t.max_gz_genzongtime != ''">AND g.gz_genzongtime &lt; #{t.max_gz_genzongtime}</if>
+			<if test="t.us.us_name != null and t.us.us_name != ''">AND u.us_name LIKE "%"#{t.us.us_name}"%"</if>
+			<if test="t.gz_exe1 != null and t.gz_exe1 != ''">AND g.gz_exe1=#{t.gz_exe1}</if>
+			<if
+				test="t.gz_genzongfangshi != null and t.gz_genzongfangshi != ''">AND g.gz_genzongfangshi=#{t.gz_genzongfangshi}</if>
+		</where>
+		limit #{page},#{limit}
+	</select>
 </mapper>

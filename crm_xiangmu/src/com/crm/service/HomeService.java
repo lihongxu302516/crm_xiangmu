@@ -8,5 +8,11 @@ public interface HomeService {
 	 * @return
 	 */
 	String hometree(String treeUlId,HttpServletRequest requer);
+	/**
+	 * 是否是咨询师，及是否有学员信息被修改
+	 * @param request
+	 * @return
+	 */
+	String dongtaixueshengrizhi(HttpServletRequest request);
 
 }

@@ -153,7 +153,11 @@
 	</select>
 	
 	<select id="selectUser_zixunshi" parameterType="int" resultType="user">
-	SELECT <include refid="userziduanming"></include> FROM `user` u INNER JOIN user_juese uj ON u.us_id=uj.uj_userid WHERE uj.uj_jueseid=#{uj_jueseid}
+	SELECT <include refid="userziduanming"></include> FROM `user` u INNER JOIN user_juese uj ON u.us_id=uj.uj_userid WHERE uj.uj_jueseid=#{uj_jueseid} and u.us_isdaka in (1,3)
 	</select>
+	
+	<insert id="insertqiandaorizhi" parameterType="user">
+	INSERT INTO qiandao(qd_user,qd_time,qd_zhuangtai) VALUES(#{us_id},#{us_dakatime},#{us_isdaka})
+	</insert>
 
 </mapper>
