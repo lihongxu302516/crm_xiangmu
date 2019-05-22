@@ -15,14 +15,14 @@
 				and xs_name like"%"#{t.xs_name}"%"
 			</if>
 			<if test="t.xs_dianhua !=null and t.xs_dianhua !='' ">
-				and xs_dianhua=#{t.xs_dianhua}
+				and xs_dianhua like "%"#{t.xs_dianhua}"%"
 			</if>
 			<if
 				test="t.xs_zixunshi !=null and t.xs_zixunshi !='' and t.xs_zixunshi !=-1">
 				and xs_zixunshi=#{t.xs_zixunshi}
 			</if>
 			<if test="t.xs_qq !=null and t.xs_qq !='' ">
-				and xs_qq=#{t.xs_qq}
+				and xs_qq like "%"#{t.xs_qq}"%"
 			</if>
 			<if test="t.xs_xingbie !=null and t.xs_xingbie !='' ">
 				and xs_xingbie=#{xs_xingbie}
@@ -38,11 +38,11 @@
 			</if>
 			<if
 				test="t.minxs_chuangjiantime !=null and t.minxs_chuangjiantime !='' ">
-				and xs_chuangjiantime=#{t.minxs_chuangjiantime}
+				and xs_chuangjiantime &gt; #{t.minxs_chuangjiantime}
 			</if>
 			<if
 				test="t.maxxs_chuangjiantime !=null and t.maxxs_chuangjiantime !='' ">
-				and xs_chuangjiantime=#{t.maxxs_chuangjiantime}
+				and xs_chuangjiantime &lt; #{t.maxxs_chuangjiantime}
 			</if>
 			<if
 				test="t.minxs_shangmentime !=null and t.minxs_shangmentime !='' ">
@@ -81,7 +81,7 @@
 				and xs_nianling &gt;=#{t.minxs_nianling}
 			</if>
 			<if test="t.maxxs_nianling !=null and t.maxxs_nianling !='' ">
-				and xs_nianling &gt;=#{t.maxxs_nianling}
+				and xs_nianling &lt;=#{t.maxxs_nianling}
 			</if>
 			<if test="t.us_id !=null and t.us_id !='' ">
 				and xs_zixunshi=#{t.us_id} OR xs_lururen=#{t.us_id}
@@ -388,11 +388,13 @@
 		<result column="dt_exe1" property="dt_exe1" />
 		<result column="dt_exe2" property="dt_exe2" />
 		<result column="us_name" property="us.us_name" />
+		<result column="xs_name" property="stu.xs_name" />
 	</resultMap>
 	<select id="selectDongtai_stu_id" parameterType="fenye"
 		resultMap="dongtai_user">
-		SELECT * from dongtai d INNER JOIN `user` u ON
-		d.dt_tianjiaren=u.us_id WHERE
+		SELECT * from dongtai d INNER JOIN `user` u INNER JOIN
+		student s ON
+		d.dt_tianjiaren=u.us_id AND d.dt_student=s.xs_id WHERE
 		d.dt_student=#{t.dt_student} limit
 		#{page},#{limit}
 	</select>
@@ -412,17 +414,18 @@
 		xs_zixunshi=#{xs_zixunshi} AND xs_exe1=2
 	</select>
 	<resultMap type="genzongrizhi" id="genzongrizhi_us_stu">
-	<id column="gz_id" property="gz_id"/>
-	<result column="gz_xuesheng" property="gz_xuesheng"/>
-	<result column="gz_user" property="gz_user"/>
-	<result column="gz_genzongtime" property="gz_genzongtime"/>
-	<result column="gz_genzongneirong" property="gz_genzongneirong"/>
-	<result column="gz_genzongfangshi" property="gz_genzongfangshi"/>
-	<result column="gz_beizhu" property="gz_beizhu"/>
-	<result column="gz_xiacigenzongtime" property="gz_xiacigenzongtime"/>
-	<result column="gz_exe1" property="gz_exe1"/>
-	<result column="us_name" property="us.us_name"/>
-	<result column="xs_name" property="stu.xs_name"/>
+		<id column="gz_id" property="gz_id" />
+		<result column="gz_xuesheng" property="gz_xuesheng" />
+		<result column="gz_user" property="gz_user" />
+		<result column="gz_genzongtime" property="gz_genzongtime" />
+		<result column="gz_genzongneirong" property="gz_genzongneirong" />
+		<result column="gz_genzongfangshi" property="gz_genzongfangshi" />
+		<result column="gz_beizhu" property="gz_beizhu" />
+		<result column="gz_xiacigenzongtime"
+			property="gz_xiacigenzongtime" />
+		<result column="gz_exe1" property="gz_exe1" />
+		<result column="us_name" property="us.us_name" />
+		<result column="xs_name" property="stu.xs_name" />
 	</resultMap>
 	<select id="selectGengzongrizhi_xs_id" parameterType="fenye"
 		resultMap="genzongrizhi_us_stu">
@@ -443,4 +446,13 @@
 		</where>
 		limit #{page},#{limit}
 	</select>
+
+	<update id="pl_updateStudent_zixunshi" parameterType="student">
+		UPDATE student
+		SET xs_zixunshi=#{xs_zixunshi} WHERE xs_id in 
+		<foreach collection="pl_fp_zxs" item="item" open="("
+			separator="," close=")">
+#{item}
+		</foreach>
+	</update>
 </mapper>

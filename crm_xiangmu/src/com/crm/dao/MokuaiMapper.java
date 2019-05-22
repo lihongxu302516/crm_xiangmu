@@ -64,5 +64,29 @@ public interface MokuaiMapper {
 	 * @return
 	 */
 	Integer selectMokuai_isyouzi(Integer mk_fuid);
+	/**
+	 * 查看模块名称是否重复
+	 * @param mk_name
+	 * @return
+	 */
+	Integer selectMokuai_name_ischongfu(Mokuai mokuai);
+	/**
+	 * 模块是否被角色使用
+	 * @param mk_id
+	 * @return
+	 */
+	Integer selectMokuai_is_Juese(Integer mk_id);
+	/**
+	 * 查看子模块是否被角色使用
+	 * @param mk_id
+	 * @return
+	 */
+	Integer selectMokuai_is_Juese_fu_id(Integer mk_id);
+	/**
+	 * 删除父id下的所有子模块
+	 * @param mk_id
+	 * @return
+	 */
+	Integer deleteMokuai_fu_id(Integer mk_id);
 
 }

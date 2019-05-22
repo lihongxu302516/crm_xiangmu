@@ -81,6 +81,11 @@ public class StudentController {
 	public Integer updateStudent_zixunshi(Student student) {
 		return studentService.updateStudent_zixunshi(student);
 	}
+	@RequestMapping(value = "pl_updateStudent_zixunshi",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer pl_updateStudent_zixunshi(Student student,String xs_ids) {
+		return studentService.pl_updateStudent_zixunshi(student, xs_ids);
+	}
 	@RequestMapping(value = "insertGenZong",method = RequestMethod.POST)
 	@ResponseBody
 	public Integer insertGenZong(Genzongrizhi genzongrizhi,HttpServletRequest request) {

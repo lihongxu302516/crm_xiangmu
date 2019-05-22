@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.crm.dao.JueseMapper;
 import com.crm.dao.StudentMapper;
 import com.crm.entity.Juese;
 import com.crm.entity.Mokuai;
@@ -16,6 +17,8 @@ import com.crm.entity.User;
 public class HomeServiceimp implements HomeService {
 	@Autowired
 	private StudentMapper studentmapper;
+	@Autowired
+	private JueseMapper juesemapper;
 
 	private Mokuai mokuai3;
 
@@ -25,8 +28,9 @@ public class HomeServiceimp implements HomeService {
 		User user = (User)requer.getSession().getAttribute("user");
 		List<Juese> juese = user.getJuese();
 		String jg="<ul id=\"treeUlId\" class=\"easyui-tree\">";
-		for(int i=0;i<juese.size();i++) {
-			List<Mokuai> mokuai = juese.get(i).getMokuai();
+		/*for(int i=0;i<juese.size();i++) {
+			List<Mokuai> mokuai = juese.get(i).getMokuai();*/
+		List<Mokuai> mokuai = juesemapper.select_juese_mokuai_js_ids(juese);
 			for(int j=0;j<mokuai.size();j++) {
 				Mokuai mokuai2 = mokuai.get(j);
 				if(mokuai2.getMk_fuid()==0) {
@@ -36,7 +40,7 @@ public class HomeServiceimp implements HomeService {
 					jg=jg+"</li>";
 				}
 			}
-		}
+		//}
 		jg=jg+"</ul>";
 		return jg;
 	}

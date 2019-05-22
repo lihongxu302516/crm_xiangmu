@@ -17,6 +17,8 @@
 <body>
 	<div id="ygxx_div">
 		<form id="ygxx_form">
+		<h2>个人信息</h2>
+		<h5>修改无法修改信息，请联系管理员！</h5>
 			<table>
 				<tr>
 					<td>编号：</td>
@@ -24,13 +26,13 @@
 						disabled="disabled" value="${user.us_id}" style="width: 300px"></td>
 				</tr>
 				<tr>
-					<td>姓名：</td>
+					<td>姓名（账户）：</td>
 					<td><input class="easyui-textbox" id="us_name"
 						value="${user.us_name}" style="width: 300px"></td>
 				</tr>
 				<tr>
 					<td>手机号：</td>
-					<td><input class="easyui-textbox" id="us_shojihao"
+					<td><input class="easyui-textbox" disabled="disabled" id="us_shojihao"
 						value="${user.us_shojihao}" style="width: 300px"></td>
 				</tr>
 				<tr>
@@ -179,7 +181,18 @@ $(function(){
 								+ document.documentElement.scrollTop,
 					}
 				});
-			} else {
+			}  else if(res==-1) {
+				$.messager.show({
+					title : '我的消息',
+					msg : '姓名重复！',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			}else {
 				$.messager.show({
 					title : '我的消息',
 					msg : '保存失败',

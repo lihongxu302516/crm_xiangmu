@@ -67,8 +67,8 @@ public class UserController {
 	}
 	@RequestMapping(value = "chakan_user_jueseall",method = RequestMethod.POST)
 	@ResponseBody
-	public List<Juese> chakan_user_jueseall() {
-		return jueseServiceimp.selectJuese();
+	public List<Juese> chakan_user_jueseall(Integer us_id) {
+		return jueseServiceimp.selectJuese(us_id);
 	}
 	@RequestMapping(value = "chakan_user_juese_us_id",method = RequestMethod.POST)
 	@ResponseBody
@@ -135,6 +135,11 @@ public class UserController {
 	public List<User> zixunshi_all() {
 		List<User> zixunshi_all = userServiceimp.zixunshi_all();
 		return zixunshi_all;
+	}
+	@RequestMapping(value = "chakan_all_zixunshu",method = RequestMethod.POST)
+	@ResponseBody
+	public List<User> chakan_all_zixunshu(){
+		return userServiceimp.chakan_all_zixunshu();
 	}
 
 }

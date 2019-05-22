@@ -74,6 +74,10 @@
 					href="javascript:void(0)" class="easyui-linkbutton"
 					onclick="insertDakai()"
 					data-options="iconCls:'icon-add',plain:true">添加</a>
+					
+					<a href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="piliang_fenpei_zixuxuenshi_dakai()"> 批 量 分 配  </a>
+					
 					<label>是否自动分配 : </label><a href="javascript:void(0)" onclick="fenpei()"><input id="iskq" name="iskq" class="easyui-switchbutton"  data-options="onText:'开启',offText:'关闭'"></a>
 			</form>
 		</div>
@@ -82,11 +86,26 @@
 		style="width: 270px; height: 100px;text-align: center;"
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="fenpei_zxs_ff">
+		<input style="display: none;" id="fenpei_zxs_xs_id" name="xs_id">
 			咨询师：<select id="fenpei_zxs_id" data-options="editable:false" class="easyui-combobox" name="dept"
 				style="width: 200px;">
 				<option>---请选择---</option>
 			</select> <br><a href="javascript:void(0)" class="easyui-linkbutton"
 				onclick="fenpei_zixuxuenshi()"
+				data-options="iconCls:'icon-save'"> 分 配 </a>
+		</form>
+	</div>
+	
+	<div id="pl_fenpei_zxs_win" class="easyui-window"  title="分配咨询师"
+		style="width: 270px; height: 100px;text-align: center;"
+		data-options="iconCls:'icon-save',modal:true">
+		<form id="pl_fenpei_zxs_ff">
+		<input style="display: none;" id="fenpei_zxs_xs_id" name="xs_id">
+			咨询师：<select id="pl_fenpei_zxs_id" data-options="editable:false" class="easyui-combobox" name="dept"
+				style="width: 200px;">
+				<option>---请选择---</option>
+			</select> <br><a href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="pl_fenpei_zixuxuenshi()"
 				data-options="iconCls:'icon-save'"> 分 配 </a>
 		</form>
 	</div>
@@ -115,6 +134,7 @@
 			valueField : 'us_id',
 			textField : 'us_name'
 		});
+		$("#fenpei_zxs_xs_id").val($("#StudentTab").datagrid("getData").rows[index].xs_id);
 		$('#fenpei_zxs_win').window('open');
 	}
 	function fenpei(){
@@ -136,7 +156,7 @@
 		//alert($("#StudentTab").datagrid("getSelected").xs_id);
 		if(zxs!="---请选择---"){
 		$.post("updateStudent_zixunshi",{
-			xs_id : $("#StudentTab").datagrid("getSelected").xs_id,
+			xs_id : $("#fenpei_zxs_xs_id").val(),
 			xs_zixunshi : zxs
 		},function(res){
 			if(res==1){
@@ -187,6 +207,7 @@
 			}
 		},"json");
 		$('#fenpei_zxs_win').window('close');
+		$('#pl_fenpei_zxs_win').window('close');
 	})
 	function student_guanli() {
 		$("#StudentTab").datagrid(
@@ -209,6 +230,83 @@
 					}
 
 				})
+	}
+	function piliang_fenpei_zixuxuenshi_dakai(){
+		$('#pl_fenpei_zxs_id').combobox({
+			url : 'zixunshi_all',
+			valueField : 'us_id',
+			textField : 'us_name'
+		});
+		$('#pl_fenpei_zxs_win').window('open');
+	}
+	
+	function pl_fenpei_zixuxuenshi(){
+		var zxs=$("#pl_fenpei_zxs_id").combobox("getValue");
+		
+		var row = $("#StudentTab").datagrid("getSelections");
+		if (row != null && row != "") {
+			var xs_ids = "";
+			for (var i = 0; i < row.length; i++) {
+				if (i == 0) {
+					xs_ids = xs_ids + row[i].xs_id;
+				} else {
+					xs_ids = xs_ids + "," + row[i].xs_id;
+				}
+			}
+		if(zxs!="---请选择---"){
+		$.post("pl_updateStudent_zixunshi",{
+			xs_ids : xs_ids,
+			xs_zixunshi : zxs
+		},function(res){
+			if(res>0){
+				$('#fenpei_zxs_win').window('close');
+				$("#StudentTab").datagrid("reload");
+				$.messager.show({
+					title : '我的消息',
+					msg : '分配成功',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			}else{
+				$.messager.show({
+					title : '我的消息',
+					msg : '分配失败',
+					timeout : 1000,
+					showType : 'slide',
+					style : {
+						top : document.body.scrollTop
+								+ document.documentElement.scrollTop,
+					}
+				});
+			}
+		},"json");}else{
+			$.messager.show({
+				title : '我的消息',
+				msg : '未选择咨询师',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
+		}else{
+			$.messager.show({
+				title : '我的消息',
+				msg : '请选择学生',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
 	}
 </script>
 </html>

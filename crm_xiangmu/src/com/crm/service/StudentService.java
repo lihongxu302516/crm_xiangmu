@@ -69,6 +69,12 @@ public interface StudentService {
 	 */
 	Integer updateStudent_zixunshi(Student student);
 	/**
+	 * 批量给学生设置咨询师
+	 * @param student
+	 * @return
+	 */
+	Integer pl_updateStudent_zixunshi(Student student,String xs_ids);
+	/**
 	 * 导出excel
 	 * @param request
 	 * @return

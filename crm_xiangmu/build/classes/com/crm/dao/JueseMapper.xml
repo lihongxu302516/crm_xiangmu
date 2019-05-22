@@ -13,30 +13,57 @@
 		SELECT COUNT(js_id) FROM juese
 	</select>
 
-	<select id="selectJuese" resultType="juese">
-		SELECT js_id,js_name,js_exe1,js_exe2 FROM juese
+	<select id="selectJuese" parameterType="int" resultType="juese">
+		SELECT
+		js_id,js_name,js_exe1,js_exe2 FROM juese WHERE js_id NOT in (SELECT
+		uj_jueseid FROM user_juese WHERE uj_userid=#{uj_userid})
 	</select>
 
 	<select id="selectJuese_us_id" parameterType="int"
 		resultType="juese">
-		SELECT js.js_id,js.js_name,js.js_exe1,js.js_exe2 FROM juese js INNER JOIN
-		user_juese uj ON js.js_id=uj.uj_jueseid WHERE uj.uj_userid=#{us_id}
+		SELECT js.js_id,js.js_name,js.js_exe1,js.js_exe2 FROM juese
+		js INNER JOIN
+		user_juese uj ON js.js_id=uj.uj_jueseid WHERE
+		uj.uj_userid=#{us_id}
 	</select>
 
 	<insert id="insertJuese" parameterType="juese">
-		INSERT INTO juese(js_name) VALUES(#{js_name})
+		INSERT INTO
+		juese(js_name) VALUES(#{js_name})
 	</insert>
 
 	<update id="updateJuese" parameterType="juese">
-		UPDATE juese SET js_name=#{js_name} WHERE js_id=#{js_id}
+		UPDATE juese SET
+		js_name=#{js_name} WHERE js_id=#{js_id}
 	</update>
 
 	<delete id="deleteJuese" parameterType="int">
-		DELETE FROM juese WHERE js_id=#{js_id}
+		DELETE FROM juese WHERE
+		js_id=#{js_id}
 	</delete>
-	
+
 	<select id="selectJuese_zixunshi" resultType="int">
-	SELECT js_id FROM juese WHERE js_name='咨询师'
+		SELECT js_id FROM juese WHERE js_name='咨询师'
+	</select>
+
+	<select id="select_juese_mokuai_js_ids"
+		parameterType="java.util.List" resultType="mokuai">
+		SELECT DISTINCT m.* FROM juese_mokuai jm INNER JOIN mokuai m ON
+		jm_mokuaiid=m.mk_id WHERE jm.jm_jueseid in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item.js_id}
+		</foreach>
+	</select>
+
+	<select id="select_juese_name_chongfu" parameterType="string"
+		resultType="int">
+		SELECT COUNT(js_id) FROM juese WHERE js_name=#{js_name}
+	</select>
+
+	<select id="select_Juese_is_User" parameterType="int"
+		resultType="int">
+		SELECT COUNT(uj_id) FROM user_juese WHERE uj_jueseid=#{uj_jueseid}
 	</select>
 
 </mapper>

@@ -83,9 +83,9 @@ div {
 				data-options="showSeconds:false" style="width: 150px"> ~~~ <input
 				class="easyui-datetimebox" id="ss_us_zuihoutimeMAX"
 				data-options="showSeconds:false" style="width: 150px"> <br>
-			权重: <input class="easyui-textbox" id="us_quanzhongMIN"
+			权重: <input class="easyui-textbox" id="ss_us_quanzhongMIN"
 				style="width: 80px"> ~~~ <input class="easyui-textbox"
-				id="us_quanzhongMAX" style="width: 80px"> 是否打卡: <select
+				id="ss_us_quanzhongMAX" style="width: 80px"> 是否打卡: <select
 				id="ss_us_isdaka" data-options="editable:false"
 				class="easyui-combobox" style="width: 200px;">
 				<option value="">---请选择---</option>
@@ -184,7 +184,7 @@ div {
 				<thead>
 					<tr>
 						<th data-options="field:'js_id',width:280,hidden:true">用户ID</th>
-						<th data-options="field:'js_name',width:100">系统所有角色</th>
+						<th data-options="field:'js_name',width:100">可分配角色</th>
 					</tr>
 				</thead>
 			</table>
@@ -402,7 +402,10 @@ var yonghuid=null;
 		var data = $("#dg").datagrid("getData");
 		var row = data.rows[index];
 		$("#js_left").datagrid({
-			url : "chakan_user_jueseall" //数据接口的地址	
+			url : "chakan_user_jueseall", //数据接口的地址	
+			queryParams: {
+				us_id : row.us_id
+			}
 		});
 		$("#js_right").datagrid({
 			url : "chakan_user_juese_us_id", //数据接口的地址
@@ -614,9 +617,18 @@ var yonghuid=null;
 									+ document.documentElement.scrollTop,
 						}
 					});
+				} else if(res==-1) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '用户名已存在',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
 				} else {
-					$('#win').window('close');
-					$("#dg").datagrid("reload");
 					$.messager.show({
 						title : '我的消息',
 						msg : '更新失败',

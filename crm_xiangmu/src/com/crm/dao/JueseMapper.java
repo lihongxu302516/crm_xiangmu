@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.crm.entity.Fenye;
 import com.crm.entity.Juese;
+import com.crm.entity.Mokuai;
 
 public interface JueseMapper {
 	/**
@@ -20,7 +21,7 @@ public interface JueseMapper {
 	 * 查看所有角色不分页
 	 * @return
 	 */
-	List<Juese> selectJuese();
+	List<Juese> selectJuese(Integer us_id);
 	/**
 	 * 查看一个用户的所有角色
 	 * @param us_id
@@ -50,5 +51,23 @@ public interface JueseMapper {
 	 * @return
 	 */
 	Integer selectJuese_zixunshi();
+	/**
+	 * 用所有角色获取所有的功能模块
+	 * @param list
+	 * @return
+	 */
+	List<Mokuai> select_juese_mokuai_js_ids(List<Juese> list);
+	/**
+	 * 查询角色名是否重复
+	 * @param js_name
+	 * @return
+	 */
+	Integer select_juese_name_chongfu(String js_name);
+	/**
+	 * 查看该角色下是否有员工
+	 * @param js_id
+	 * @return
+	 */
+	Integer select_Juese_is_User(Integer js_id);
 
 }

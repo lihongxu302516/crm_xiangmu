@@ -36,25 +36,41 @@ public class JueseServiceimp implements JueseService {
 	@Override
 	public Integer insertJuese(Juese juese) {
 		// TODO Auto-generated method stub
-		return jueseMapper.insertJuese(juese);
+		Integer select_juese_name_chongfu = jueseMapper.select_juese_name_chongfu(juese.getJs_name().trim());
+		if (select_juese_name_chongfu == 0) {
+			Integer insertJuese = jueseMapper.insertJuese(juese);
+			return insertJuese;
+		} else {
+			return -1;
+		}
 	}
 
 	@Override
 	public Integer updateJuese(Juese juese) {
 		// TODO Auto-generated method stub
-		return jueseMapper.updateJuese(juese);
+		Integer select_juese_name_chongfu = jueseMapper.select_juese_name_chongfu(juese.getJs_name().trim());
+		if (select_juese_name_chongfu == 0) {
+			return jueseMapper.updateJuese(juese);
+		} else {
+			return -1;
+		}
 	}
 
 	@Override
 	public Integer deleteJuese(Integer js_id) {
 		// TODO Auto-generated method stub
-		return jueseMapper.deleteJuese(js_id);
+		Integer select_Juese_is_User = jueseMapper.select_Juese_is_User(js_id);
+		if(select_Juese_is_User==0) {
+			return jueseMapper.deleteJuese(js_id);
+		}else {
+			return -1;
+		}
 	}
 
 	@Override
-	public List<Juese> selectJuese() {
+	public List<Juese> selectJuese(Integer us_id) {
 		// TODO Auto-generated method stub
-		return jueseMapper.selectJuese();
+		return jueseMapper.selectJuese(us_id);
 	}
 
 	@Override
@@ -114,7 +130,7 @@ public class JueseServiceimp implements JueseService {
 	@Override
 	public Integer xiugaiJuese_mokuai(String mkids, Integer js_id) {
 		// TODO Auto-generated method stub
-		if(mkids!=null && mkids!="") {
+		if (mkids != null && mkids != "") {
 			String[] split = mkids.split(",");
 			System.out.println(split.length);
 			List<Juese_mokuai> list = new ArrayList<Juese_mokuai>();
@@ -129,10 +145,10 @@ public class JueseServiceimp implements JueseService {
 			if (deleteJuese_mokuai_js_id >= 0) {
 				mokuaiMapper.insertJuese_mokuai_js_id(list);
 			}
-		}else {
+		} else {
 			mokuaiMapper.deleteJuese_mokuai_js_id(js_id);
 		}
-		
-	return 1;
+
+		return 1;
 	}
 }

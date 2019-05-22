@@ -1,5 +1,7 @@
 package com.crm.entity;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -48,6 +50,7 @@ public class Student {
 
 	private User us_zixunshi;
 	private User us_wangluozixunshi;
+	private User us_lururen;
 	private String minxs_chuangjiantime;
 	private String maxxs_chuangjiantime;
 	private String minxs_shangmentime;
@@ -69,124 +72,7 @@ public class Student {
 	private String gz_genzongfangshi;
 	private String gz_beizhu;
 	private String gz_xiacigenzongtime;
-
-
-	
-	
-	public String getGz_genzongtime() {
-		return gz_genzongtime;
-	}
-	public void setGz_genzongtime(String gz_genzongtime) {
-		this.gz_genzongtime = gz_genzongtime;
-	}
-	public String getGz_genzongneirong() {
-		return gz_genzongneirong;
-	}
-	public void setGz_genzongneirong(String gz_genzongneirong) {
-		this.gz_genzongneirong = gz_genzongneirong;
-	}
-	public String getGz_genzongfangshi() {
-		return gz_genzongfangshi;
-	}
-	public void setGz_genzongfangshi(String gz_genzongfangshi) {
-		this.gz_genzongfangshi = gz_genzongfangshi;
-	}
-	public String getGz_beizhu() {
-		return gz_beizhu;
-	}
-	public void setGz_beizhu(String gz_beizhu) {
-		this.gz_beizhu = gz_beizhu;
-	}
-	public String getGz_xiacigenzongtime() {
-		return gz_xiacigenzongtime;
-	}
-	public void setGz_xiacigenzongtime(String gz_xiacigenzongtime) {
-		this.gz_xiacigenzongtime = gz_xiacigenzongtime;
-	}
-	public User getUs_zixunshi() {
-		return us_zixunshi;
-	}
-	public void setUs_zixunshi(User us_zixunshi) {
-		this.us_zixunshi = us_zixunshi;
-	}
-	public User getUs_wangluozixunshi() {
-		return us_wangluozixunshi;
-	}
-	public void setUs_wangluozixunshi(User us_wangluozixunshi) {
-		this.us_wangluozixunshi = us_wangluozixunshi;
-	}
-	public String getMinxs_chuangjiantime() {
-		return minxs_chuangjiantime;
-	}
-	public void setMinxs_chuangjiantime(String minxs_chuangjiantime) {
-		this.minxs_chuangjiantime = minxs_chuangjiantime;
-	}
-	public String getMaxxs_chuangjiantime() {
-		return maxxs_chuangjiantime;
-	}
-	public void setMaxxs_chuangjiantime(String maxxs_chuangjiantime) {
-		this.maxxs_chuangjiantime = maxxs_chuangjiantime;
-	}
-	public String getMinxs_shangmentime() {
-		return minxs_shangmentime;
-	}
-	public void setMinxs_shangmentime(String minxs_shangmentime) {
-		this.minxs_shangmentime = minxs_shangmentime;
-	}
-	public String getMaxxs_shangmentime() {
-		return maxxs_shangmentime;
-	}
-	public void setMaxxs_shangmentime(String maxxs_shangmentime) {
-		this.maxxs_shangmentime = maxxs_shangmentime;
-	}
-	public String getMinxs_shuocihuifangtime() {
-		return minxs_shuocihuifangtime;
-	}
-	public void setMinxs_shuocihuifangtime(String minxs_shuocihuifangtime) {
-		this.minxs_shuocihuifangtime = minxs_shuocihuifangtime;
-	}
-	public String getMaxxs_shuocihuifangtime() {
-		return maxxs_shuocihuifangtime;
-	}
-	public void setMaxxs_shuocihuifangtime(String maxxs_shuocihuifangtime) {
-		this.maxxs_shuocihuifangtime = maxxs_shuocihuifangtime;
-	}
-	public String getMinxs_jiaofeitime() {
-		return minxs_jiaofeitime;
-	}
-	public void setMinxs_jiaofeitime(String minxs_jiaofeitime) {
-		this.minxs_jiaofeitime = minxs_jiaofeitime;
-	}
-	public String getMaxxs_jiaofeitime() {
-		return maxxs_jiaofeitime;
-	}
-	public void setMaxxs_jiaofeitime(String maxxs_jiaofeitime) {
-		this.maxxs_jiaofeitime = maxxs_jiaofeitime;
-	}
-	public String getMinxs_jinbantime() {
-		return minxs_jinbantime;
-	}
-	public void setMinxs_jinbantime(String minxs_jinbantime) {
-		this.minxs_jinbantime = minxs_jinbantime;
-	}
-	public String getMaxxs_jinbantime() {
-		return maxxs_jinbantime;
-	}
-	public void setMaxxs_jinbantime(String maxxs_jinbantime) {
-		this.maxxs_jinbantime = maxxs_jinbantime;
-	}
-	public Integer getMinxs_nianling() {
-		return minxs_nianling;
-	}
-	public void setMinxs_nianling(Integer minxs_nianling) {
-		this.minxs_nianling = minxs_nianling;
-	}
-	public Integer getMaxxs_nianling() {
-		return maxxs_nianling;
-	}
-	public void setMaxxs_nianling(Integer maxxs_nianling) {
-		this.maxxs_nianling = maxxs_nianling;
-	}
+	private List<Integer> pl_fp_zxs;
 	public Integer getXs_id() {
 		return xs_id;
 	}
@@ -433,11 +319,137 @@ public class Student {
 	public void setXs_exe2(String xs_exe2) {
 		this.xs_exe2 = xs_exe2;
 	}
+	public User getUs_zixunshi() {
+		return us_zixunshi;
+	}
+	public void setUs_zixunshi(User us_zixunshi) {
+		this.us_zixunshi = us_zixunshi;
+	}
+	public User getUs_wangluozixunshi() {
+		return us_wangluozixunshi;
+	}
+	public void setUs_wangluozixunshi(User us_wangluozixunshi) {
+		this.us_wangluozixunshi = us_wangluozixunshi;
+	}
+	public User getUs_lururen() {
+		return us_lururen;
+	}
+	public void setUs_lururen(User us_lururen) {
+		this.us_lururen = us_lururen;
+	}
+	public String getMinxs_chuangjiantime() {
+		return minxs_chuangjiantime;
+	}
+	public void setMinxs_chuangjiantime(String minxs_chuangjiantime) {
+		this.minxs_chuangjiantime = minxs_chuangjiantime;
+	}
+	public String getMaxxs_chuangjiantime() {
+		return maxxs_chuangjiantime;
+	}
+	public void setMaxxs_chuangjiantime(String maxxs_chuangjiantime) {
+		this.maxxs_chuangjiantime = maxxs_chuangjiantime;
+	}
+	public String getMinxs_shangmentime() {
+		return minxs_shangmentime;
+	}
+	public void setMinxs_shangmentime(String minxs_shangmentime) {
+		this.minxs_shangmentime = minxs_shangmentime;
+	}
+	public String getMaxxs_shangmentime() {
+		return maxxs_shangmentime;
+	}
+	public void setMaxxs_shangmentime(String maxxs_shangmentime) {
+		this.maxxs_shangmentime = maxxs_shangmentime;
+	}
+	public String getMinxs_shuocihuifangtime() {
+		return minxs_shuocihuifangtime;
+	}
+	public void setMinxs_shuocihuifangtime(String minxs_shuocihuifangtime) {
+		this.minxs_shuocihuifangtime = minxs_shuocihuifangtime;
+	}
+	public String getMaxxs_shuocihuifangtime() {
+		return maxxs_shuocihuifangtime;
+	}
+	public void setMaxxs_shuocihuifangtime(String maxxs_shuocihuifangtime) {
+		this.maxxs_shuocihuifangtime = maxxs_shuocihuifangtime;
+	}
+	public String getMinxs_jiaofeitime() {
+		return minxs_jiaofeitime;
+	}
+	public void setMinxs_jiaofeitime(String minxs_jiaofeitime) {
+		this.minxs_jiaofeitime = minxs_jiaofeitime;
+	}
+	public String getMaxxs_jiaofeitime() {
+		return maxxs_jiaofeitime;
+	}
+	public void setMaxxs_jiaofeitime(String maxxs_jiaofeitime) {
+		this.maxxs_jiaofeitime = maxxs_jiaofeitime;
+	}
+	public String getMinxs_jinbantime() {
+		return minxs_jinbantime;
+	}
+	public void setMinxs_jinbantime(String minxs_jinbantime) {
+		this.minxs_jinbantime = minxs_jinbantime;
+	}
+	public String getMaxxs_jinbantime() {
+		return maxxs_jinbantime;
+	}
+	public void setMaxxs_jinbantime(String maxxs_jinbantime) {
+		this.maxxs_jinbantime = maxxs_jinbantime;
+	}
+	public Integer getMinxs_nianling() {
+		return minxs_nianling;
+	}
+	public void setMinxs_nianling(Integer minxs_nianling) {
+		this.minxs_nianling = minxs_nianling;
+	}
+	public Integer getMaxxs_nianling() {
+		return maxxs_nianling;
+	}
+	public void setMaxxs_nianling(Integer maxxs_nianling) {
+		this.maxxs_nianling = maxxs_nianling;
+	}
 	public Integer getUs_id() {
 		return us_id;
 	}
 	public void setUs_id(Integer us_id) {
 		this.us_id = us_id;
+	}
+	public String getGz_genzongtime() {
+		return gz_genzongtime;
+	}
+	public void setGz_genzongtime(String gz_genzongtime) {
+		this.gz_genzongtime = gz_genzongtime;
+	}
+	public String getGz_genzongneirong() {
+		return gz_genzongneirong;
+	}
+	public void setGz_genzongneirong(String gz_genzongneirong) {
+		this.gz_genzongneirong = gz_genzongneirong;
+	}
+	public String getGz_genzongfangshi() {
+		return gz_genzongfangshi;
+	}
+	public void setGz_genzongfangshi(String gz_genzongfangshi) {
+		this.gz_genzongfangshi = gz_genzongfangshi;
+	}
+	public String getGz_beizhu() {
+		return gz_beizhu;
+	}
+	public void setGz_beizhu(String gz_beizhu) {
+		this.gz_beizhu = gz_beizhu;
+	}
+	public String getGz_xiacigenzongtime() {
+		return gz_xiacigenzongtime;
+	}
+	public void setGz_xiacigenzongtime(String gz_xiacigenzongtime) {
+		this.gz_xiacigenzongtime = gz_xiacigenzongtime;
+	}
+	public List<Integer> getPl_fp_zxs() {
+		return pl_fp_zxs;
+	}
+	public void setPl_fp_zxs(List<Integer> pl_fp_zxs) {
+		this.pl_fp_zxs = pl_fp_zxs;
 	}
 	@Override
 	public String toString() {
@@ -456,16 +468,15 @@ public class Student {
 				+ ", xs_tuifeiyuanyin=" + xs_tuifeiyuanyin + ", xs_dingjinjine=" + xs_dingjinjine + ", xs_dingjintime="
 				+ xs_dingjintime + ", xs_zixunshi=" + xs_zixunshi + ", xs_lururen=" + xs_lururen
 				+ ", xs_zixunshibeizhu=" + xs_zixunshibeizhu + ", xs_exe1=" + xs_exe1 + ", xs_exe2=" + xs_exe2
-				+ ", us_zixunshi=" + us_zixunshi + ", us_wangluozixunshi=" + us_wangluozixunshi
-				+ ", minxs_chuangjiantime=" + minxs_chuangjiantime + ", maxxs_chuangjiantime=" + maxxs_chuangjiantime
-				+ ", minxs_shangmentime=" + minxs_shangmentime + ", maxxs_shangmentime=" + maxxs_shangmentime
-				+ ", minxs_shuocihuifangtime=" + minxs_shuocihuifangtime + ", maxxs_shuocihuifangtime="
-				+ maxxs_shuocihuifangtime + ", minxs_jiaofeitime=" + minxs_jiaofeitime + ", maxxs_jiaofeitime="
-				+ maxxs_jiaofeitime + ", minxs_jinbantime=" + minxs_jinbantime + ", maxxs_jinbantime="
-				+ maxxs_jinbantime + ", minxs_nianling=" + minxs_nianling + ", maxxs_nianling=" + maxxs_nianling
-				+ ", us_id=" + us_id + ", gz_genzongtime=" + gz_genzongtime + ", gz_genzongneirong=" + gz_genzongneirong
-				+ ", gz_genzongfangshi=" + gz_genzongfangshi + ", gz_beizhu=" + gz_beizhu + ", gz_xiacigenzongtime="
-				+ gz_xiacigenzongtime + "]";
+				+ ", us_zixunshi=" + us_zixunshi + ", us_wangluozixunshi=" + us_wangluozixunshi + ", us_lururen="
+				+ us_lururen + ", minxs_chuangjiantime=" + minxs_chuangjiantime + ", maxxs_chuangjiantime="
+				+ maxxs_chuangjiantime + ", minxs_shangmentime=" + minxs_shangmentime + ", maxxs_shangmentime="
+				+ maxxs_shangmentime + ", minxs_shuocihuifangtime=" + minxs_shuocihuifangtime
+				+ ", maxxs_shuocihuifangtime=" + maxxs_shuocihuifangtime + ", minxs_jiaofeitime=" + minxs_jiaofeitime
+				+ ", maxxs_jiaofeitime=" + maxxs_jiaofeitime + ", minxs_jinbantime=" + minxs_jinbantime
+				+ ", maxxs_jinbantime=" + maxxs_jinbantime + ", minxs_nianling=" + minxs_nianling + ", maxxs_nianling="
+				+ maxxs_nianling + ", us_id=" + us_id + ", gz_genzongtime=" + gz_genzongtime + ", gz_genzongneirong="
+				+ gz_genzongneirong + ", gz_genzongfangshi=" + gz_genzongfangshi + ", gz_beizhu=" + gz_beizhu
+				+ ", gz_xiacigenzongtime=" + gz_xiacigenzongtime + ", pl_fp_zxs=" + pl_fp_zxs + "]";
 	}
-	
 }

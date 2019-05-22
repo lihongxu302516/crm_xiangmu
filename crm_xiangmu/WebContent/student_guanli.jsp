@@ -19,46 +19,64 @@
 		$("#nr_dtrz_win").window("close");
 		$("#nr_gzrz_win").window("close");
 		$("#ck_gzrz_win").window("close");
+		$('#xs_zixunshi').combobox({
+			url : 'chakan_all_zixunshu',
+			valueField : 'us_id',
+			textField : 'us_name'
+		});
 		student_guanli();
 	})
 	function student_guanli() {
-		$("#StudentTab").datagrid(
-				{
-					url : 'student_xianshi',
-					method : 'post',
-					toolbar : '#StudentToo',
-					pagination : true,
-					queryParams : {
-						xs_name : $("#xs_name").val(),
-						xs_dianhua : $("#xs_dianhua").val(),
-						xs_zixunshi : $("#xs_zixunshi").val(),
-						xs_isjiaofei : $("#xs_isjiaofei").combobox("getValue"),
-						xs_isyouxiao : $("#xs_isyouxiao").combobox("getValue"),
-						xs_ishuifang : $("#xs_ishuifang").combobox("getValue"),
-						xs_qq : $("#xs_qq").val(),
-						xs_chuangjiantime : $("#minxs_chuangjiantime")
-								.datetimebox('getValue'),
-						xs_chuangjiantime : $("#maxxs_chuangjiantime")
-								.datetimebox('getValue'),
-						xs_shangmentime : $("#minxs_shangmentime").datetimebox(
-								'getValue'),
-						xs_shangmentime : $("#maxxs_shangmentime").datetimebox(
-								'getValue'),
-						xs_shuocihuifangtime : $("#minxs_shuocihuifangtime")
-								.datetimebox('getValue'),
-						xs_shuocihuifangtime : $("#maxxs_shuocihuifangtime")
-								.datetimebox('getValue'),
-						xs_jiaofeitime : $("#minxs_jiaofeitime").datetimebox(
-								'getValue'),
-						xs_jiaofeitime : $("#maxxs_jiaofeitime").datetimebox(
-								'getValue'),
-						xs_jinbantime : $("#minxs_jinbantime").datetimebox(
-								'getValue'),
-						xs_jinbantime : $("#maxxs_jinbantime").datetimebox(
-								'getValue')
-					}
+		$("#StudentTab")
+				.datagrid(
+						{
+							url : 'student_xianshi',
+							method : 'post',
+							toolbar : '#StudentToo',
+							pagination : true,
+							queryParams : {
+								xs_name : $("#xs_name").val(),
+								xs_dianhua : $("#xs_dianhua").val(),
+								xs_zixunshi : $("#xs_zixunshi").combobox(
+										"getValue") == "---请选择---" ? "" : $(
+										"#xs_zixunshi").combobox("getValue"),
+								xs_isjiaofei : $("#xs_isjiaofei").combobox(
+										"getValue") == "---请选择---" ? "" : $(
+										"#xs_isjiaofei").combobox("getValue"),
+								xs_isyouxiao : $("#xs_isyouxiao").combobox(
+										"getValue") == "---请选择---" ? "" : $(
+										"#xs_isyouxiao").combobox("getValue"),
+								xs_ishuifang : $("#xs_ishuifang").combobox(
+										"getValue") == "---请选择---" ? "" : $(
+										"#xs_ishuifang").combobox("getValue"),
+								xs_qq : $("#xs_qq").val(),
+								minxs_chuangjiantime : $(
+										"#minxs_chuangjiantime").datetimebox(
+										'getValue'),
+								maxxs_chuangjiantime : $(
+										"#maxxs_chuangjiantime").datetimebox(
+										'getValue'),
+								minxs_shangmentime : $("#minxs_shangmentime")
+										.datetimebox('getValue'),
+								maxxs_shangmentime : $("#maxxs_shangmentime")
+										.datetimebox('getValue'),
+								minxs_shuocihuifangtime : $(
+										"#minxs_shuocihuifangtime")
+										.datetimebox('getValue'),
+								maxxs_shuocihuifangtime : $(
+										"#maxxs_shuocihuifangtime")
+										.datetimebox('getValue'),
+								minxs_jiaofeitime : $("#minxs_jiaofeitime")
+										.datetimebox('getValue'),
+								maxxs_jiaofeitime : $("#maxxs_jiaofeitime")
+										.datetimebox('getValue'),
+								minxs_jinbantime : $("#minxs_jinbantime")
+										.datetimebox('getValue'),
+								maxxs_jinbantime : $("#maxxs_jinbantime")
+										.datetimebox('getValue')
+							}
 
-				})
+						})
 	}
 	function formattercaozuo(value, row, index) {
 		return "<a href='javascript:void(0)' class='easyui-linkbutton' onclick='updateU("
@@ -69,7 +87,7 @@
 				+ index + ")' > 查看 </a> ";
 	}
 	function formatterxingbie(value, row, index) {
-		return row.xs_xingbie == 2 ? '女' : '男';
+		return row.xs_xingbie == 2 ? '女' : (row.xs_xingbie == 1 ?'男':'');
 	}
 
 	/*  判断是否有效*/
@@ -108,6 +126,7 @@
 		var row = data.rows[index];
 		$("#frm1_zai").form("load", row);
 		$("#frm1_zi").form("load", row);
+		$("#xs_zixunshi1").textbox("setValue",row.us_zixunshi.us_name);
 <%List<Juese> juese1 = user.getJuese();
 			int zxs = 0;
 			int wlzxs = 0;
@@ -116,18 +135,22 @@
 					zxs++;
 				} else if (juese1.get(i).getJs_name().equals("网络咨询师")) {
 					wlzxs++;
-				} else if(juese1.get(i).getJs_name().equals("管理员")){
+				} else if (juese1.get(i).getJs_name().equals("管理员")) {
 					zxs++;
 					wlzxs++;
 				}
 			}
 			if (zxs == 0 && wlzxs == 0) {%>
-			$('input,select,textarea',$('form[name="frm1_zi"]')).prop('disabled',true);
-			$('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
+	$('input,select,textarea', $('form[name="frm1_zi"]')).prop('disabled',
+				true);
+		$('input,select,textarea', $('form[name="frm1_zai"]')).prop('disabled',
+				true);
 <%} else if (zxs == 0) {%>
-$('input,select,textarea',$('form[name="frm1_zi"]')).prop('disabled',true);
+	$('input,select,textarea', $('form[name="frm1_zi"]')).prop('disabled',
+				true);
 <%} else if (wlzxs == 0) {%>
-$('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
+	$('input,select,textarea', $('form[name="frm1_zai"]')).prop('disabled',
+				true);
 <%}%>
 	$("#updateStuYuan").dialog("open");
 	}
@@ -270,6 +293,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 		$("#insertStudent").dialog("close");
 	}
 	function inserStudent() {
+		if ($("#frm3").form('validate')) {
 		$.post("insertStudnet", {
 			xs_name : $("#xs_name3").val(),
 			xs_xingbie : $("#xs_xingbie3").combobox("getValue"),
@@ -311,10 +335,20 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 								+ document.documentElement.scrollTop,
 					}
 				});
-				$("#insertStudent").dialog("close");
-				$("#frm3").form("reset");
 			}
 		}, 'json')
+		}else{
+			$.messager.show({
+				title : '我的消息',
+				msg : '请至少输入学生姓名',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
 	}
 	function xs_zixunshi(value, row, index) {
 		if (row.us_zixunshi != null && row.us_zixunshi != "") {
@@ -330,14 +364,16 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 		return row.xs_isbaobei == 1 ? "是" : "否";
 	}
 	function xs_isyouxiao(value, row, index) {
-		return row.xs_isyouxiao == 1 ? "有效" : "无效";
+		return row.xs_isyouxiao == 1 ? "有效" : (row.xs_isyouxiao==2 ? "无效":"待定");
 	}
-	function xs_ishuifang(value, row, index){
-		return row.xs_ishuifang ==1 ? "已回访":"未回访";
+	function xs_ishuifang(value, row, index) {
+		return row.xs_ishuifang == 1 ? "已回访" : "未回访";
 	}
 	/* 添加跟踪信息 */
 	function genzong(index) {
 		$("#frm4").form("reset");
+		//tj_genzong_xs_id
+		$("#tj_genzong_xs_id").val($("#StudentTab").datagrid("getData").rows[index].xs_id);
 		$("#genzongStudent").dialog("open");
 	}
 	function genzongGuanbi() {
@@ -345,7 +381,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 	}
 	function genzongBaoCun() {
 		$.post("insertGenZong", {
-			gz_xuesheng : $("#StudentTab").datagrid("getSelected").xs_id,
+			gz_xuesheng : $("#tj_genzong_xs_id").val(),
 			gz_genzongtime : $("#gz_genzongtime").datetimebox("getValue"),
 			gz_genzongneirong : $("#gz_genzongneirong").val(),
 			gz_genzongfangshi : $("#gz_genzongfangshi").textbox("getValue"),
@@ -423,6 +459,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 				if (juese.get(i).getJs_name().equals("咨询师") || juese.get(i).getJs_name().equals("网络咨询师")) {
 					zx++;
 				} else if (juese.get(i).getJs_name().equals("咨询经理") || juese.get(i).getJs_name().equals("管理员")) {
+					zx++;
 					jl++;
 				}
 			}
@@ -442,11 +479,12 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 
 	function tj_dtrz(index) {
 		$("#tj_dtrz_ff").form("reset");
+		$("#tj_dtrz_xs_id").val($("#StudentTab").datagrid("getData").rows[index].xs_id);
 		$("#tj_dtrz_win").window("open");
 	}
 	function tj_dtrz_bc() {
 		$.post("tianjia_dongtairizhi", {
-			dt_student : $("#StudentTab").datagrid("getSelected").xs_id,
+			dt_student : $("#tj_dtrz_xs_id").val(),
 			dt_neirong : $("#tj_dt_neirong").val()
 		}, function(res) {
 			if (res == 1) {
@@ -478,6 +516,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 	}
 
 	function ck_dtrz(index) {
+		
 		$("#dtxx_tt")
 				.datagrid(
 						{
@@ -496,7 +535,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 		$("#ck_dtrz_win").window("close");
 	}
 	function dt_student(value, row, index) {
-		return $("#StudentTab").datagrid("getData").rows[index].xs_name;
+		return row.stu.xs_name;
 	}
 	function dt_tianjiaren(value, row, index) {
 		return row.us.us_name;
@@ -615,26 +654,31 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 				<label>姓名:</label><input class="easyui-textbox" id="xs_name"
 					name="xs_name" style="width: 100px"> <label>电话:</label><input
 					class="easyui-textbox" id="xs_dianhua" name="xs_dianhua"
-					style="width: 100px"> <label>咨询师:</label><input
-					class="easyui-textbox" id="xs_zixunshi" name="xs_zixunshi"
-					style="width: 100px"> <label>是否缴费:</label> <select
-					id="xs_isjiaofei" class="easyui-combobox" name="xs_isjiaofei"
-					style="width: 159px;">
-					<option value="">---请输入---</option>
-					<option value="1">是</option>
-					<option value="2">否</option>
+					style="width: 100px"> <label>咨询师:</label> <select
+					id="xs_zixunshi" data-options="editable:false"
+					class="easyui-combobox" name="xs_zixunshi" style="width: 159px;">
+					<option>---请选择---</option>
+				</select> <label>是否缴费:</label> <select id="xs_isjiaofei"
+					class="easyui-combobox" name="xs_isjiaofei"
+					data-options="editable:false" style="width: 159px;">
+					<option value="---请选择---">---请输入---</option>
+					<option value="1">已缴费</option>
+					<option value="2">未缴费</option>
 				</select> <label>是否有效:</label> <select id="xs_isyouxiao"
-					class="easyui-combobox" name="xs_isyouxiao" style="width: 159px;">
-					<option value="">---请输入---</option>
+					class="easyui-combobox" name="xs_isyouxiao"
+					data-options="editable:false" style="width: 159px;">
+					<option value="---请选择---">---请输入---</option>
 					<option value="1">是</option>
 					<option value="2">否</option>
+					<option value="3">待定</option>
 				</select> <label>是否回访:</label> <select id="xs_ishuifang"
-					class="easyui-combobox" name="xs_ishuifang" style="width: 159px;">
-					<option value="">---请输入---</option>
-					<option value="1">是</option>
-					<option value="2">否</option>
+					class="easyui-combobox" name="xs_ishuifang"
+					data-options="editable:false" style="width: 159px;">
+					<option value="---请选择---">---请输入---</option>
+					<option value="1">已回访</option>
+					<option value="2">未回访</option>
 				</select> <label>QQ:</label><input class="easyui-textbox" id="xs_qq"
-					name="xs_qq" style="width: 100px"> <label>创建时间:</label><input
+					name="xs_qq" style="width: 100px"><br> <label>创建时间:</label><input
 					class="easyui-datetimebox" id="minxs_chuangjiantime"
 					name="minxs_chuangjiantime" value="" style="width: 150px">~~~<input
 					class="easyui-datetimebox" id="maxxs_chuangjiantime"
@@ -646,11 +690,10 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 					id="maxxs_shangmentime" name="maxxs_shangmentime" value=""
 					style="width: 150px"> <label>首次回访时间:</label><input
 					class="easyui-datetimebox" id="minxs_shuocihuifangtime"
-					name="minxs_shuocihuifangtime" value="" style="width: 150px">~~~<input
+					name="minxs_shuocihuifangtime" value="" style="width: 157px">~~~<input
 					class="easyui-datetimebox" id="maxxs_shuocihuifangtime"
-					name="maxxs_shuocihuifangtime" value="" style="width: 150px">
-
-				<label>缴费时间:</label><input class="easyui-datetimebox"
+					name="maxxs_shuocihuifangtime" value="" style="width: 157px">
+				<br> <label>缴费时间:</label><input class="easyui-datetimebox"
 					id="minxs_jiaofeitime" name="minxs_jiaofeitime" value=""
 					style="width: 150px">~~~<input class="easyui-datetimebox"
 					id="maxxs_jiaofeitime" name="maxxs_jiaofeitime" value=""
@@ -685,11 +728,11 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 				}
 			}]">
 
-		
+
 		<div style="float: left;">
 			<form id="frm1_zai" name="frm1_zai" class="easyui-form">
-			<input disabled="disabled" type="text" id="xs_id_xiugai" name="xs_id"
-			style="display: none;" />
+				<input disabled="disabled" type="text" id="xs_id_xiugai"
+					name="xs_id" style="display: none;" />
 				<table>
 					<tr>
 						<td>
@@ -782,12 +825,12 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 					<tr>
 						<td>咨询师:</td>
 						<td><input class="easyui-textbox" type="text"
-							id="xs_zixunshi1" name="xs_zixunshi" /></td>
+							id="xs_zixunshi1" disabled="disabled" name="xs_zixunshi" /></td>
 					</tr>
 					<tr>
 						<td>录入人:</td>
 						<td><input class="easyui-textbox" type="text"
-							id="xs_lururen1" name="xs_lururen" /></td>
+							id="xs_lururen1" disabled="disabled" name="xs_lururen" /></td>
 					</tr>
 				</table>
 			</form>
@@ -1212,7 +1255,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 
 					<tr>
 						<td>姓名:</td>
-						<td><input class="easyui-textbox" type="text" id="xs_name3"
+						<td><input class="easyui-textbox" required="true" type="text" id="xs_name3"
 							name="xs_name" /></td>
 					</tr>
 
@@ -1343,6 +1386,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 			}]">
 
 		<form id="frm4" class="easyui-form" style="align: center;">
+			<input style="display: none;" id="tj_genzong_xs_id" name="xs_id">
 			<div style="text-align: center;">
 				<table style="width: 70%; margin: auto;">
 					<tr>
@@ -1379,6 +1423,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 		style="width: 600px; height: 400px; text-align: center;"
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="tj_dtrz_ff">
+		<input id="tj_dtrz_xs_id" style="display: none;" name="xs_id">
 			<h3>学生动态信息</h3>
 			<div>
 				<textarea cols="80" rows="15" id="tj_dt_neirong"
@@ -1404,7 +1449,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 			</thead>
 		</table>
 		<a href="javascript:void(0)" class="easyui-linkbutton"
-			onclick="ck_dtrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+			onclick="ck_dtrz_gb()" data-options="iconCls:'icon-no'">关闭</a>
 	</div>
 
 	<div id="nr_dtrz_win" class="easyui-window" title="动态内容"
@@ -1418,7 +1463,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 			</div>
 		</form>
 		<a href="javascript:void(0)" class="easyui-linkbutton"
-			onclick="nr_dtrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+			onclick="nr_dtrz_gb()" data-options="iconCls:'icon-no'">关闭</a>
 	</div>
 
 
@@ -1443,7 +1488,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 			</thead>
 		</table>
 		<a href="javascript:void(0)" class="easyui-linkbutton"
-			onclick="ck_gzrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+			onclick="ck_gzrz_gb()" data-options="iconCls:'icon-no'">关闭</a>
 	</div>
 
 	<div id="nr_gzrz_win" class="easyui-window" title="跟踪内容"
@@ -1457,7 +1502,7 @@ $('input,select,textarea',$('form[name="frm1_zai"]')).prop('disabled',true);
 			</div>
 		</form>
 		<a href="javascript:void(0)" class="easyui-linkbutton"
-			onclick="nr_gzrz_gb()" data-options="iconCls:'icon-save'">关闭</a>
+			onclick="nr_gzrz_gb()" data-options="iconCls:'icon-no'">关闭</a>
 	</div>
 </body>
 </html>

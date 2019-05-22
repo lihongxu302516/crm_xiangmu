@@ -53,9 +53,9 @@
 				data-options="showSeconds:false" style="width: 150px"> ~~~ <input
 				class="easyui-datetimebox" id="ss_us_zuihoutimeMAX"
 				data-options="showSeconds:false" style="width: 150px"> <br>
-			权重: <input class="easyui-textbox" id="us_quanzhongMIN"
+			权重: <input class="easyui-textbox" id="ss_us_quanzhongMIN"
 				style="width: 80px"> ~~~ <input class="easyui-textbox"
-				id="us_quanzhongMAX" style="width: 80px"> 是否打卡: <select
+				id="ss_us_quanzhongMAX" style="width: 80px"> 是否打卡: <select
 				id="ss_us_isdaka" data-options="editable:false"
 				class="easyui-combobox" style="width: 200px;">
 				<option value="">---请选择---</option>

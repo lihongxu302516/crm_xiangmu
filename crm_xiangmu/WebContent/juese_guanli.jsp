@@ -44,7 +44,7 @@
 		</form>
 	</div>
 
-	<div id="addjs" class="easyui-window" title="编辑"
+	<div id="addjs" class="easyui-window" title="添加"
 		style="width: 300px; height: 400px; text-align: right; padding-right: 30px;"
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="ffjs">
@@ -184,38 +184,63 @@
 	}
 
 	function bianji() {
-		$.post("juese_xiugai", {
-			js_name : $("#js_name").val(),
-			js_id : $("#js_id").val()
-		}, function(res) {
-			if (res==1) {
-				$('#win').window('close');
-				$("#juese_tab").datagrid("reload");
-				$.messager.show({
-					title : '我的消息',
-					msg : '更新成功',
-					timeout : 1000,
-					showType : 'slide',
-					style : {
-						top : document.body.scrollTop
-								+ document.documentElement.scrollTop,
-					}
-				});
-			} else {
-				$('#win').window('close');
-				$("#juese_tab").datagrid("reload");
-				$.messager.show({
-					title : '我的消息',
-					msg : '更新失败',
-					timeout : 1000,
-					showType : 'slide',
-					style : {
-						top : document.body.scrollTop
-								+ document.documentElement.scrollTop,
-					}
-				});
-			}
-		}, "json");
+		var js_name=$("#js_name").val();
+		if(js_name!=null && js_name!=""){
+			$.post("juese_xiugai", {
+				js_name : js_name,
+				js_id : $("#js_id").val()
+			}, function(res) {
+				if (res==1) {
+					$('#win').window('close');
+					$("#juese_tab").datagrid("reload");
+					$.messager.show({
+						title : '我的消息',
+						msg : '更新成功',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}else if(res==-1) {
+					
+					$.messager.show({
+						title : '我的消息',
+						msg : '用户名重复，无法更新',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else {
+					
+					$.messager.show({
+						title : '我的消息',
+						msg : '更新失败',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}
+			}, "json");
+		}else{
+			$.messager.show({
+				title : '我的消息',
+				msg : '角色名不能为空',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
 
 	}
 
@@ -239,8 +264,20 @@
 										+ document.documentElement.scrollTop,
 							}
 						});
-					} else {
-						$("#juese_tab").datagrid("reload");
+					} else if(res==-1) {
+						
+						$.messager.show({
+							title : '我的消息',
+							msg : '该角色下有用户，需要先释放资源后删除',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					}else {
+						
 						$.messager.show({
 							title : '我的消息',
 							msg : '删除失败',
@@ -263,38 +300,60 @@
 	}
 
 	function tianjia() {
-		$.post("juese_tianjia", {
-			js_name : $("#tj_js_name").val()
-		}, function(res) {
-			if (res==1) {
-				$('#addjs').window('close');
-				$("#juese_tab").datagrid("reload");
-				$.messager.show({
-					title : '我的消息',
-					msg : '添加成功',
-					timeout : 1000,
-					showType : 'slide',
-					style : {
-						top : document.body.scrollTop
-								+ document.documentElement.scrollTop,
-					}
-				});
-			} else {
-				$('#addjs').window('close');
-				$("#juese_tab").datagrid("reload");
-				$.messager.show({
-					title : '我的消息',
-					msg : '添加失败',
-					timeout : 1000,
-					showType : 'slide',
-					style : {
-						top : document.body.scrollTop
-								+ document.documentElement.scrollTop,
-					}
-				});
-			}
-		}, "json");
-
+		var js_name=$("#tj_js_name").val();
+		if(js_name!=null && js_name!=""){
+			$.post("juese_tianjia", {
+				js_name : js_name
+			}, function(res) {
+				if (res==1) {
+					$('#addjs').window('close');
+					$("#juese_tab").datagrid("reload");
+					$.messager.show({
+						title : '我的消息',
+						msg : '添加成功',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				} else if(res==-1) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '角色名重复，无法添加',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}else {
+					$.messager.show({
+						title : '我的消息',
+						msg : '添加失败',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}
+			}, "json");
+		}else{
+			$.messager.show({
+				title : '我的消息',
+				msg : '角色名不能为空',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		}
 	}
 </script>
 </html>

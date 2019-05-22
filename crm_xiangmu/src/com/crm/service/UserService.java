@@ -113,8 +113,13 @@ public interface UserService {
 	 */
 	Integer user_cz_mima(HttpServletRequest request,String us_sj_yzm);
 	/**
-	 * 查询所有的咨询师
+	 * 分配-查询所有的咨询师
 	 * @return
 	 */
 	List<User> zixunshi_all();
+	/**
+	 * 学生-查看所有的咨询师
+	 * @return
+	 */
+	List<User> chakan_all_zixunshu();
 }

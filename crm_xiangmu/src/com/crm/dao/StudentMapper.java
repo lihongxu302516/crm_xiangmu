@@ -78,6 +78,12 @@ public interface StudentMapper {
 	 */
 	Integer updateStudent_zixunshi(Student student);
 	/**
+	 * 批量给学生设置咨询师
+	 * @param student
+	 * @return
+	 */
+	Integer pl_updateStudent_zixunshi(Student student);
+	/**
 	 * 查询所有选择的学生
 	 * @param list
 	 * @return

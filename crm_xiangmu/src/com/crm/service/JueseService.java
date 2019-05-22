@@ -17,7 +17,7 @@ public interface JueseService {
 	 * 查看所有角色不分页
 	 * @return
 	 */
-	List<Juese> selectJuese();
+	List<Juese> selectJuese(Integer us_id);
 	/**
 	 * 查看一个用户的所有角色
 	 * @param us_id

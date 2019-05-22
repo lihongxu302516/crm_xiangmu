@@ -148,9 +148,18 @@ div {
 									+ document.documentElement.scrollTop,
 						}
 					});
-				} else {
-					$('#xiutab').window('close');
-					$("#tt").tree("reload");
+				} else if(res==-1) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '模块名称重复',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}else {
 					$.messager.show({
 						title : '我的消息',
 						msg : '更新失败',
@@ -218,9 +227,18 @@ div {
 									+ document.documentElement.scrollTop,
 						}
 					});
-				} else {
-					$('#mkadddiv').window('close');
-					$("#tt").tree("reload");
+				} else if(res==-1) {
+					$.messager.show({
+						title : '我的消息',
+						msg : '模块名称重复',
+						timeout : 1000,
+						showType : 'slide',
+						style : {
+							top : document.body.scrollTop
+									+ document.documentElement.scrollTop,
+						}
+					});
+				}else {
 					$.messager.show({
 						title : '我的消息',
 						msg : '添加失败',
@@ -265,8 +283,29 @@ div {
 										+ document.documentElement.scrollTop,
 							}
 						});
-					} else {
-						$("#tt").tree("reload");
+					}  else if(res==-2) {
+						$.messager.show({
+							title : '我的消息',
+							msg : '该模块的子模块正在被角色使用，请先释放资源',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					}else if(res==-1) {
+						$.messager.show({
+							title : '我的消息',
+							msg : '该模块正在被角色使用，请先释放资源',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					}else {
 						$.messager.show({
 							title : '我的消息',
 							msg : '删除失败',

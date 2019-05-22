@@ -295,4 +295,16 @@ public class StudentServiceimp implements StudentService {
 		return fenye;
 	}
 
+	@Override
+	public Integer pl_updateStudent_zixunshi(Student student, String xs_ids) {
+		// TODO Auto-generated method stub
+		String[] split = xs_ids.split(",");
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < split.length; i++) {
+			list.add(Integer.parseInt(split[i]));
+		}
+		student.setPl_fp_zxs(list);
+		return studentMapper.pl_updateStudent_zixunshi(student);
+	}
+
 }
