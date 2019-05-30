@@ -103,6 +103,12 @@ public interface StudentMapper {
 	 */
 	List<Dongtai> selectDongtai_stu_id(Fenye<Dongtai> fenye);
 	/**
+	 * 查看该学生的动态日志的总条数
+	 * @param fenye
+	 * @return
+	 */
+	Integer selectDongtai_stu_id_count(Fenye<Dongtai> fenye);
+	/**
 	 * 通过学生id更该学生是否被修改
 	 * @param student
 	 * @return
@@ -126,4 +132,10 @@ public interface StudentMapper {
 	 * @return
 	 */
 	List<Genzongrizhi> selectGengzongrizhi_xs_id(Fenye<Genzongrizhi> fenye);
+	/**
+	 * 根据学生id查看跟踪日志的总条数
+	 * @param fenye
+	 * @return
+	 */
+	Integer selectGengzongrizhi_xs_id_count(Fenye<Genzongrizhi> fenye);
 }

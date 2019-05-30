@@ -69,7 +69,10 @@
 		resultType="int">
 		SELECT COUNT(mk_id) FROM mokuai WHERE mk_name=#{mk_name}
 		and
-		mk_fuid=#{mk_fuid}
+		mk_fuid=#{mk_fuid} 
+		<if test="mk_id!=null and mk_id!=''">
+		and mk_id!=#{mk_id}
+		</if>
 	</select>
 
 	<select id="selectMokuai_is_Juese" parameterType="int"

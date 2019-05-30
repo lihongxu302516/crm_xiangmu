@@ -56,7 +56,8 @@ div {
 				<th data-options="field:'us_quanzhong',sortable:true">权重</th>
 				<th data-options="field:'us_pingfen',sortable:true">评分</th>
 				<th data-options="field:'us_pingfenrenshu',sortable:true">评分人数</th>
-				<th data-options="field:'us_isdaka',sortable:true,formatter:ff_us_isdaka">是否打卡</th>
+				<th
+					data-options="field:'us_isdaka',sortable:true,formatter:ff_us_isdaka">是否打卡</th>
 				<th data-options="field:'us_dakatime',sortable:true">打卡时间</th>
 				<th data-options="field:'us_biezhu',sortable:true">备注</th>
 				<th data-options="field:'jueseshezhi',formatter:jueseshezhi">角色设置</th>
@@ -123,24 +124,21 @@ div {
 		style="width: 300px; height: 400px; text-align: right; padding-right: 30px;"
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="ff">
-		<input type="text" style="display: none;" name="us_id" id="us_id" />
-			<br /> 姓名： <input class="easyui-validatebox"
+			<input type="text" style="display: none;" name="us_id" id="us_id" />
+			<br /> 姓名： <input disabled="disabled" class="easyui-validatebox"
 				required="true" validType="minLength['3']" type="text"
-				name="us_name" id="us_name" /> <br />
-			<br /> 邮箱： <input class="easyui-validatebox"
-				required="true" validType="msn" type="text"
-				name="us_youxiang" id="us_youxiang" /> <br />
-			<br /> 手机号： <input class="easyui-validatebox"
-				required="true" validType="mobile" type="text"
-				name="us_shojihao" id="us_shojihao" /> <br />
-			<br /> 权重： <input class="easyui-validatebox"
-				required="true" validType="intPlus" type="text"
-				name="us_quanzhong" id="us_quanzhong" /> <br />
-			<br /> 备注： <input class="easyui-validatebox" type="text"
-				name="us_biezhu" id="us_biezhu" /> <br />
-			<br /> <a id="btn" href="javascript:void(0)"
-				class="easyui-linkbutton" onclick="bianji()"
-				data-options="iconCls:'icon-ok'">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				name="us_name" id="us_name" /> <br /> <br /> 邮箱： <input
+				class="easyui-validatebox" required="true" validType="msn"
+				type="text" name="us_youxiang" id="us_youxiang" /> <br /> <br />
+			手机号： <input class="easyui-validatebox" required="true"
+				validType="mobile" type="text" name="us_shojihao" id="us_shojihao" />
+			<br /> <br /> 权重： <input class="easyui-validatebox" required="true"
+				validType="intPlus" type="text" name="us_quanzhong"
+				id="us_quanzhong" /> <br /> <br /> 备注： <input
+				class="easyui-validatebox" type="text" name="us_biezhu"
+				id="us_biezhu" /> <br /> <br /> <a id="btn"
+				href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="bianji()" data-options="iconCls:'icon-ok'">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 				onclick="$('#ff').form('reset')" data-options="iconCls:'icon-clear'">清空</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -151,23 +149,20 @@ div {
 		style="width: 300px; height: 400px; text-align: right; padding-right: 30px;"
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="addform">
-			<br /> 姓名： <input class="easyui-validatebox"
-				required="true" validType="minLength['3']" type="text"
-				name="addus_name" id="addus_name" /> <br />
-			<br /> 邮箱： <input class="easyui-validatebox"
-				required="true" validType="msn" type="text"
-				name="addus_youxiang" id="addus_youxiang" /> <br />
-			<br /> 手机号： <input class="easyui-validatebox"
-				required="true" validType="mobile" type="text"
-				name="addus_shojihao" id="addus_shojihao" /> <br />
-			<br /> 权重： <input class="easyui-validatebox"
-				required="true" validType="intPlus" type="text"
-				name="addus_quanzhong" id="addus_quanzhong" /> <br />
+			<br /> 姓名： <input class="easyui-validatebox" required="true"
+				validType="minLength['3']" type="text" name="addus_name"
+				id="addus_name" /> <br /> <br /> 邮箱： <input
+				class="easyui-validatebox" required="true" validType="msn"
+				type="text" name="addus_youxiang" id="addus_youxiang" /> <br /> <br />
+			手机号： <input class="easyui-validatebox" required="true"
+				validType="mobile" type="text" name="addus_shojihao"
+				id="addus_shojihao" /> <br /> <br /> 权重： <input
+				class="easyui-validatebox" required="true" validType="intPlus"
+				type="text" name="addus_quanzhong" id="addus_quanzhong" /> <br />
 			<br /> 备注： <input class="easyui-validatebox" type="text"
-				name="addus_biezhu" id="addus_biezhu" /> <br />
-			<br /> <a id="btn1" href="javascript:void(0)"
-				class="easyui-linkbutton" onclick="tianjia()"
-				data-options="iconCls:'icon-ok'">添加</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				name="addus_biezhu" id="addus_biezhu" /> <br /> <br /> <a
+				id="btn1" href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="tianjia()" data-options="iconCls:'icon-ok'">添加</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 				onclick="$('#addform').form('reset')"
 				data-options="iconCls:'icon-clear'">清空</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -292,17 +287,14 @@ div {
 	</div>
 </body>
 <script type="text/javascript">
-
-
-
-var yonghuid=null;
+	var yonghuid = null;
 	function fenpei() {
 		var js = $("#js_left").datagrid("getSelections")[0];
 		$.post("user_juese_tianjia", {
 			uj_userid : yonghuid,
 			uj_jueseid : js.js_id
 		}, function(res) {
-			if (res==1) {
+			if (res == 1) {
 				$("#js_left").datagrid("reload");
 				$("#js_right").datagrid("reload");
 				$.messager.show({
@@ -338,7 +330,7 @@ var yonghuid=null;
 			uj_userid : yonghuid,
 			uj_jueseid : js.js_id
 		}, function(res) {
-			if (res==1) {
+			if (res == 1) {
 				$("#js_left").datagrid("reload");
 				$("#js_right").datagrid("reload");
 				$.messager.show({
@@ -403,13 +395,13 @@ var yonghuid=null;
 		var row = data.rows[index];
 		$("#js_left").datagrid({
 			url : "chakan_user_jueseall", //数据接口的地址	
-			queryParams: {
+			queryParams : {
 				us_id : row.us_id
 			}
 		});
 		$("#js_right").datagrid({
 			url : "chakan_user_juese_us_id", //数据接口的地址
-			queryParams: {
+			queryParams : {
 				us_id : row.us_id
 			}
 		});
@@ -460,14 +452,16 @@ var yonghuid=null;
 				+ ",1)'>锁定用户</a>&nbsp;&nbsp;<a href='javascript:void(0)' class='easyui-linkbuton' onclick='suo_jie("
 				+ index + ",2)'>解锁用户</a>";
 	}
-	function ff_us_isdaka(value, row, index){
-		if(row.us_isdaka==1){
+	function ff_us_isdaka(value, row, index) {
+		if (row.us_isdaka == 1) {
 			return "已打卡";
-		}else if(row.us_isdaka==2){
+		} else if (row.us_isdaka == 2) {
 			return "未打卡";
-		}else if(row.us_isdaka==3){
+		} else if (row.us_isdaka == 3) {
 			return "迟到";
-		}else{
+		} else if (row.us_isdaka == 4) {
+			return "请假";
+		} else {
 			return "未知状态";
 		}
 	}
@@ -602,9 +596,9 @@ var yonghuid=null;
 				us_youxiang : $("#us_youxiang").val(),
 				us_shojihao : $("#us_shojihao").val(),
 				us_quanzhong : $("#us_quanzhong").val(),
-				us_us_biezhuname : $("#us_biezhu").val()
+				us_biezhu : $("#us_biezhu").val()
 			}, function(res) {
-				if (res==1) {
+				if (res == 1) {
 					$('#win').window('close');
 					$("#dg").datagrid("reload");
 					$.messager.show({
@@ -617,7 +611,7 @@ var yonghuid=null;
 									+ document.documentElement.scrollTop,
 						}
 					});
-				} else if(res==-1) {
+				} else if (res == -1) {
 					$.messager.show({
 						title : '我的消息',
 						msg : '用户名已存在',
@@ -663,7 +657,7 @@ var yonghuid=null;
 				$.post("user_shanchu", {
 					us_id : row.us_id
 				}, function(res) {
-					if (res==1) {
+					if (res == 1) {
 						$("#dg").datagrid("reload");
 						$.messager.show({
 							title : '我的消息',
@@ -707,7 +701,7 @@ var yonghuid=null;
 				us_quanzhong : $("#addus_quanzhong").val(),
 				us_us_biezhuname : $("#addus_biezhu").val()
 			}, function(res) {
-				if (res==1) {
+				if (res == 1) {
 					$('#addyh').window('close');
 					$("#dg").datagrid("reload");
 					$.messager.show({
@@ -720,7 +714,7 @@ var yonghuid=null;
 									+ document.documentElement.scrollTop,
 						}
 					});
-				} else if(res==-1) {
+				} else if (res == -1) {
 					$.messager.show({
 						title : '我的消息',
 						msg : '用户已存在',
@@ -731,7 +725,7 @@ var yonghuid=null;
 									+ document.documentElement.scrollTop,
 						}
 					});
-				}else{
+				} else {
 					$.messager.show({
 						title : '我的消息',
 						msg : '添加失败',
@@ -784,4 +778,5 @@ var yonghuid=null;
 		$('#yc_window').window('close');
 	}
 </script>
+
 </html>

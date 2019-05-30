@@ -3,6 +3,7 @@ package com.crm.dao;
 import java.util.List;
 
 import com.crm.entity.Fenye;
+import com.crm.entity.Qiandao;
 import com.crm.entity.User;
 import com.crm.entity.User_juese;
 
@@ -80,6 +81,12 @@ public interface UserMapper {
 	 */
 	Integer updateUser_qiantui_dan(Integer us_id);
 	/**
+	 * 员工请假
+	 * @param us_id
+	 * @return
+	 */
+	Integer updateUser_qingjia(Integer us_id);
+	/**
 	 * 多员工签退
 	 * @param us_id
 	 * @return
@@ -115,10 +122,58 @@ public interface UserMapper {
 	 */
 	List<User> selectUser_zixunshi(Integer uj_userid);
 	/**
+	 * 查询所有的lururen
+	 * @return
+	 */
+	List<User> selectUser_wl_zixunshi();
+	/**
 	 * 添加签到日志
 	 * @param user
 	 * @return
 	 */
 	Integer insertqiandaorizhi(User user);
+	/**
+	 * 查询咨询师有的学生数
+	 * @param us_id
+	 * @return
+	 */
+	Integer selectUser_zixuanshi_stu_all(Integer us_id);
+	/**
+	 * 查询当月所有员工的签到记录，柱状图表用
+	 * @return
+	 */
+	List<Qiandao> selectQiandao_user_tubiao(Integer qd_zhuangtai);
+	/**
+	 * 查询所有的员工签到状态数量，饼状图表用
+	 * @return
+	 */
+	List<Qiandao> selectQiandao_all_zhuangtai();
+	/**
+	 * 查询本月的员工签到状态数量，饼状图表用
+	 * @return
+	 */
+	List<Qiandao> selectQiandao_benyue_zhuangtai();
+	/**
+	 * 查询今日的员工签到状态数量，饼状图表用
+	 * @return
+	 */
+	List<Qiandao> selectQiandao_jingri_zhuangtai();
+	/**
+	 * 查询本月员工对客户的跟踪次数，柱状图表用
+	 * @return
+	 */
+	List<User> selectUser_genzongcishi();
+	/**
+	 * 查询每一天的录入学生数量，折线图表用
+	 * @return
+	 */
+	List<User> selectStudent_tianjia_shuliang();
+	/**
+	 * 添加一条请假记录
+	 * @param us_id
+	 * @return
+	 */
+	Integer insertqiandao_qingjia(Integer us_id);
+	
 
 }

@@ -36,7 +36,7 @@ public class JueseServiceimp implements JueseService {
 	@Override
 	public Integer insertJuese(Juese juese) {
 		// TODO Auto-generated method stub
-		Integer select_juese_name_chongfu = jueseMapper.select_juese_name_chongfu(juese.getJs_name().trim());
+		Integer select_juese_name_chongfu = jueseMapper.select_juese_name_chongfu(juese);
 		if (select_juese_name_chongfu == 0) {
 			Integer insertJuese = jueseMapper.insertJuese(juese);
 			return insertJuese;
@@ -48,7 +48,7 @@ public class JueseServiceimp implements JueseService {
 	@Override
 	public Integer updateJuese(Juese juese) {
 		// TODO Auto-generated method stub
-		Integer select_juese_name_chongfu = jueseMapper.select_juese_name_chongfu(juese.getJs_name().trim());
+		Integer select_juese_name_chongfu = jueseMapper.select_juese_name_chongfu(juese);
 		if (select_juese_name_chongfu == 0) {
 			return jueseMapper.updateJuese(juese);
 		} else {
@@ -108,7 +108,12 @@ public class JueseServiceimp implements JueseService {
 				mk.setChecked(selectMokuai_js_id == 1);
 			}
 		} else {
-			mk.setChecked(selectMokuai_js_id == 1);
+			Integer selectMokuai_isyouzi = mokuaiMapper.selectMokuai_isyouzi(mokuailist.get(i).getMk_id());
+			if (selectMokuai_isyouzi > 0) {
+				mk.setChecked(false);
+			} else {
+				mk.setChecked(selectMokuai_js_id == 1);
+			}
 		}
 		MokuaiTree fortree = fortree(mokuailist, i, mk, js_id);
 		if (fortree != null) {

@@ -398,6 +398,12 @@
 		d.dt_student=#{t.dt_student} limit
 		#{page},#{limit}
 	</select>
+	<select id="selectDongtai_stu_id_count" parameterType="fenye" resultType="int">
+	SELECT count(d.dt_id) from dongtai d INNER JOIN `user` u INNER JOIN
+		student s ON
+		d.dt_tianjiaren=u.us_id AND d.dt_student=s.xs_id WHERE
+		d.dt_student=#{t.dt_student}
+	</select>
 	<update id="updateStudent_exe1_isbeixiugai"
 		parameterType="student">
 		UPDATE student SET xs_exe1=#{xs_exe1} WHERE
@@ -434,6 +440,7 @@
 		g.gz_xuesheng=s.xs_id AND g.gz_user=u.us_id
 		<where>
 			<if test="t.gz_xuesheng !=null and t.gz_xuesheng!=''">AND g.gz_xuesheng=#{t.gz_xuesheng}</if>
+			<if test="t.gz_user !=null and t.gz_user !=''">AND g.gz_user=#{t.gz_user}</if>
 			<if test="t.stu.xs_name != null and t.stu.xs_name != ''">AND s.xs_name LIKE "%"#{t.stu.xs_name}"%"</if>
 			<if
 				test="t.min_gz_genzongtime != null and t.min_gz_genzongtime != ''">AND g.gz_genzongtime &gt; #{t.min_gz_genzongtime}</if>
@@ -445,6 +452,25 @@
 				test="t.gz_genzongfangshi != null and t.gz_genzongfangshi != ''">AND g.gz_genzongfangshi=#{t.gz_genzongfangshi}</if>
 		</where>
 		limit #{page},#{limit}
+	</select>
+	
+	<select id="selectGengzongrizhi_xs_id_count" parameterType="fenye" resultType="int">
+	SELECT count(g.gz_id) FROM genzongrizhi g INNER JOIN student s INNER JOIN `user` u
+		ON
+		g.gz_xuesheng=s.xs_id AND g.gz_user=u.us_id
+		<where>
+			<if test="t.gz_xuesheng !=null and t.gz_xuesheng!=''">AND g.gz_xuesheng=#{t.gz_xuesheng}</if>
+			<if test="t.gz_user !=null and t.gz_user !=''">AND g.gz_user=#{t.gz_user}</if>
+			<if test="t.stu.xs_name != null and t.stu.xs_name != ''">AND s.xs_name LIKE "%"#{t.stu.xs_name}"%"</if>
+			<if
+				test="t.min_gz_genzongtime != null and t.min_gz_genzongtime != ''">AND g.gz_genzongtime &gt; #{t.min_gz_genzongtime}</if>
+			<if
+				test="t.max_gz_genzongtime != null and t.max_gz_genzongtime != ''">AND g.gz_genzongtime &lt; #{t.max_gz_genzongtime}</if>
+			<if test="t.us.us_name != null and t.us.us_name != ''">AND u.us_name LIKE "%"#{t.us.us_name}"%"</if>
+			<if test="t.gz_exe1 != null and t.gz_exe1 != ''">AND g.gz_exe1=#{t.gz_exe1}</if>
+			<if
+				test="t.gz_genzongfangshi != null and t.gz_genzongfangshi != ''">AND g.gz_genzongfangshi=#{t.gz_genzongfangshi}</if>
+		</where>
 	</select>
 
 	<update id="pl_updateStudent_zixunshi" parameterType="student">

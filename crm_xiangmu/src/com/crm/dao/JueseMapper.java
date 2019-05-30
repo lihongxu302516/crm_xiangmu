@@ -52,6 +52,11 @@ public interface JueseMapper {
 	 */
 	Integer selectJuese_zixunshi();
 	/**
+	 * 查看咨询师id
+	 * @return
+	 */
+	Integer selectJuese_wl_zixunshi();
+	/**
 	 * 用所有角色获取所有的功能模块
 	 * @param list
 	 * @return
@@ -62,7 +67,7 @@ public interface JueseMapper {
 	 * @param js_name
 	 * @return
 	 */
-	Integer select_juese_name_chongfu(String js_name);
+	Integer select_juese_name_chongfu(Juese juese);
 	/**
 	 * 查看该角色下是否有员工
 	 * @param js_id

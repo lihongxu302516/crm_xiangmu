@@ -7,6 +7,9 @@ public class Qiandao {
 	private Integer qd_zhuangtai;
 	private String qd_exe1;
 	private String qd_exe2;
+	
+	private Integer shuliang;
+	private User user;
 	public Integer getQd_id() {
 		return qd_id;
 	}
@@ -43,10 +46,24 @@ public class Qiandao {
 	public void setQd_exe2(String qd_exe2) {
 		this.qd_exe2 = qd_exe2;
 	}
+	public Integer getShuliang() {
+		return shuliang;
+	}
+	public void setShuliang(Integer shuliang) {
+		this.shuliang = shuliang;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	@Override
 	public String toString() {
 		return "Qiandao [qd_id=" + qd_id + ", qd_user=" + qd_user + ", qd_time=" + qd_time + ", qd_zhuangtai="
-				+ qd_zhuangtai + ", qd_exe1=" + qd_exe1 + ", qd_exe2=" + qd_exe2 + "]";
+				+ qd_zhuangtai + ", qd_exe1=" + qd_exe1 + ", qd_exe2=" + qd_exe2 + ", shuliang=" + shuliang + ", user="
+				+ user + "]";
 	}
 
+	
 }

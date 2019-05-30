@@ -78,8 +78,8 @@
 
 	<insert id="insertUser" parameterType="user">
 		INSERT INTO
-		`user`(us_name,us_password,us_shojihao,us_youxiang,us_issuoding,us_passcuowucishu,us_chuangjiantime,us_quanzhong,us_pingfen,us_pingfenrenshu,us_biezhu)
-		VALUES(#{us_name},'93aeab278e125b175cf45b7ab09af446',#{us_shojihao},#{us_youxiang},#{us_issuoding},#{us_passcuowucishu},#{us_chuangjiantime},#{us_quanzhong},#{us_pingfen},#{us_pingfenrenshu},#{us_biezhu});
+		`user`(us_name,us_password,us_shojihao,us_youxiang,us_issuoding,us_passcuowucishu,us_chuangjiantime,us_quanzhong,us_pingfen,us_isdaka,us_pingfenrenshu,us_biezhu)
+		VALUES(#{us_name},'93aeab278e125b175cf45b7ab09af446',#{us_shojihao},#{us_youxiang},#{us_issuoding},#{us_passcuowucishu},#{us_chuangjiantime},#{us_quanzhong},#{us_pingfen},#{us_isdaka},#{us_pingfenrenshu},#{us_biezhu});
 	</insert>
 
 	<update id="updateUser" parameterType="user">
@@ -128,6 +128,12 @@
 		SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE
 		us_id=#{us_id}
 	</update>
+	
+	<update id="updateUser_qingjia" parameterType="int">
+		UPDATE `user`
+		SET us_isdaka=4,us_dakatime=now() WHERE
+		us_id=#{us_id}
+	</update>
 
 	<update id="updateUser_qiantui_duo" parameterType="list">
 		UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE
@@ -148,12 +154,14 @@
 	</update>
 
 	<update id="updateUser_password" parameterType="user">
-		UPDATE `user` SET us_password=#{us_password} WHERE us_id=#{us_id}
+		UPDATE `user` SET
+		us_password=#{us_password} WHERE us_id=#{us_id}
 	</update>
 
 	<select id="selectUser_us_name_shoujihao" parameterType="string"
 		resultType="user">
-		SELECT us_id,us_shojihao FROM `user` WHERE us_name=#{us_name}
+		SELECT us_id,us_shojihao FROM `user` WHERE
+		us_name=#{us_name}
 	</select>
 
 	<select id="selectUser_zixunshi" parameterType="int"
@@ -164,9 +172,111 @@
 		uj.uj_jueseid=#{uj_jueseid}
 	</select>
 
+	<select id="selectUser_wl_zixunshi" resultType="user">
+		SELECT
+		<include refid="userziduanming"></include>
+		FROM `user` u INNER JOIN user_juese uj ON u.us_id=uj.uj_userid
+	</select>
+
 	<insert id="insertqiandaorizhi" parameterType="user">
-		INSERT INTO qiandao(qd_user,qd_time,qd_zhuangtai)
+		INSERT INTO
+		qiandao(qd_user,qd_time,qd_zhuangtai)
 		VALUES(#{us_id},#{us_dakatime},#{us_isdaka})
+	</insert>
+
+	<select id="selectUser_zixuanshi_stu_all" parameterType="int"
+		resultType="int">
+		SELECT COUNT(xs_id) FROM student WHERE
+		xs_zixunshi=#{xs_zixunshi}
+	</select>
+
+	<resultMap type="qiandao" id="qdustb">
+		<id column="qd_id" property="qd_id" />
+		<result column="qd_user" property="qd_user" />
+		<result column="qd_time" property="qd_time" />
+		<result column="qd_zhuangtai" property="qd_zhuangtai" />
+		<result column="qd_exe1" property="qd_exe1" />
+		<result column="qd_exe2" property="qd_exe2" />
+		<result column="shuliang" property="shuliang" />
+		<result column="us_name" property="user.us_name" />
+	</resultMap>
+
+	<select id="selectQiandao_user_tubiao" parameterType="int"
+		resultMap="qdustb">
+		SELECT * FROM
+		`user` u LEFT JOIN(
+		select *,COUNT(qd_user)
+		shuliang from qiandao where
+		date_format(qd_time,'%Y-%m')=date_format(now(),'%Y-%m') AND
+		qd_zhuangtai=#{qd_zhuangtai} GROUP BY
+		qd_user,qd_zhuangtai) qdu ON
+		u.us_id=qdu.qd_user ORDER BY u.us_id
+	</select>
+
+	<resultMap type="qiandao"
+		id="selectQiandao_all_zhuangtai_map">
+		<id column="qd_zhuangtai" property="qd_zhuangtai" />
+		<result column="shuliang" property="shuliang" />
+	</resultMap>
+
+
+	<select id="selectQiandao_all_zhuangtai"
+		resultMap="selectQiandao_all_zhuangtai_map">
+		SELECT qd_id,qd_zhuangtai,COUNT(qd_zhuangtai) shuliang FROM
+		qiandao GROUP BY
+		qd_zhuangtai
+	</select>
+
+	<select id="selectQiandao_benyue_zhuangtai"
+		resultMap="selectQiandao_all_zhuangtai_map">
+		SELECT qd_id,qd_zhuangtai,COUNT(qd_zhuangtai) shuliang FROM
+		qiandao where
+		date_format(qd_time,'%Y-%m')=date_format(now(),'%Y-%m')
+		GROUP BY
+		qd_zhuangtai
+	</select>
+
+	<select id="selectQiandao_jingri_zhuangtai"
+		resultMap="selectQiandao_all_zhuangtai_map">
+		SELECT us_isdaka qd_zhuangtai,COUNT(us_isdaka) shuliang FROM
+		`user` GROUP BY us_isdaka
+	</select>
+
+	<resultMap type="user" id="selectUser_genzongcishi_map">
+		<id column="us_id" property="us_id" />
+		<result column="us_name" property="us_name" />
+		<result column="gz_cs" property="gz_cs" />
+	</resultMap>
+
+	<select id="selectUser_genzongcishi"
+		resultMap="selectUser_genzongcishi_map">
+		SELECT *,COUNT(gz.gz_user) gz_cs FROM
+		`user` us LEFT JOIN
+		(SELECT * FROM genzongrizhi WHERE
+		date_format(gz_genzongtime,'%Y-%m')=date_format(now(),'%Y-%m')) gz ON
+		us.us_id=gz.gz_user
+		GROUP BY us.us_id
+	</select>
+
+	<resultMap type="user"
+		id="selectStudent_tianjia_shuliang_map">
+		<id column="stu_sl" property="stu_sl" />
+		<result column="stu_sj" property="stu_sj" />
+	</resultMap>
+
+	<select id="selectStudent_tianjia_shuliang"
+		resultMap="selectStudent_tianjia_shuliang_map">
+		SELECT
+		COUNT(1) AS stu_sl,
+		DATE_FORMAT(xs_chuangjiantime,'%Y-%m-%d') AS stu_sj
+		FROM
+		student
+		GROUP
+		BY DATE_FORMAT(xs_chuangjiantime,'%Y-%m-%d')
+	</select>
+	
+	<insert id="insertqiandao_qingjia" parameterType="int">
+	INSERT qiandao(qd_user,qd_time,qd_zhuangtai) VALUES (#{us_id},now(),4)
 	</insert>
 
 </mapper>

@@ -2,10 +2,12 @@ package com.crm.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.crm.entity.Fenye;
+import com.crm.entity.Qd_Cd_Wq_tu;
 import com.crm.entity.User;
 import com.crm.entity.User_juese;
 
@@ -39,7 +41,7 @@ public interface UserService {
 	 * @param user
 	 * @return
 	 */
-	Integer updateUser(User user);
+	Integer updateUser(User user,HttpServletRequest request);
 	/**
 	 * 删除一个用户
 	 * @param user
@@ -69,6 +71,12 @@ public interface UserService {
 	 * @return
 	 */
 	Integer updateUser_qiantui_dan(Integer us_id);
+	/**
+	 * 员工请假
+	 * @param us_id
+	 * @return
+	 */
+	Integer updateUser_qingjia(Integer us_id);
 	/**
 	 * 多员工签退
 	 * @param us_id
@@ -122,4 +130,29 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> chakan_all_zixunshu();
+	/**
+	 * 学生-查看所有的网络咨询师
+	 * @return
+	 */
+	List<User> chakan_all_wl_zixunshu();
+	/**
+	 * 签到图表
+	 * @return
+	 */
+	Qd_Cd_Wq_tu user_qiandao_tubiao();
+	/**
+	 * 考勤图片饼状图
+	 * @return
+	 */
+	List<Map<String, Object>> yuangong_kq_tubiao_bingtu();
+	/**
+	 * 查询本月员工的跟踪次数
+	 * @return
+	 */
+	Map<String,Object> yuangong_genzongcishu();
+	/**
+	 * 查询每天录入的学生数量
+	 * @return
+	 */
+	Map<String,Object> selectStudent_tianjia_shuliang();
 }

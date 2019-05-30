@@ -30,17 +30,16 @@ div {
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="xiuform">
 			<br /> 模块名称：<input class="easyui-validatebox" required="true"
-				type="text" name="mk_name" id="xgmk_name" /><br />
-			<br /> URI：<input class="easyui-validatebox" required="true"
-				type="text" name="mk_lujing" id="xgmk_lujing" /><br />
-			<br /> 是否默认选中： <select class="easyui-combobox" id="xgmk_checked" name="mk_checked"
+				type="text" name="mk_name" id="xgmk_name" /><br /> <br /> URI：<input
+				class="easyui-validatebox" required="true" type="text"
+				name="mk_lujing" id="xgmk_lujing" /><br /> <br /> 是否默认选中： <select
+				class="easyui-combobox" id="xgmk_checked" name="mk_checked"
 				style="width: 200px;">
 				<option value="1">否</option>
 				<option value="2">是</option>
-				
-			</select> <a id="btn1" href="javascript:void(0)"
-				class="easyui-linkbutton" onclick="mkxiugai()"
-				data-options="iconCls:'icon-ok'">修改</a>
+
+			</select> <a id="btn1" href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="mkxiugai()" data-options="iconCls:'icon-ok'">修改</a>
 		</form>
 	</div>
 
@@ -49,14 +48,14 @@ div {
 		data-options="iconCls:'icon-save',modal:true">
 		<form id="mkaddform">
 			<br /> 模块名称：<input class="easyui-validatebox" required="true"
-				type="text" name="addmk_name" id="addmk_name" /><br />
-			<br /> URI：<input class="easyui-validatebox" required="true"
-				type="text" name="addmk_lujing" id="addmk_lujing" /><br />
-			<br /> 是否默认选中： <select class="easyui-combobox" id="addmk_checked" name="addmk_checked"
+				type="text" name="addmk_name" id="addmk_name" /><br /> <br />
+			URI：<input class="easyui-validatebox" required="true" type="text"
+				name="addmk_lujing" id="addmk_lujing" /><br /> <br /> 是否默认选中： <select
+				class="easyui-combobox" id="addmk_checked" name="addmk_checked"
 				style="width: 200px;">
 				<option value="1">否</option>
 				<option value="2">是</option>
-				
+
 			</select> <a id="btn1" href="javascript:void(0)" class="easyui-linkbutton"
 				onclick="mktianjia()" data-options="iconCls:'icon-ok'">添加</a>
 		</form>
@@ -117,7 +116,7 @@ div {
 			mk_id : nodes.id
 		}, function(res) {
 			//var sss = eval("(" + res.message + ")")
-			if (res!=null) {
+			if (res != null) {
 				mokuai = null;
 				mokuai = res;
 				$('#xiuform').form('load', mokuai);
@@ -135,7 +134,7 @@ div {
 				mk_lujing : $("#xgmk_lujing").val(),
 				mk_checked : $("#xgmk_checked").combobox("getValue")
 			}, function(res) {
-				if (res==1) {
+				if (res == 1) {
 					$('#xiutab').window('close');
 					$("#tt").tree("reload");
 					$.messager.show({
@@ -148,7 +147,7 @@ div {
 									+ document.documentElement.scrollTop,
 						}
 					});
-				} else if(res==-1) {
+				} else if (res == -1) {
 					$.messager.show({
 						title : '我的消息',
 						msg : '模块名称重复',
@@ -159,7 +158,7 @@ div {
 									+ document.documentElement.scrollTop,
 						}
 					});
-				}else {
+				} else {
 					$.messager.show({
 						title : '我的消息',
 						msg : '更新失败',
@@ -188,7 +187,7 @@ div {
 
 	function shutianjia() {
 		var nodes = $('#tt').tree('getSelected');
-		if (nodes == null || nodes == "" || nodes == "null") {
+		/* if (nodes == null || nodes == "" || nodes == "null") {
 			$.messager.show({
 				title : '我的消息',
 				msg : '不好意思，请点击选择父节点！',
@@ -199,22 +198,28 @@ div {
 							+ document.documentElement.scrollTop,
 				}
 			});
-		} else {
-			$('#mkaddform').form('reset');
-			$('#mkadddiv').window('open');
-		}
+		} else { */
+		$('#mkaddform').form('reset');
+		$('#mkadddiv').window('open');
+		/* } */
 	}
 
 	function mktianjia() {
 		if ($("#mkaddform").form('validate')) {
 			var nodes = $('#tt').tree('getSelected');
+			var id = 0;
+			if (nodes != null) {
+				if (nodes.id != "") {
+					id = nodes.id;
+				}
+			}
 			$.post("mokuai_tianjia", {
 				mk_name : $("#addmk_name").val(),
-				mk_fuid : nodes.id,
+				mk_fuid : id,
 				mk_lujing : $("#addmk_lujing").val(),
 				mk_checked : $("#addmk_checked").combobox("getValue")
 			}, function(res) {
-				if (res==1) {
+				if (res == 1) {
 					$('#mkadddiv').window('close');
 					$("#tt").tree("reload");
 					$.messager.show({
@@ -227,7 +232,7 @@ div {
 									+ document.documentElement.scrollTop,
 						}
 					});
-				} else if(res==-1) {
+				} else if (res == -1) {
 					$.messager.show({
 						title : '我的消息',
 						msg : '模块名称重复',
@@ -238,7 +243,7 @@ div {
 									+ document.documentElement.scrollTop,
 						}
 					});
-				}else {
+				} else {
 					$.messager.show({
 						title : '我的消息',
 						msg : '添加失败',
@@ -271,7 +276,7 @@ div {
 				$.post("mokuai_shanchu", {
 					mk_id : $('#tt').tree('getSelected').id
 				}, function(res) {
-					if (res==1) {
+					if (res == 1) {
 						$("#tt").tree("reload");
 						$.messager.show({
 							title : '我的消息',
@@ -283,7 +288,7 @@ div {
 										+ document.documentElement.scrollTop,
 							}
 						});
-					}  else if(res==-2) {
+					} else if (res == -2) {
 						$.messager.show({
 							title : '我的消息',
 							msg : '该模块的子模块正在被角色使用，请先释放资源',
@@ -294,7 +299,7 @@ div {
 										+ document.documentElement.scrollTop,
 							}
 						});
-					}else if(res==-1) {
+					} else if (res == -1) {
 						$.messager.show({
 							title : '我的消息',
 							msg : '该模块正在被角色使用，请先释放资源',
@@ -305,7 +310,7 @@ div {
 										+ document.documentElement.scrollTop,
 							}
 						});
-					}else {
+					} else {
 						$.messager.show({
 							title : '我的消息',
 							msg : '删除失败',

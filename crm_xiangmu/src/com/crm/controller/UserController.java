@@ -2,6 +2,7 @@ package com.crm.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crm.entity.Fenye;
 import com.crm.entity.Juese;
+import com.crm.entity.Qd_Cd_Wq_tu;
 import com.crm.entity.User;
 import com.crm.entity.User_juese;
 import com.crm.service.JueseService;
@@ -57,8 +59,8 @@ public class UserController {
 	}
 	@RequestMapping(value = "user_xiugai",method = RequestMethod.POST)
 	@ResponseBody
-	public Integer user_xiugai(User user) {
-		return userServiceimp.updateUser(user);
+	public Integer user_xiugai(User user,HttpServletRequest request) {
+		return userServiceimp.updateUser(user,request);
 	}
 	@RequestMapping(value = "user_shanchu",method = RequestMethod.POST)
 	@ResponseBody
@@ -94,6 +96,11 @@ public class UserController {
 	@ResponseBody
 	public Integer updateUser_qiantui_dan(Integer us_id) {
 		return userServiceimp.updateUser_qiantui_dan(us_id);
+	}
+	@RequestMapping(value = "updateUser_qingjia",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateUser_qingjia(Integer us_id) {
+		return userServiceimp.updateUser_qingjia(us_id);
 	}
 	@RequestMapping(value = "updateUser_qiantui_duo",method = RequestMethod.POST)
 	@ResponseBody
@@ -140,6 +147,31 @@ public class UserController {
 	@ResponseBody
 	public List<User> chakan_all_zixunshu(){
 		return userServiceimp.chakan_all_zixunshu();
+	}
+	@RequestMapping(value = "chakan_all_wl_zixunshu",method = RequestMethod.POST)
+	@ResponseBody
+	public List<User> chakan_all_wl_zixunshu(){
+		return userServiceimp.chakan_all_wl_zixunshu();
+	}
+	@RequestMapping(value = "yuangong_qd_cd_wq_cishutongji",method = RequestMethod.POST)
+	@ResponseBody
+	public Qd_Cd_Wq_tu yuangong_qd_cd_wq_cishutongji(){
+		return userServiceimp.user_qiandao_tubiao();
+	}
+	@RequestMapping(value = "yuangong_kq_tubiao_bingtu",method = RequestMethod.POST)
+	@ResponseBody
+	public List<Map<String, Object>> yuangong_kq_tubiao_bingtu(){
+		return userServiceimp.yuangong_kq_tubiao_bingtu();
+	}
+	@RequestMapping(value = "yuangong_genzongcishu",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> yuangong_genzongcishu(){
+		return userServiceimp.yuangong_genzongcishu();
+	}
+	@RequestMapping(value = "selectStudent_tianjia_shuliang_map",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> selectStudent_tianjia_shuliang(){
+		return userServiceimp.selectStudent_tianjia_shuliang();
 	}
 
 }

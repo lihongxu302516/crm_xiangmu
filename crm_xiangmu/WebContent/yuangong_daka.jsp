@@ -128,7 +128,9 @@
 	}
 	function caozuo(value, row, index) {
 		return "<a href='javascript:void(0)' class='easyui-linkbuton' onclick='yg_qiantui("
-				+ index + ")'>签退</a>";
+				+ index
+				+ ")'>签退</a>&nbsp;&nbsp;&nbsp;<a href='javascript:void(0)' class='easyui-linkbuton' onclick='yg_qingjia("
+				+ index + ")'>请假</a>";
 	}
 	function ff_us_isdaka(value, row, index) {
 		if (row.us_isdaka == 1) {
@@ -137,10 +139,62 @@
 			return "未打卡";
 		} else if (row.us_isdaka == 3) {
 			return "迟到";
+		} else if (row.us_isdaka == 4) {
+			return "请假";
 		} else {
 			return "未知状态";
 		}
 	}
+
+	function yg_qingjia(index) {
+		var us_isdaka = $("#dg").datagrid("getData").rows[index].us_isdaka;
+		if (us_isdaka == 4) {
+			$.messager.show({
+				title : '我的消息',
+				msg : '当前已请假，无法再次请假！',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
+		} else {
+		$.messager.confirm('确认', '您确认要为该员工请假吗？', function(r) {
+			if (r) {
+				$.post("updateUser_qingjia", {
+					us_id : $("#dg").datagrid("getData").rows[index].us_id
+				}, function(res) {
+					if (res == 1) {
+						$("#dg").datagrid("reload");
+						$.messager.show({
+							title : '我的消息',
+							msg : '请假成功',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					} else {
+						$.messager.show({
+							title : '我的消息',
+							msg : '请假失败',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					}
+				});
+			}
+		});
+		}
+	}
+
 	function yg_qiantui(index) {
 		var us_isdaka = $("#dg").datagrid("getData").rows[index].us_isdaka;
 		if (us_isdaka == 2) {
@@ -238,7 +292,7 @@
 
 	function updateUser_qiantui_duo() {
 		var row = $("#dg").datagrid("getSelections");
-		if (row != null && row!="") {
+		if (row != null && row != "") {
 			var us_ids = "";
 			var xz_ids = "";
 			var ss = 0;

@@ -45,6 +45,10 @@
 	<select id="selectJuese_zixunshi" resultType="int">
 		SELECT js_id FROM juese WHERE js_name='咨询师'
 	</select>
+	
+	<select id="selectJuese_wl_zixunshi" resultType="int">
+	SELECT js_id FROM juese WHERE js_name='网络咨询师'
+	</select>
 
 	<select id="select_juese_mokuai_js_ids"
 		parameterType="java.util.List" resultType="mokuai">
@@ -56,9 +60,12 @@
 		</foreach>
 	</select>
 
-	<select id="select_juese_name_chongfu" parameterType="string"
+	<select id="select_juese_name_chongfu" parameterType="juese"
 		resultType="int">
 		SELECT COUNT(js_id) FROM juese WHERE js_name=#{js_name}
+		<if test="js_id!=null and js_id!=''">
+		 and js_id!=#{js_id}
+		</if>
 	</select>
 
 	<select id="select_Juese_is_User" parameterType="int"

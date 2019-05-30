@@ -283,6 +283,8 @@ public class StudentServiceimp implements StudentService {
 	public Fenye<Dongtai> selectDongtai_stu_id(Fenye<Dongtai> fenye) {
 		// TODO Auto-generated method stub
 		List<Dongtai> selectDongtai_stu_id = studentMapper.selectDongtai_stu_id(fenye);
+		Integer selectDongtai_stu_id_count = studentMapper.selectDongtai_stu_id_count(fenye);
+		fenye.setTotal(selectDongtai_stu_id_count);
 		fenye.setRows(selectDongtai_stu_id);
 		return fenye;
 	}
@@ -291,6 +293,8 @@ public class StudentServiceimp implements StudentService {
 	public Fenye<Genzongrizhi> selectGengzongrizhi_xs_id(Fenye<Genzongrizhi> fenye) {
 		// TODO Auto-generated method stub
 		List<Genzongrizhi> selectGengzongrizhi_xs_id = studentMapper.selectGengzongrizhi_xs_id(fenye);
+		Integer selectGengzongrizhi_xs_id_count = studentMapper.selectGengzongrizhi_xs_id_count(fenye);
+		fenye.setTotal(selectGengzongrizhi_xs_id_count);
 		fenye.setRows(selectGengzongrizhi_xs_id);
 		return fenye;
 	}
