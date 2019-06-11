@@ -4,7 +4,7 @@
 	<select id="selectMokuaiAll" resultType="mokuai">
 		SELECT
 		mk_id,mk_name,mk_fuid,mk_checked,mk_lujing,mk_exe1,mk_exe2 FROM
-		mokuai
+		mokuai ORDER BY mk_exe1 DESC
 	</select>
 
 	<insert id="insertMokuai" parameterType="mokuai">
@@ -14,8 +14,15 @@
 	</insert>
 
 	<update id="updateMokuai" parameterType="mokuai">
-		UPDATE mokuai SET
-		mk_name=#{mk_name},mk_fuid=#{mk_fuid},mk_checked=#{mk_checked},mk_lujing=#{mk_lujing},mk_exe1=#{mk_exe1},mk_exe2=#{mk_exe2}
+		UPDATE mokuai 
+		<set>
+		<if test="mk_name != null and mk_name != ''">mk_name=#{mk_name},</if>
+		<if test="mk_fuid != null and mk_fuid != ''">mk_fuid=#{mk_fuid},</if>
+		<if test="mk_checked != null and mk_checked != ''">mk_checked=#{mk_checked},</if>
+		<if test="mk_lujing != null and mk_lujing != ''">mk_lujing=#{mk_lujing},</if>
+		<if test="mk_exe1 != null and mk_exe1 != ''">mk_exe1=#{mk_exe1},</if>
+		<if test="mk_exe2 != null and mk_exe2 != ''">mk_exe2=#{mk_exe2},</if>
+		</set>
 		WHERE mk_id=#{mk_id}
 	</update>
 

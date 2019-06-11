@@ -28,7 +28,7 @@
 				<tr>
 					<td>姓名（账户）：</td>
 					<td><input class="easyui-textbox" id="us_name"
-						value="${user.us_name}" style="width: 300px"></td>
+						value="${user.us_name}" disabled="disabled" style="width: 300px"></td>
 				</tr>
 				<tr>
 					<td>手机号：</td>

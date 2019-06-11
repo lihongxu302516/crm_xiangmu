@@ -10,7 +10,7 @@
 		resultType="user">
 		SELECT
 		<include refid="userziduanming"></include>
-		FROM `user`
+		FROM `user` LEFT JOIN user_juese ON us_id=uj_userid
 		<where>
 			<if test="t.us_id != null and t.us_id != ''">AND us_id=#{t.us_id}</if>
 			<if test="t.us_name != null and t.us_name != ''">AND us_name LIKE "%"#{t.us_name}"%"</if>
@@ -26,6 +26,8 @@
 			<if test="t.us_isdaka != null and t.us_isdaka != ''">AND us_isdaka=#{t.us_isdaka}</if>
 			<if test="t.us_dakatimeMIN != null and t.us_dakatimeMIN != ''">AND us_dakatime &gt; #{t.us_dakatimeMIN}</if>
 			<if test="t.us_dakatimeMAX != null and t.us_dakatimeMAX != ''">AND us_dakatime &gt; #{t.us_dakatimeMAX}</if>
+			<if test="t.zxs != null and t.zxs != '' and t.zxs==1">AND uj_jueseid=3</if>
+			
 		</where>
 		<if test="t.paixuziduan != null and t.paixuziduan !=''">
 			ORDER BY ${t.paixuziduan}
@@ -45,7 +47,7 @@
 	<select id="selectUserCount" parameterType="fenye"
 		resultType="int">
 		SELECT count(us_id)
-		FROM `user`
+		FROM `user` LEFT JOIN user_juese ON us_id=uj_userid
 		<where>
 			<if test="t.us_id != null and t.us_id != ''">AND us_id=#{t.us_id}</if>
 			<if test="t.us_name != null and t.us_name != ''">AND us_name LIKE "%"#{t.us_name}"%"</if>
@@ -61,6 +63,7 @@
 			<if test="t.us_isdaka != null and t.us_isdaka != ''">AND us_isdaka=#{t.us_isdaka}</if>
 			<if test="t.us_dakatimeMIN != null and t.us_dakatimeMIN != ''">AND us_dakatime &gt; #{t.us_dakatimeMIN}</if>
 			<if test="t.us_dakatimeMAX != null and t.us_dakatimeMAX != ''">AND us_dakatime &gt; #{t.us_dakatimeMAX}</if>
+			<if test="t.zxs != null and t.zxs != '' and t.zxs==1">AND uj_jueseid=3</if>
 		</where>
 	</select>
 
@@ -125,26 +128,26 @@
 
 	<update id="updateUser_qiantui_dan" parameterType="int">
 		UPDATE `user`
-		SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE
+		SET us_isdaka=2,us_dakatime=now() WHERE
 		us_id=#{us_id}
 	</update>
-	
+
 	<update id="updateUser_qingjia" parameterType="int">
 		UPDATE `user`
-		SET us_isdaka=4,us_dakatime=now() WHERE
+		SET
+		us_isdaka=4,us_dakatime=now() WHERE
 		us_id=#{us_id}
 	</update>
 
 	<update id="updateUser_qiantui_duo" parameterType="list">
-		UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00 00:00:00' WHERE
+		UPDATE `user` SET us_isdaka=2,us_dakatime=now() WHERE
 		us_id in
 		<foreach collection="list" item="item" open="(" separator=","
 			close=")">#{item}</foreach>
 	</update>
 
 	<update id="updateUser_qiantui_quan">
-		UPDATE `user` SET us_isdaka=2,us_dakatime='0000-00-00
-		00:00:00'
+		UPDATE `user` SET us_isdaka=2,us_dakatime=now()
 	</update>
 
 	<update id="updateUser_ygxx" parameterType="user">
@@ -272,11 +275,31 @@
 		FROM
 		student
 		GROUP
-		BY DATE_FORMAT(xs_chuangjiantime,'%Y-%m-%d')
+		BY
+		DATE_FORMAT(xs_chuangjiantime,'%Y-%m-%d')
 	</select>
-	
+
 	<insert id="insertqiandao_qingjia" parameterType="int">
-	INSERT qiandao(qd_user,qd_time,qd_zhuangtai) VALUES (#{us_id},now(),4)
+		INSERT qiandao(qd_user,qd_time,qd_zhuangtai) VALUES (#{us_id},now(),4)
 	</insert>
+
+	<select id="selectUser_juese_us_id" parameterType="int"
+		resultType="int">
+		SELECT COUNT(uj_id) FROM user_juese WHERE uj_userid=#{uj_userid}
+	</select>
+
+	<select id="select_qiantui_shijianqu_dan" parameterType="int"
+		resultType="int">
+		SELECT TIMESTAMPDIFF(MINUTE,us_dakatime,NOW()) FROM `user` WHERE
+		us_id=#{us_id}
+	</select>
+
+	<select id="select_qiantui_shijianqu_duo" parameterType="list"
+		resultType="int">
+		SELECT TIMESTAMPDIFF(MINUTE,us_dakatime,NOW()) FROM `user` WHERE us_id
+		in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">#{item}</foreach>
+	</select>
 
 </mapper>

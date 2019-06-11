@@ -50,13 +50,17 @@ public class UserServiceimp implements UserService {
 	}
 
 	@Override
-	public Integer updatesuodingyonghu(User user) {
+	public Integer updatesuodingyonghu(User user,HttpServletRequest request) {
 		// TODO Auto-generated method stub
+		if (user.getUs_id() == ((User) request.getSession().getAttribute("user")).getUs_id()) {
+			return -1;
+		} else {
 		if (user.getUs_issuoding() == 1) {
 			String sj = getdangqianshijian();
 			user.setUs_suodingtime(sj);
 		}
 		return usermapper.updatesuodingyonghu(user);
+		}
 	}
 
 	private String getdangqianshijian() {
@@ -101,13 +105,23 @@ public class UserServiceimp implements UserService {
 	}
 
 	@Override
-	public Integer deleteUser(Integer us_id) {
+	public Integer deleteUser(Integer us_id, HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		Integer deleteUser = usermapper.deleteUser(us_id);
-		if (deleteUser == 1) {
-			usermapper.deleteUser_Juese(us_id);
+		int jg = 0;
+		if (us_id == ((User) request.getSession().getAttribute("user")).getUs_id()) {
+			jg = -1;
+		} else {
+			Integer selectUser_juese_us_id = usermapper.selectUser_juese_us_id(us_id);
+			if (selectUser_juese_us_id > 0) {
+				jg = -2;
+			} else {
+				jg = usermapper.deleteUser(us_id);
+				if (jg == 1) {
+					usermapper.deleteUser_Juese(us_id);
+				}
+			}
 		}
-		return deleteUser;
+		return jg;
 	}
 
 	@Override
@@ -129,10 +143,13 @@ public class UserServiceimp implements UserService {
 		String sj = getdangqianshijian();
 		user.setUs_dakatime(sj);
 		boolean is_shijianq = shijianQujian.is_shijianq("8:00", "9:00");
-		if (is_shijianq) {
-			user.setUs_isdaka(1);
-		} else {
-			user.setUs_isdaka(3);
+		boolean is_shijianq2 = shijianQujian.is_shijianq("21:00", "8:00");
+		if (!is_shijianq2) {
+			if (is_shijianq) {
+				user.setUs_isdaka(1);
+			} else {
+				user.setUs_isdaka(3);
+			}
 		}
 		Integer updateUser_daka = usermapper.updateUser_daka(user);
 		if (updateUser_daka > 0) {
@@ -144,7 +161,13 @@ public class UserServiceimp implements UserService {
 	@Override
 	public Integer updateUser_qiantui_dan(Integer us_id) {
 		// TODO Auto-generated method stub
-		return usermapper.updateUser_qiantui_dan(us_id);
+		Integer dan = usermapper.select_qiantui_shijianqu_dan(us_id);
+		if (dan >= 10) {
+			return usermapper.updateUser_qiantui_dan(us_id);
+		} else {
+			return -1;
+		}
+
 	}
 
 	@Override
@@ -155,7 +178,18 @@ public class UserServiceimp implements UserService {
 		for (int i = 0; i < split.length; i++) {
 			list.add(Integer.parseInt(split[i]));
 		}
-		return usermapper.updateUser_qiantui_duo(list);
+		List<Integer> duo = usermapper.select_qiantui_shijianqu_duo(list);
+		Integer op = 0;
+		for (int i = 0; i < duo.size(); i++) {
+			if (duo.get(i) < 10) {
+				op = 1;
+			}
+		}
+		if (op == 1) {
+			return -1;
+		} else {
+			return usermapper.updateUser_qiantui_duo(list);
+		}
 	}
 
 	@Override
@@ -317,7 +351,7 @@ public class UserServiceimp implements UserService {
 			qd.add(su_qd.get(i).getShuliang() == null ? 0 : su_qd.get(i).getShuliang());
 			cd.add(su_cd.get(i).getShuliang() == null ? 0 : su_cd.get(i).getShuliang());
 			wq.add(su_wq.get(i).getShuliang() == null ? 0 : su_wq.get(i).getShuliang());
-			qj.add(su_qj.get(i).getShuliang() == null ? 0 : su_qj.get(i).getShuliang());	
+			qj.add(su_qj.get(i).getShuliang() == null ? 0 : su_qj.get(i).getShuliang());
 		}
 		qcwt.setUs_name(name);
 		qcwt.setQd_cs(qd);
@@ -450,7 +484,7 @@ public class UserServiceimp implements UserService {
 	public Map<String, Object> selectStudent_tianjia_shuliang() {
 		// TODO Auto-generated method stub
 		List<User> lrcs = usermapper.selectStudent_tianjia_shuliang();
-		
+
 		List<String> sj_list = new ArrayList<String>();
 		List<Integer> cs_list = new ArrayList<Integer>();
 
@@ -461,7 +495,7 @@ public class UserServiceimp implements UserService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("sj", sj_list);
 		map.put("cs", cs_list);
-		
+
 		return map;
 	}
 
@@ -469,7 +503,7 @@ public class UserServiceimp implements UserService {
 	public Integer updateUser_qingjia(Integer us_id) {
 		// TODO Auto-generated method stub
 		Integer updateUser_qingjia = usermapper.updateUser_qingjia(us_id);
-		if(updateUser_qingjia==1) {
+		if (updateUser_qingjia == 1) {
 			usermapper.insertqiandao_qingjia(us_id);
 		}
 		return updateUser_qingjia;

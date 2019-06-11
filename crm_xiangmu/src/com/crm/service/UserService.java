@@ -23,7 +23,7 @@ public interface UserService {
 	 * @param us_id
 	 * @return
 	 */
-	Integer updatesuodingyonghu(User user);
+	Integer updatesuodingyonghu(User user,HttpServletRequest request);
 	/**
 	 * 重置密码
 	 * @param us_id
@@ -47,7 +47,7 @@ public interface UserService {
 	 * @param user
 	 * @return
 	 */
-	Integer deleteUser(Integer us_id);
+	Integer deleteUser(Integer us_id,HttpServletRequest request);
 	/**
 	 * 给用户添加一个角色
 	 * @param uj

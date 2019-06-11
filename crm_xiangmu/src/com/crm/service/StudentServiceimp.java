@@ -275,6 +275,8 @@ public class StudentServiceimp implements StudentService {
 		Student stu=new Student();
 		stu.setXs_id(dt.getDt_student());
 		stu.setXs_exe1("2");
+		System.out.println(studentMapper);
+		
 		studentMapper.updateStudent_exe1_isbeixiugai(stu);
 		return studentMapper.tianjia_dongtairizhi(dt);
 	}

@@ -42,6 +42,8 @@ private List<Genzongrizhi> genzongrizhi;
 private Integer gz_cs;
 private Integer stu_sl;
 private String stu_sj;
+private Integer zxs;
+
 public Integer getUs_id() {
 	return us_id;
 }
@@ -246,6 +248,12 @@ public String getStu_sj() {
 public void setStu_sj(String stu_sj) {
 	this.stu_sj = stu_sj;
 }
+public Integer getZxs() {
+	return zxs;
+}
+public void setZxs(Integer zxs) {
+	this.zxs = zxs;
+}
 @Override
 public String toString() {
 	return "User [us_id=" + us_id + ", us_name=" + us_name + ", us_password=" + us_password + ", us_shojihao="
@@ -259,8 +267,9 @@ public String toString() {
 			+ ", us_quanzhongMAX=" + us_quanzhongMAX + ", us_dakatimeMIN=" + us_dakatimeMIN + ", us_dakatimeMAX="
 			+ us_dakatimeMAX + ", paixuguize=" + paixuguize + ", paixuziduan=" + paixuziduan + ", juese=" + juese
 			+ ", student=" + student + ", genzongrizhi=" + genzongrizhi + ", gz_cs=" + gz_cs + ", stu_sl=" + stu_sl
-			+ ", stu_sj=" + stu_sj + "]";
+			+ ", stu_sj=" + stu_sj + ", zxs=" + zxs + "]";
 }
+
 
 
 }

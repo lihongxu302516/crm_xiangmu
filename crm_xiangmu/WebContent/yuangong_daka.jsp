@@ -160,55 +160,57 @@
 				}
 			});
 		} else {
-		$.messager.confirm('确认', '您确认要为该员工请假吗？', function(r) {
-			if (r) {
-				$.post("updateUser_qingjia", {
-					us_id : $("#dg").datagrid("getData").rows[index].us_id
-				}, function(res) {
-					if (res == 1) {
-						$("#dg").datagrid("reload");
-						$.messager.show({
-							title : '我的消息',
-							msg : '请假成功',
-							timeout : 1000,
-							showType : 'slide',
-							style : {
-								top : document.body.scrollTop
-										+ document.documentElement.scrollTop,
-							}
-						});
-					} else {
-						$.messager.show({
-							title : '我的消息',
-							msg : '请假失败',
-							timeout : 1000,
-							showType : 'slide',
-							style : {
-								top : document.body.scrollTop
-										+ document.documentElement.scrollTop,
-							}
-						});
-					}
-				});
-			}
-		});
+			$.messager
+					.confirm(
+							'确认',
+							'您确认要为该员工请假吗？',
+							function(r) {
+								if (r) {
+									$
+											.post(
+													"updateUser_qingjia",
+													{
+														us_id : $("#dg")
+																.datagrid(
+																		"getData").rows[index].us_id
+													},
+													function(res) {
+														if (res == 1) {
+															$("#dg").datagrid(
+																	"reload");
+															$.messager
+																	.show({
+																		title : '我的消息',
+																		msg : '请假成功',
+																		timeout : 1000,
+																		showType : 'slide',
+																		style : {
+																			top : document.body.scrollTop
+																					+ document.documentElement.scrollTop,
+																		}
+																	});
+														} else {
+															$.messager
+																	.show({
+																		title : '我的消息',
+																		msg : '请假失败',
+																		timeout : 1000,
+																		showType : 'slide',
+																		style : {
+																			top : document.body.scrollTop
+																					+ document.documentElement.scrollTop,
+																		}
+																	});
+														}
+													});
+								}
+							});
 		}
 	}
 
 	function yg_qiantui(index) {
 		var us_isdaka = $("#dg").datagrid("getData").rows[index].us_isdaka;
-		if (us_isdaka == 2) {
-			$.messager.show({
-				title : '我的消息',
-				msg : '当前未签到，无法签退！',
-				timeout : 1000,
-				showType : 'slide',
-				style : {
-					top : document.body.scrollTop
-							+ document.documentElement.scrollTop,
-				}
-			});
-		} else {
+		if (us_isdaka == 1 || us_isdaka == 3) {
 			$.messager
 					.confirm(
 							'确认',
@@ -238,6 +240,20 @@
 																					+ document.documentElement.scrollTop,
 																		}
 																	});
+														} else if (res == -1) {
+															$("#dg").datagrid(
+																	"reload");
+															$.messager
+																	.show({
+																		title : '我的消息',
+																		msg : '签到未满10分钟，无法签退',
+																		timeout : 1000,
+																		showType : 'slide',
+																		style : {
+																			top : document.body.scrollTop
+																					+ document.documentElement.scrollTop,
+																		}
+																	});
 														} else {
 															$.messager
 																	.show({
@@ -254,6 +270,17 @@
 													});
 								}
 							});
+		} else {
+			$.messager.show({
+				title : '我的消息',
+				msg : '当前未签到，无法签退！',
+				timeout : 1000,
+				showType : 'slide',
+				style : {
+					top : document.body.scrollTop
+							+ document.documentElement.scrollTop,
+				}
+			});
 		}
 	}
 
@@ -298,7 +325,7 @@
 			var ss = 0;
 			var pp = 0;
 			for (var i = 0; i < row.length; i++) {
-				if (row[i].us_isdaka == 2) {
+				if (row[i].us_isdaka == 2 || row[i].us_isdaka == 4) {
 					if (pp == 0) {
 						xz_ids = xz_ids + row[i].us_id;
 						pp++;
@@ -337,6 +364,21 @@
 																		.show({
 																			title : '我的消息',
 																			msg : '所有选中的员工签退成功',
+																			timeout : 1000,
+																			showType : 'slide',
+																			style : {
+																				top : document.body.scrollTop
+																						+ document.documentElement.scrollTop,
+																			}
+																		});
+															} else if (res == -1) {
+																$("#dg")
+																		.datagrid(
+																				"reload");
+																$.messager
+																		.show({
+																			title : '我的消息',
+																			msg : '有员工签到未满10分钟，无法签退',
 																			timeout : 1000,
 																			showType : 'slide',
 																			style : {

@@ -31,10 +31,12 @@ div {
 		<form id="xiuform">
 			<br /> 模块名称：<input class="easyui-validatebox" required="true"
 				type="text" name="mk_name" id="xgmk_name" /><br /> <br /> URI：<input
-				class="easyui-validatebox" required="true" type="text"
-				name="mk_lujing" id="xgmk_lujing" /><br /> <br /> 是否默认选中： <select
+				class="easyui-validatebox" type="text"
+				name="mk_lujing" id="xgmk_lujing" /><br /> <br />权重：<input
+				class="easyui-validatebox" validType="quanzhong" required="true" type="text"
+				name="mk_exe1" id="xgmk_exe1" /><br /> <br /> 是否默认选中： <select
 				class="easyui-combobox" id="xgmk_checked" name="mk_checked"
-				style="width: 200px;">
+				style="width: 160px;">
 				<option value="1">否</option>
 				<option value="2">是</option>
 
@@ -49,10 +51,12 @@ div {
 		<form id="mkaddform">
 			<br /> 模块名称：<input class="easyui-validatebox" required="true"
 				type="text" name="addmk_name" id="addmk_name" /><br /> <br />
-			URI：<input class="easyui-validatebox" required="true" type="text"
-				name="addmk_lujing" id="addmk_lujing" /><br /> <br /> 是否默认选中： <select
+			URI：<input class="easyui-validatebox" type="text"
+				name="addmk_lujing" id="addmk_lujing" /><br /> <br />权重：<input
+				class="easyui-validatebox" validType="quanzhong" required="true" type="text"
+				name="mk_exe1" id="addmk_exe1" /><br /> <br /> 是否默认选中： <select
 				class="easyui-combobox" id="addmk_checked" name="addmk_checked"
-				style="width: 200px;">
+				style="width: 160px;">
 				<option value="1">否</option>
 				<option value="2">是</option>
 
@@ -113,7 +117,8 @@ div {
 	function shuxiugai() {
 		var nodes = $('#tt').tree('getSelected');
 		$.post("mokuai_xianshi_xiugai", {
-			mk_id : nodes.id
+			mk_id : nodes.id,
+			mk_exe1 : $("#addmk_exe1").val()
 		}, function(res) {
 			//var sss = eval("(" + res.message + ")")
 			if (res != null) {
@@ -132,7 +137,8 @@ div {
 				mk_name : $("#xgmk_name").val(),
 				mk_fuid : mokuai.mk_fuid,
 				mk_lujing : $("#xgmk_lujing").val(),
-				mk_checked : $("#xgmk_checked").combobox("getValue")
+				mk_checked : $("#xgmk_checked").combobox("getValue"),
+				mk_exe1 : $("#xgmk_exe1").val()
 			}, function(res) {
 				if (res == 1) {
 					$('#xiutab').window('close');

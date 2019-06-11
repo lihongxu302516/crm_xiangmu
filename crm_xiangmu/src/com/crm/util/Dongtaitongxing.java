@@ -1,8 +1,6 @@
 package com.crm.util;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,10 +13,13 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+
+
 @ServerEndpoint(value = "/dongtaitongxing/{userId}")
 public class Dongtaitongxing {
 	@Resource
 	private Dongtaitongxing webcomment;
+	
 
 	// 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
 	private static int onlineCount = 0;
@@ -27,7 +28,7 @@ public class Dongtaitongxing {
 	// CopyOnWriteArraySet<Webcomment>();
 	// 线程安全的Map
 	private static ConcurrentHashMap<String, Session> webSocketMap = new ConcurrentHashMap<String, Session>();// 建立连接的方法
-	
+	private String userId;
 	@OnOpen
 	public void onOpen(Session session, @PathParam("userId") String userId) {
 		/*
@@ -37,6 +38,7 @@ public class Dongtaitongxing {
 		webSocketMap.put(userId, session);
 		addOnlineCount(); // 在线数加
 		System.out.println(userId + "进入");
+		this.userId=userId;
 		/*
 		 * Gson gson=new Gson(); String json = gson.toJson("进入聊天室");
 		 * sendMessage(userId,);
@@ -71,6 +73,7 @@ public class Dongtaitongxing {
 		System.out.println(split.length);
 		System.out.println(split[0]);
 		System.out.println(split[1]);
+		System.out.println(split[2]);
 		/*
 		 * String sendUserno = message.split("[|]")[1]; String sendMessage =
 		 * message.split("[|]")[0];
@@ -79,9 +82,11 @@ public class Dongtaitongxing {
 		try {
 			if (webSocketMap.get(split[0].trim()) != null) {
 				System.out.println("在线");
+				message=this.userId+"&"+split[1];
 				//((Dongtaitongxing) webSocketMap.get("小红")).sendMessage(message,webSocketMap.get("小红"));
 				sendMessage(message,webSocketMap.get(split[0]));
 			} else {
+				
 				System.out.println("当前用户不在线");
 			}
 		} catch (Exception e) {

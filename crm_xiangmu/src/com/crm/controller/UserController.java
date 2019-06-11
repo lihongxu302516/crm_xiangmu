@@ -44,8 +44,8 @@ public class UserController {
 	}
 	@RequestMapping(value = "suodingyonghu",method = RequestMethod.POST)
 	@ResponseBody
-	public Integer suodingyonghu(User user) {
-		return userServiceimp.updatesuodingyonghu(user);
+	public Integer suodingyonghu(User user,HttpServletRequest request) {
+		return userServiceimp.updatesuodingyonghu(user,request);
 	}
 	@RequestMapping(value = "chongzhimima",method = RequestMethod.POST)
 	@ResponseBody
@@ -64,8 +64,8 @@ public class UserController {
 	}
 	@RequestMapping(value = "user_shanchu",method = RequestMethod.POST)
 	@ResponseBody
-	public Integer user_shanchu(Integer us_id) {
-		return userServiceimp.deleteUser(us_id);
+	public Integer user_shanchu(Integer us_id,HttpServletRequest request) {
+		return userServiceimp.deleteUser(us_id,request);
 	}
 	@RequestMapping(value = "chakan_user_jueseall",method = RequestMethod.POST)
 	@ResponseBody

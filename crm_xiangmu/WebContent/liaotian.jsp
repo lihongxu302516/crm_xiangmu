@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    <%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +50,7 @@
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws:localhost:8080/crm_xiangmu/newwebsocket/"+us_name);
+        websocket = new WebSocket("ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/newwebsocket/"+us_name);
     }
     else {
         alert('当前浏览器 Not support websocket')
@@ -91,6 +96,7 @@
     function send() {
         var message = $("#nr_lt_neirong").val();
         websocket.send(message);
+        $("#nr_lt_neirong").val("");
     }
 </script>
 </html>

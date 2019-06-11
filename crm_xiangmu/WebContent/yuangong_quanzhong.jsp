@@ -135,7 +135,8 @@ function searchUserInfo() {
 					us_dakatimeMAX : $("#ss_us_dakatimeMAX").datebox(
 							"getValue"),
 					paixuguize : $("#ss_paixuguize").combobox("getValue"),
-					paixuziduan : $("#ss_paixuziduan").combobox("getValue")
+					paixuziduan : $("#ss_paixuziduan").combobox("getValue"),
+					zxs : 1
 				}
 			});
 }

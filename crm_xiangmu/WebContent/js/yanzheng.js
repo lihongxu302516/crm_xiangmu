@@ -176,5 +176,10 @@ $.extend($.fn.validatebox.defaults.rules, {
 			return /^[a-zA-Z][a-zA-Z0-9_]{0,15}$/i.test(value);
 		},
 		message: '输入不合法（字母开头，允许1-16字节，允许字母数字下划线）'
+	},quanzhong: { // 验证年龄
+		validator: function(value) {
+			return /^([0-9]\d|\d)$/.test(value);
+		},
+		message: '权重必须是0到99之间的整数'
 	},
 });

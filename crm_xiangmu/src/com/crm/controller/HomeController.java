@@ -21,24 +21,31 @@ public class HomeController {
 
 	@RequestMapping(value = "home")
 	public String home(HttpServletRequest request) {
-			return "home";
+		// 请求home.jsp
+		return "home";
 	}
+
 	@RequestMapping(value = "hometree", method = RequestMethod.POST)
 	@ResponseBody
 	public String hometree(String treeUlId, HttpServletRequest requer) {
+		// 首页树的显示
 		String hometree = homeServiceimp.hometree(treeUlId, requer);
 		return hometree;
 	}
+
 	@RequestMapping(value = "tuichu")
-	public String tuichu(HttpServletRequest request,HttpServletResponse response) {
-		request.getSession().setAttribute("user", null);
-		cookiesUtil.setCookie(response, "us_name", "", 0);
-		cookiesUtil.setCookie(response, "us_password", "", 0);
-		return "login";
+	public String tuichu(HttpServletRequest request, HttpServletResponse response) {
+		//退出请求
+		request.getSession().setAttribute("user", null);//清空session
+		cookiesUtil.setCookie(response, "us_name", "", 0);//清空cookie账户
+		cookiesUtil.setCookie(response, "us_password", "", 0);//清空cookie密码
+		return "login";//请求login.jsp页面
 	}
-	@RequestMapping(value = "dongtaixueshengrizhi",method = RequestMethod.POST)
+
+	@RequestMapping(value = "dongtaixueshengrizhi", method = RequestMethod.POST)
 	@ResponseBody
 	public String dongtaixueshengrizhi(HttpServletRequest request) {
+		//查看学生的动态日志
 		return homeServiceimp.dongtaixueshengrizhi(request);
 	}
 

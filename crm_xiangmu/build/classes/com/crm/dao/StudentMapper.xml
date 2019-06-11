@@ -88,8 +88,8 @@
 			</if>
 			<if
 				test="t.xs_zixunshi !=null and t.xs_zixunshi !='' and t.xs_zixunshi==-1 ">
-				and xs_id not in (SELECT xs_id FROM student WHERE
-				xs_zixunshi>0)
+				and xs_id not in (SELECT s.xs_id FROM student s LEFT JOIN
+				`user` u ON s.xs_zixunshi=u.us_id WHERE s.xs_zixunshi>0)
 			</if>
 		</where>
 		limit #{page},#{limit}
@@ -398,9 +398,11 @@
 		d.dt_student=#{t.dt_student} limit
 		#{page},#{limit}
 	</select>
-	<select id="selectDongtai_stu_id_count" parameterType="fenye" resultType="int">
-	SELECT count(d.dt_id) from dongtai d INNER JOIN `user` u INNER JOIN
-		student s ON
+	<select id="selectDongtai_stu_id_count" parameterType="fenye"
+		resultType="int">
+		SELECT count(d.dt_id) from dongtai d INNER JOIN `user` u INNER JOIN
+		student s
+		ON
 		d.dt_tianjiaren=u.us_id AND d.dt_student=s.xs_id WHERE
 		d.dt_student=#{t.dt_student}
 	</select>
@@ -453,9 +455,11 @@
 		</where>
 		limit #{page},#{limit}
 	</select>
-	
-	<select id="selectGengzongrizhi_xs_id_count" parameterType="fenye" resultType="int">
-	SELECT count(g.gz_id) FROM genzongrizhi g INNER JOIN student s INNER JOIN `user` u
+
+	<select id="selectGengzongrizhi_xs_id_count"
+		parameterType="fenye" resultType="int">
+		SELECT count(g.gz_id) FROM genzongrizhi g INNER JOIN student s INNER
+		JOIN `user` u
 		ON
 		g.gz_xuesheng=s.xs_id AND g.gz_user=u.us_id
 		<where>
@@ -475,10 +479,10 @@
 
 	<update id="pl_updateStudent_zixunshi" parameterType="student">
 		UPDATE student
-		SET xs_zixunshi=#{xs_zixunshi} WHERE xs_id in 
+		SET xs_zixunshi=#{xs_zixunshi} WHERE xs_id in
 		<foreach collection="pl_fp_zxs" item="item" open="("
 			separator="," close=")">
-#{item}
+			#{item}
 		</foreach>
 	</update>
 </mapper>

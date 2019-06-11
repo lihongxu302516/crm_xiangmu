@@ -4,6 +4,9 @@
 	<select id="selectJueseAll" parameterType="fenye"
 		resultType="juese">
 		SELECT js_id,js_name,js_exe1,js_exe2 FROM juese
+		<where>
+			<if test="t.js_name!=null and t.js_name!=''">and js_name like "%"#{t.js_name}"%"</if>
+		</where>
 		LIMIT
 		#{page},#{limit}
 	</select>
@@ -11,6 +14,9 @@
 	<select id="selectJueseCount" parameterType="fenye"
 		resultType="int">
 		SELECT COUNT(js_id) FROM juese
+		<where>
+			<if test="t.js_name!=null and t.js_name!=''">and js_name like "%"#{t.js_name}"%"</if>
+		</where>
 	</select>
 
 	<select id="selectJuese" parameterType="int" resultType="juese">
@@ -43,11 +49,12 @@
 	</delete>
 
 	<select id="selectJuese_zixunshi" resultType="int">
-		SELECT js_id FROM juese WHERE js_name='咨询师'
+		SELECT js_id FROM
+		juese WHERE js_name='咨询师'
 	</select>
-	
+
 	<select id="selectJuese_wl_zixunshi" resultType="int">
-	SELECT js_id FROM juese WHERE js_name='网络咨询师'
+		SELECT js_id FROM juese WHERE js_name='网络咨询师'
 	</select>
 
 	<select id="select_juese_mokuai_js_ids"
@@ -64,13 +71,18 @@
 		resultType="int">
 		SELECT COUNT(js_id) FROM juese WHERE js_name=#{js_name}
 		<if test="js_id!=null and js_id!=''">
-		 and js_id!=#{js_id}
+			and js_id!=#{js_id}
 		</if>
 	</select>
 
 	<select id="select_Juese_is_User" parameterType="int"
 		resultType="int">
-		SELECT COUNT(uj_id) FROM user_juese WHERE uj_jueseid=#{uj_jueseid}
+		SELECT COUNT(uj_id) FROM user_juese WHERE
+		uj_jueseid=#{uj_jueseid}
+	</select>
+	
+	<select id="select_Juese_is_Mokuai" parameterType="int" resultType="int">
+	SELECT COUNT(jm_id) FROM juese_mokuai WHERE jm_jueseid=#{jm_jueseid}
 	</select>
 
 </mapper>

@@ -174,6 +174,22 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer insertqiandao_qingjia(Integer us_id);
+	/**
+	 * 查看当前用户是否拥有角色
+	 * @param us_id
+	 * @return
+	 */
+	Integer selectUser_juese_us_id(Integer us_id);
+	/**
+	 * 查看签退时时间是否大于10分钟——单签退
+	 * @return
+	 */
+	Integer select_qiantui_shijianqu_dan(Integer us_id);
+	/**
+	 * 查看签退时时间是否大于10分钟——多签退
+	 * @return
+	 */
+	List<Integer> select_qiantui_shijianqu_duo(List<Integer> list);
 	
 
 }

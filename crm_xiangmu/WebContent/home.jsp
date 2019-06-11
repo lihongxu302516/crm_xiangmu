@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+	
+
+	<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+	
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -224,12 +231,12 @@ div {
 	
 	
 	
-	$(function(){
+	
 		var us_name="${user.us_name}";
 	    var websocket = null;
 	    //判断当前浏览器是否支持WebSocket
 	    if ('WebSocket' in window) {
-	        websocket = new WebSocket("ws:localhost:8080/crm_xiangmu/dongtaitongxing/"+us_name);
+	        websocket = new WebSocket("ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/dongtaitongxing/"+us_name);
 	    }
 	    else {
 	        alert('当前浏览器 Not support websocket')
@@ -255,7 +262,7 @@ div {
 	    	var split = event.data.split("&");
 	    	$.messager.show({
 				title:'我的消息',
-				msg:split[0]+'向你的学生：'+split[1]+"有动态信息，请及时查看！",
+				msg:split[0]+'向你的学生：'+split[1]+"添加了动态信息，请及时查看！",
 				timeout:0,
 				showType:'slide',
 				width:"400px",
@@ -286,9 +293,9 @@ div {
 	    //发送消息
 	    function send() {
 	        //var message = $("#nr_lt_neirong").val();
-	        websocket.send("000");
+	        //websocket.send("000");
 	    }
-	});
+	
 	
 	
 </script>
@@ -299,6 +306,5 @@ div {
 			});
 		</script>
 </c:if>
-	
 	
 </html>

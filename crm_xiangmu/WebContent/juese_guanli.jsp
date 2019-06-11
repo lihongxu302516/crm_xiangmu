@@ -21,6 +21,9 @@
 	</table>
 	<div id="usertb" style="padding: 5px; height: auto">
 		<div style="margin-bottom: 5px">
+		角色名称: <input class="easyui-textbox" id="ss_js_name" style="width: 80px">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-search" onclick="chushihua()">查找</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-add" plain="true" onclick="addInfo()">新增</a>
 		</div>
@@ -153,8 +156,12 @@
 			toolbar:"#usertb",
 			pagination:true,
 			rownumbers:true,
-			singleSelect:true
+			singleSelect:true,
+			queryParams : { //要发送的参数列表
+				js_name : $("#ss_js_name").val()
+			}
 		});
+		$('#ss_js_name').textbox('reset');
 	}
 	$(function() {
 		$('#win').window('close');
@@ -269,6 +276,18 @@
 						$.messager.show({
 							title : '我的消息',
 							msg : '该角色下有用户，需要先释放资源后删除',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					}else if(res==-2) {
+						
+						$.messager.show({
+							title : '我的消息',
+							msg : '该角色正在使用模块，需要先释放资源后删除',
 							timeout : 1000,
 							showType : 'slide',
 							style : {

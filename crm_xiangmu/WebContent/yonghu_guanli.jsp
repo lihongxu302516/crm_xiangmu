@@ -544,7 +544,21 @@ div {
 																					+ document.documentElement.scrollTop,
 																		}
 																	});
-														} else {
+														} else if (res == -1) {
+															$("#dg").datagrid(
+															"reload");
+													$.messager
+															.show({
+																title : '我的消息',
+																msg : "不能"+suodings+"当前用户",
+																timeout : 1000,
+																showType : 'slide',
+																style : {
+																	top : document.body.scrollTop
+																			+ document.documentElement.scrollTop,
+																}
+															});
+												} else {
 															$("#dg").datagrid(
 																	"reload");
 															$.messager
@@ -669,6 +683,30 @@ div {
 										+ document.documentElement.scrollTop,
 							}
 						});
+					} else if (res == -1) {
+						$("#dg").datagrid("reload");
+						$.messager.show({
+							title : '我的消息',
+							msg : '无法删除当前账户',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
+					} else if (res == -2) {
+						$("#dg").datagrid("reload");
+						$.messager.show({
+							title : '我的消息',
+							msg : '该用户有角色，请先释放资源',
+							timeout : 1000,
+							showType : 'slide',
+							style : {
+								top : document.body.scrollTop
+										+ document.documentElement.scrollTop,
+							}
+						});
 					} else {
 						$("#dg").datagrid("reload");
 						$.messager.show({
@@ -699,7 +737,7 @@ div {
 				us_youxiang : $("#addus_youxiang").val(),
 				us_shojihao : $("#addus_shojihao").val(),
 				us_quanzhong : $("#addus_quanzhong").val(),
-				us_us_biezhuname : $("#addus_biezhu").val()
+				us_biezhu : $("#addus_biezhu").val()
 			}, function(res) {
 				if (res == 1) {
 					$('#addyh').window('close');

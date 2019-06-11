@@ -74,5 +74,11 @@ public interface JueseMapper {
 	 * @return
 	 */
 	Integer select_Juese_is_User(Integer js_id);
+	/**
+	 * 查看该角色下是否有模块
+	 * @param js_id
+	 * @return
+	 */
+	Integer select_Juese_is_Mokuai(Integer js_id);
 
 }
